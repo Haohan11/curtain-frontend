@@ -17,15 +17,28 @@ const Login = () => {
             fill
             className="object-fit-cover"
           />
+          <div className="position-absolute w-100 bottom-0 text-white p-5">
+            <div className="px-5">
+              <h1 className="fw-bold" style={{ fontSize: "100px" }}>
+                Welcome Back
+              </h1>
+              <p>
+                Vitae enim labore vitae, beatae quos vitae quos sequi
+                reiciendis, in quas, hic labore eos asperiores, a, cum numquam.
+                Quaerat nemo asperiores aut rerum repellat enim esse qui quae,
+                asperiores, et dok.
+              </p>
+              <h1 className="fw-bold" style={{ fontSize: "80px", lineHeight: '50px' }}>. . . .</h1>
+            </div>
+          </div>
         </div>
       </Col>
       <Col>
         <div className="p-5 border h-100">
-          <div className="d-flex align-items-center text-lightgrey fs-1">
+          <div className="d-flex align-items-center text-lightgrey fs-5">
             <ArrowLeft className="me-2" />
             <span className="">首頁</span>
           </div>
-          {/* <Image alt="arrow-left svg" src={arrowLeft} width={30} height={30} style={{color: "currentcolor"}}/> */}
         </div>
       </Col>
     </Row>
