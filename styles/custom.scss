@@ -1,0 +1,60 @@
+$darkblue: #19315e;
+$red: #dc1c16;
+$orange: #ff4d00;
+$lightgrey: #8F939D;
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+// @import "~bootstrap/scss/maps";
+// @import "~bootstrap/scss/mixins";
+// @import "~bootstrap/scss/utilities";
+// @import "~bootstrap/scss/utilities/api";
+
+$custom-theme-colors: (
+  "darkblue": $darkblue,
+  "red": $red,
+  "orange": $orange,
+  "lightgrey": $lightgrey,
+);
+
+$theme-colors: map-merge($theme-colors, $custom-theme-colors);
+
+
+// custom vh-x and vw-x
+// $custom-utilities: (
+//   "width":
+//     map-merge(
+//       map-get($utilities, "viewport-width"),
+//       (
+//         values:
+//           map-merge(
+//             map-get(map-get($utilities, "viewport-width"), "values"),
+//             (
+//               25: 25vw,
+//               50: 50vw,
+//               75: 75vw,
+//             )
+//           ),
+//       )
+//     ),
+//   "height":
+//     map-merge(
+//       map-get($utilities, "viewport-height"),
+//       (
+//         values:
+//           map-merge(
+//             map-get(map-get($utilities, "viewport-height"), "values"),
+//             (
+//               25: 25vh,
+//               50: 50vh,
+//               75: 75vh,
+//             )
+//           ),
+//       )
+//     ),
+// );
+
+// $utilities: map-merge($utilities, $custom-utilities);
+
+@import "~bootstrap/scss/bootstrap";
