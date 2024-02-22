@@ -1,48 +1,43 @@
-import React from "react";
-import Image from "next/image";
-import { Row, Col as BSCol } from "react-bootstrap";
-import ArrowLeft from "@/icon/arrow-left";
-import addClassName from "@/tool/addClassName";
+import { useState } from "react";
 
-const Col = addClassName(BSCol, "p-0");
+import TwoPageLayout from "@/components/twoPageLayout";
+import pageJson from "@/data/pageData";
+
+import LoginForm from "@/components/loginForm";
+
+const pageData = pageJson;
+
+const Content = LoginForm;
 
 const Login = () => {
+  const [pageName, setPageName] = useState("login");
+  const data = pageData[pageName];
+  const toForgetPassword = () => setPageName("forgetPassword");
+
+  const returnTo = () => {
+    const destination = pageData[pageName]["returnTo"];
+    return destination === "login"
+      ? () => setPageName(destination)
+      : destination;
+  };
+
+  const content = () => {
+    if (pageName === "login")
+      return <LoginForm data={data} toForgetPassword={toForgetPassword} />;
+    if (pageName === "forgetPassword") return <LoginForm data={data} toForgetPassword={toForgetPassword} />;
+    if (pageName === "account") return <h1>Account</h1>;
+    if (pageName === "resetPassword") return <LoginForm data={data} toForgetPassword={toForgetPassword} />;
+  };
+
   return (
-    <Row className="g-0">
-      <Col className="">
-        <div className="position-relative vh-100 overflow-hidden">
-          <Image
-            alt="login cover image"
-            src="/image/login_cover.jpg"
-            fill
-            className="object-fit-cover"
-          />
-          <div className="position-absolute w-100 bottom-0 text-white p-5">
-            <div className="px-5">
-              <h1 className="fw-bold" style={{ fontSize: "100px" }}>
-                Welcome Back
-              </h1>
-              <p>
-                Vitae enim labore vitae, beatae quos vitae quos sequi
-                reiciendis, in quas, hic labore eos asperiores, a, cum numquam.
-                Quaerat nemo asperiores aut rerum repellat enim esse qui quae,
-                asperiores, et dok.
-              </p>
-              <h1 className="fw-bold" style={{ fontSize: "80px", lineHeight: '50px' }}>. . . .</h1>
-            </div>
-          </div>
-        </div>
-      </Col>
-      <Col>
-        <div className="p-5 border h-100">
-          <div className="d-flex align-items-center text-lightgrey fs-5">
-            <ArrowLeft className="me-2" />
-            <span className="">首頁</span>
-          </div>
-        </div>
-      </Col>
-    </Row>
+    <TwoPageLayout
+      data={pageData[pageName]}
+      returnTo={returnTo()}
+      content={content()}
+    />
   );
 };
+
+Login.getLayout = (page) => page;
 
 export default Login;

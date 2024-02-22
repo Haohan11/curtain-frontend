@@ -1,0 +1,31 @@
+{
+  "login": {
+    "cover_title": "Welcome Back",
+    "cover_image": "/image/curtain.jpg",
+    "title": "業務登入",
+    "submitText": "登入",
+    "returnText": "首頁",
+    "returnTo": "homepage"
+  },
+  "forgetPassword": {
+    "cover_title": "Forget Password",
+    "cover_image": "/image/room1.png",
+    "title": "忘記密碼",
+    "submitText": "重設密碼",
+    "returnText": "上一頁",
+    "returnTo": "login"
+  },
+  "account": {
+    "cover_title": "My Account",
+    "cover_image": "My Account",
+    "submitText": "儲存",
+    "returnText": "首頁",
+    "returnTo": "homepage"
+  },
+  "resetPassword": {
+    "cover_title": "Reset Password",
+    "cover_image": "Reset Password",
+    "title": "重設密碼",
+    "submitText": "立即重設密碼"
+  }
+}

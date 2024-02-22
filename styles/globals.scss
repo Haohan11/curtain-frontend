@@ -1,12 +1,35 @@
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .object-position-center {
-    object-position: center;
+  object-position: center;
 }
 
 .object-position-right {
-    object-position: right;
+  object-position: right;
 }
 
 .object-position-left {
-    object-position: left;
+  object-position: left;
+}
+
+.form-check-input[type="checkbox"] {
+  border-radius: 0.15rem !important;
+}
+
+.form-check-input:checked {
+  background-color: var(--bs-checkboxblue) !important;
+  border-color: var(--bs-checkboxblue) !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }

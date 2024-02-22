@@ -1,60 +1,118 @@
 $darkblue: #19315e;
 $red: #dc1c16;
 $orange: #ff4d00;
-$lightgrey: #8F939D;
+$textgrey: #8F939D;
+$linegrey: #D7DEEA;
+$checkboxblue: #6898D9;
+$input-placeholder-color: $textgrey;
 
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
-
-// @import "~bootstrap/scss/maps";
-// @import "~bootstrap/scss/mixins";
-// @import "~bootstrap/scss/utilities";
-// @import "~bootstrap/scss/utilities/api";
 
 $custom-theme-colors: (
   "darkblue": $darkblue,
   "red": $red,
   "orange": $orange,
-  "lightgrey": $lightgrey,
+  "textgrey": $textgrey,
+  "linegrey": $linegrey,
+  "checkboxblue": $checkboxblue,
 );
 
 $theme-colors: map-merge($theme-colors, $custom-theme-colors);
 
+$spacer: 1rem / 16;
+$spacers: (
+  0: 0,
+);
 
+@for $i from -10 through 40 {
+  $spacers: map-merge(
+    $spacers,
+    (
+      $i: (
+        // increase by 5 times of $spacer (1rem / 16)
+        $i * 5 * $spacer,
+      ),
+    )
+  );
+}
+
+$negative-spacers: if($enable-negative-margins, negativify-map($spacers), null);
+
+$fs-increase: 1.1;
+$fs-decrease: 0.9;
+
+$font-sizes: (
+  1-sm: $h1-font-size * $fs-decrease,
+  1: $h1-font-size,
+  1-lg: $h1-font-size * $fs-increase,
+  2-sm: $h2-font-size * $fs-decrease,
+  2: $h2-font-size,
+  2-lg: $h2-font-size * $fs-increase,
+  3-sm: $h3-font-size * $fs-decrease,
+  3: $h3-font-size,
+  3-lg: $h3-font-size * $fs-increase,
+  4-sm: $h4-font-size * $fs-decrease,
+  4: $h4-font-size,
+  4-lg: $h4-font-size * $fs-increase,
+  5-sm: $h5-font-size * $fs-decrease,
+  5: $h5-font-size,
+  5-lg: $h5-font-size * $fs-increase,
+  6-sm: $h6-font-size * $fs-decrease,
+  6: $h6-font-size,
+  6-lg: $h6-font-size * $fs-increase
+);
+
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/utilities/api";
+ 
 // custom vh-x and vw-x
-// $custom-utilities: (
-//   "width":
-//     map-merge(
-//       map-get($utilities, "viewport-width"),
-//       (
-//         values:
-//           map-merge(
-//             map-get(map-get($utilities, "viewport-width"), "values"),
-//             (
-//               25: 25vw,
-//               50: 50vw,
-//               75: 75vw,
-//             )
-//           ),
-//       )
-//     ),
-//   "height":
-//     map-merge(
-//       map-get($utilities, "viewport-height"),
-//       (
-//         values:
-//           map-merge(
-//             map-get(map-get($utilities, "viewport-height"), "values"),
-//             (
-//               25: 25vh,
-//               50: 50vh,
-//               75: 75vh,
-//             )
-//           ),
-//       )
-//     ),
-// );
+$custom-utilities: (
+  "width":
+    map-merge(
+      map-get($utilities, "viewport-width"),
+      (
+        values:
+          map-merge(
+            map-get(map-get($utilities, "viewport-width"), "values"),
+            (
+              25: 25vw,
+              50: 50vw,
+              75: 75vw,
+            )
+          ),
+      )
+    ),
+  "height":
+    map-merge(
+      map-get($utilities, "viewport-height"),
+      (
+        values:
+          map-merge(
+            map-get(map-get($utilities, "viewport-height"), "values"),
+            (
+              25: 25vh,
+              50: 50vh,
+              75: 75vh,
+            )
+          ),
+      )
+    ),
+);
 
-// $utilities: map-merge($utilities, $custom-utilities);
+$utilities: map-merge($utilities, $custom-utilities);
 
 @import "~bootstrap/scss/bootstrap";
+
+
+@for $i from 1 through 10 {
+  .text-indent-#{$i} {
+    text-indent: $i * .1rem;
+  }
+
+  .letter-spacing-#{$i} {
+    letter-spacing: $i * .1rem;
+  }
+}
