@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import Image from "next/image";
 
 import { Form, FormGroup, FormCheck } from "react-bootstrap";
@@ -10,6 +9,8 @@ import FormInput from "@/components/input/formInput";
 import FormLabel from "@/components/input/formLabel";
 import FormPassword from "@/components/input/formPassword";
 import SubmitButton from "@/components/input/submitButton";
+
+import Logo from "@/components/logo";
 
 const LoginPage = () => {
   const [pageName, setPageName] = useState("login");
@@ -36,18 +37,18 @@ const LoginPage = () => {
       className="h-100 flex-center flex-column text-textgrey pb-10"
       onSubmit={handleSubmit}
     >
-      <div
+      <Logo className="mb-3" width={150} />
+      {/* <div
         className="position-relative mb-4"
         style={{ width: "150px", height: "150px" }}
       >
         <Image
           alt="logo"
-          quality={100}
           className="object-fit-contain"
           fill
           src="/image/logo.svg"
         />
-      </div>
+      </div> */}
       <h1 className="fw-bold fs-2 my-5 text-darkblue">{pageData.title}</h1>
       <div className="col-6">
         {pageName === "login" && (
@@ -81,6 +82,12 @@ const LoginPage = () => {
             </p>
             <FormGroup className="mb-3">
               <FormInput placeholder="電話號碼" name="phoneNumber"></FormInput>
+            </FormGroup>
+            <FormGroup className="mb-3 hstack justify-content-between">
+              <FormInput style={{width: '47.63px'}} className="border-2 border-textgrey" placeholder="" name="phoneNumber"></FormInput><span className="fw-bold text-textgrey  fs-5">-</span>
+              <FormInput style={{width: '47.63px'}} className="border-2 border-textgrey" placeholder="" name="phoneNumber"></FormInput><span className="fw-bold text-textgrey  fs-5">-</span>
+              <FormInput style={{width: '47.63px'}} className="border-2 border-textgrey" placeholder="" name="phoneNumber"></FormInput><span className="fw-bold text-textgrey  fs-5">-</span>
+              <FormInput style={{width: '47.63px'}} className="border-2 border-textgrey" placeholder="" name="phoneNumber"></FormInput>
             </FormGroup>
           </>
         )}

@@ -1,0 +1,18 @@
+{
+  "operation": {
+    "navText": "操作",
+    "items": ["重置提案", "儲存提案", "另存提案"]
+  },
+  "changeEnv": {
+    "navText": "變更環境",
+    "items": ["客廳", "臥室", "陽台"]
+  },
+  "workMenu": {
+    "navText": "工作選單",
+    "items": ["提案組合", "提案管理", "匯出圖檔"]
+  },
+  "workCenter": {
+    "navText": "工作中心",
+    "items": ["我的帳號"]
+  }
+}
