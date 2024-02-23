@@ -2,33 +2,25 @@ import { useState } from "react";
 
 import Image from "next/image";
 
-import {
-  Form,
-  FormGroup,
-  FormControl,
-  FormLabel as BSFormLabel,
-  FormCheck,
-  Button,
-} from "react-bootstrap";
+import { Form, FormGroup, FormCheck, Button } from "react-bootstrap";
 
 import TwoPageLayout from "@/components/twoPageLayout";
 import pageJson from "@/data/pageData";
 import FormInput from "@/components/input/formInput";
 import FormLabel from "@/components/input/formLabel";
 import FormPassword from "@/components/input/formPassword";
-
-const pageData = pageJson;
+import SubmitButton from "@/components/input/submitButton";
 
 const Login = () => {
   const [pageName, setPageName] = useState("login");
-  const data = pageData[pageName];
+  const pageData = pageJson[pageName];
   const toLogin = () => setPageName("login");
   const toReset = () => setPageName("resetPassword");
   const toForgetPassword = () => setPageName("forgetPassword");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const purpose = data.submitTo;
+    const purpose = pageData.submitTo;
 
     purpose === "login" && (() => {});
     purpose === "reset" && toReset();
@@ -52,7 +44,7 @@ const Login = () => {
           src="/image/logo.svg"
         />
       </div>
-      <h1 className="fw-bold fs-2 my-5 text-darkblue">{data.title}</h1>
+      <h1 className="fw-bold fs-2 my-5 text-darkblue">{pageData.title}</h1>
       <div className="col-6">
         {pageName === "login" && (
           <>
@@ -104,19 +96,12 @@ const Login = () => {
             </FormGroup>
           </>
         )}
-        <Button
-          variant="darkblue"
-          className="w-100 rounded rounded-3 border-0 fs-6-sm"
-          type="submit"
-          style={{ paddingBlock: ".75rem" }}
-        >
-          {data.submitText}
-        </Button>
+        <SubmitButton>{pageData.submitText}</SubmitButton>
       </div>
     </Form>
   );
 
-  return <TwoPageLayout data={data} goBack={toLogin} content={content} />;
+  return <TwoPageLayout data={pageData} goBack={toLogin} content={content} />;
 };
 
 Login.getLayout = (page) => page;

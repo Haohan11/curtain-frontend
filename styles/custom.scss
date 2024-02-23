@@ -1,4 +1,6 @@
 $darkblue: #19315e;
+$textdarkblue: #0F1936;
+$textblue: #29466D;
 $red: #dc1c16;
 $orange: #ff4d00;
 $textgrey: #8F939D;
@@ -14,6 +16,8 @@ $custom-theme-colors: (
   "red": $red,
   "orange": $orange,
   "textgrey": $textgrey,
+  "textblue": $textblue,
+  "textdarkblue": $textdarkblue,
   "linegrey": $linegrey,
   "checkboxblue": $checkboxblue,
 );

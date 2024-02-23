@@ -1,86 +1,91 @@
-import { useState } from "react";
-
 import Image from "next/image";
-import Link from "next/link";
 
 import {
-  Row,
   Col,
   Form,
   FormGroup,
-  FormControl,
-  FormLabel as BSFormLabel,
-  FormCheck,
-  Button,
 } from "react-bootstrap";
 
 import TwoPageLayout from "@/components/twoPageLayout";
 import pageJson from "@/data/pageData";
 import FormInput from "@/components/input/formInput";
+import FormLabel from "@/components/input/formLabel";
+import FormPassword from "@/components/input/formPassword";
+import SubmitButton from "@/components/input/submitButton";
 
+import Upload from "@/icon/upload";
 
-const pageData = pageJson;
-
-const Login = () => {
-  const data = pageData["account"];
+const AccountPage = () => {
+  const pageData = pageJson["account"];
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
   const content = (
-    <Form className="h-100 border" onSubmit={handleSubmit}>
-      <Row>
-        <Col sm={4}>
-          <FormInput />
-        </Col>
-        <Col sm={8}>
-          <FormInput />
-        </Col>
-      </Row>
-      {/* <div
-        className="position-relative mb-4"
-        style={{ width: "150px", height: "150px" }}
-      >
+    <Form className="row h-100 py-5 ps-4 pe-18" onSubmit={handleSubmit}>
+      <Col sm={4} className="vstack align-items-center">
         <Image
-          alt="logo"
-          quality={100}
-          className="object-fit-contain"
-          fill
-          src="/image/logo.svg"
+          className="mx-auto mb-5"
+          alt="user image"
+          src={"/image/user.jpg"}
+          width={125}
+          height={125}
         />
-      </div>
-      <h1 className="fw-bold fs-2 my-5 text-darkblue">{data.title}</h1>
-      <div className="col-6">
-        <FormGroup className="mb-3">
-          <FormInput placeholder="帳號"></FormInput>
-        </FormGroup>
-        <FormGroup>
-          <FormPassword />
-        </FormGroup>
-        <FormGroup className="d-flex py-4 fw-bold mb-10">
-          <FormCheck
-            id="rememberme"
-            label="記住我"
-            className="text-darkblue"
-          ></FormCheck>
-          <span className="ms-auto cursor-pointer">忘記密碼?</span>
-        </FormGroup> */}
-      <Button
-        variant="darkblue"
-        className="w-100 rounded rounded-3 border-0 fs-6-sm"
-        type="submit"
-        style={{ paddingBlock: ".75rem" }}
-      >
-        {data.submitText}
-      </Button>
-      {/* </div> */}
+        <div className="text-textblue flex-center mb-5">
+          <Upload />
+          <span className="ms-2 fw-bold">上傳大頭貼</span>
+        </div>
+        <div className="vstack align-items-center text-textgrey">
+          <span>Max：200kb</span>
+          <span>Size：120*120</span>
+        </div>
+      </Col>
+      <Col sm={8} className="vstack text-textblue">
+        <div className="mb-10">
+          <h4 className="fw-bold mb-3">基本資料</h4>
+          <FormInput
+            className="mb-2"
+            style={{ color: "var(--bs-textdarkblue) !important" }}
+            disabled
+            value={"1004987"}
+          />
+          <FormInput
+            className="mb-3"
+            style={{ color: "var(--bs-textdarkblue) !important" }}
+            disabled
+            value={"1004987@gmail.com"}
+          />
+          <FormGroup className="mb-2">
+            <FormLabel className="fw-bold text-textblue">姓名</FormLabel>
+            <FormInput></FormInput>
+          </FormGroup>
+          <FormGroup>
+            <FormLabel className="fw-bold text-textblue">手機號碼</FormLabel>
+            <FormInput></FormInput>
+          </FormGroup>
+        </div>
+        <div className="mb-10">
+          <h4 className="fw-bold mb-3">修改密碼</h4>
+          <FormGroup className="mb-2">
+            <FormLabel className="fw-bold text-textblue">新密碼</FormLabel>
+            <FormPassword></FormPassword>
+          </FormGroup>
+          <FormGroup>
+            <FormLabel className="fw-bold text-textblue">
+              再次輸入新密碼
+            </FormLabel>
+            <FormPassword></FormPassword>
+          </FormGroup>
+        </div>
+        <SubmitButton>{pageData.submitText}</SubmitButton>
+      </Col>
     </Form>
   );
 
-  return <TwoPageLayout data={data} content={content} />;
+  return <TwoPageLayout data={pageData} content={content} />;
 };
 
-Login.getLayout = (page) => page;
+AccountPage.getLayout = (page) => page;
 
-export default Login;
+export default AccountPage;
