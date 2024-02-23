@@ -7,13 +7,33 @@ import addClassName from "@/tool/addClassName";
 
 const Col = addClassName(BSCol, "p-0");
 
-const TwoPageLayout = ({ data, content, returnTo }) => {
-  const ReturnButton = () => (
-    <>
-      <ArrowLeft width="2rem" height="2rem" className="me-2 " />
-      <span className="fs-5-sm">{data.returnText}</span>
-    </>
-  );
+const TwoPageLayout = ({ data, content, goBack }) => {
+
+  const headContent = () => {
+    const destination = data.returnTo;
+    if (!destination) return;
+
+    const returnButton = (
+      <>
+        <ArrowLeft width="2rem" height="2rem" className="me-2" />
+        <span className="fs-5-sm">{data.returnText}</span>
+      </>
+    );
+
+    if (destination === "login")
+      return (
+        <div className="flex-center cursor-pointer me-auto" onClick={goBack}>
+          {returnButton}
+        </div>
+      );
+
+    if (destination === "homepage")
+      return (
+        <Link href={"/"} className="flex-center me-auto">
+          {returnButton}
+        </Link>
+      );
+  };
 
   return (
     <Row className="g-0">
@@ -54,19 +74,7 @@ const TwoPageLayout = ({ data, content, returnTo }) => {
             className="flex-center text-textgrey px-5"
             style={{ height: "10vh" }}
           >
-            {returnTo instanceof Function && (
-              <div
-                className="flex-center cursor-pointer me-auto"
-                onClick={returnTo}
-              >
-                <ReturnButton />
-              </div>
-            )}
-            {returnTo === "homepage" && (
-              <Link href={"/"} className="flex-center me-auto">
-                <ReturnButton />
-              </Link>
-            )}
+            {headContent()}
           </div>
           <div style={{ height: "80vh" }}>{content}</div>
           <div className="flex-center" style={{ height: "10vh" }}>

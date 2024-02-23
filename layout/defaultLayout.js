@@ -7,7 +7,7 @@ const defaultLayout = ({ children }) => {
       <h1>Header</h1>
       {children}
       <div>
-        <p>footer</p>
+        <h1>footer</h1>
       </div>
     </>
   );
