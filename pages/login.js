@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import Image from "next/image";
 
-import { Form, FormGroup, FormCheck, Button } from "react-bootstrap";
+import { Form, FormGroup, FormCheck } from "react-bootstrap";
 
 import TwoPageLayout from "@/components/twoPageLayout";
 import pageJson from "@/data/pageData";
@@ -90,11 +90,11 @@ const LoginPage = () => {
               Vitae enim labore vitae, beatae quos vitae quos sequi reiciendis,
               in quas, hic labore eos asperiores
             </p>
-            <FormGroup className="mb-2">
+            <FormGroup controlId="newPassword" className="mb-2">
               <FormLabel>新密碼</FormLabel>
               <FormPassword name="newPassword" />
             </FormGroup>
-            <FormGroup className="mb-3">
+            <FormGroup controlId="rePassword" className="mb-3">
               <FormLabel>再次輸入新密碼</FormLabel>
               <FormPassword name="rePassword" />
             </FormGroup>
