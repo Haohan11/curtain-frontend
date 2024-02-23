@@ -20,6 +20,9 @@ const AccountPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const formData = new FormData(e.target)
+    Object.fromEntries(formData)
+    console.log(Object.fromEntries(formData))
   };
 
   const content = (
@@ -45,37 +48,35 @@ const AccountPage = () => {
         <div className="mb-10">
           <h4 className="fw-bold mb-3">基本資料</h4>
           <FormInput
-            className="mb-2"
-            style={{ color: "var(--bs-textdarkblue) !important" }}
+            className="mb-2 text-textdarkblue"
             disabled
             value={"1004987"}
           />
           <FormInput
-            className="mb-3"
-            style={{ color: "var(--bs-textdarkblue) !important" }}
+            className="mb-3 text-textdarkblue"
             disabled
             value={"1004987@gmail.com"}
           />
-          <FormGroup className="mb-2">
+          <FormGroup className="mb-2" controlId="name">
             <FormLabel className="fw-bold text-textblue">姓名</FormLabel>
-            <FormInput></FormInput>
+            <FormInput name="userName"></FormInput>
           </FormGroup>
           <FormGroup>
             <FormLabel className="fw-bold text-textblue">手機號碼</FormLabel>
-            <FormInput></FormInput>
+            <FormInput name="phoneNumber"></FormInput>
           </FormGroup>
         </div>
         <div className="mb-10">
           <h4 className="fw-bold mb-3">修改密碼</h4>
           <FormGroup className="mb-2">
             <FormLabel className="fw-bold text-textblue">新密碼</FormLabel>
-            <FormPassword></FormPassword>
+            <FormPassword name="newPassword"></FormPassword>
           </FormGroup>
           <FormGroup>
             <FormLabel className="fw-bold text-textblue">
               再次輸入新密碼
             </FormLabel>
-            <FormPassword></FormPassword>
+            <FormPassword name="rePassword"></FormPassword>
           </FormGroup>
         </div>
         <SubmitButton>{pageData.submitText}</SubmitButton>

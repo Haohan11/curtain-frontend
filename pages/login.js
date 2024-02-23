@@ -11,7 +11,7 @@ import FormLabel from "@/components/input/formLabel";
 import FormPassword from "@/components/input/formPassword";
 import SubmitButton from "@/components/input/submitButton";
 
-const Login = () => {
+const LoginPage = () => {
   const [pageName, setPageName] = useState("login");
   const pageData = pageJson[pageName];
   const toLogin = () => setPageName("login");
@@ -20,6 +20,10 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const formData = new FormData(e.target)
+    Object.fromEntries(formData)
+    console.log(Object.fromEntries(formData))
+
     const purpose = pageData.submitTo;
 
     purpose === "login" && (() => {});
@@ -49,10 +53,10 @@ const Login = () => {
         {pageName === "login" && (
           <>
             <FormGroup className="mb-3">
-              <FormInput placeholder="帳號"></FormInput>
+              <FormInput placeholder="帳號" name="account"></FormInput>
             </FormGroup>
             <FormGroup>
-              <FormPassword />
+              <FormPassword name="password" />
             </FormGroup>
             <FormGroup className="d-flex py-4 fw-bold mb-10">
               <FormCheck
@@ -76,7 +80,7 @@ const Login = () => {
               in quas, hic labore eos asperiores
             </p>
             <FormGroup className="mb-3">
-              <FormInput placeholder="Mail"></FormInput>
+              <FormInput placeholder="電話號碼" name="phoneNumber"></FormInput>
             </FormGroup>
           </>
         )}
@@ -88,11 +92,11 @@ const Login = () => {
             </p>
             <FormGroup className="mb-2">
               <FormLabel>新密碼</FormLabel>
-              <FormPassword />
+              <FormPassword name="newPassword" />
             </FormGroup>
             <FormGroup className="mb-3">
               <FormLabel>再次輸入新密碼</FormLabel>
-              <FormPassword />
+              <FormPassword name="rePassword" />
             </FormGroup>
           </>
         )}
@@ -104,6 +108,6 @@ const Login = () => {
   return <TwoPageLayout data={pageData} goBack={toLogin} content={content} />;
 };
 
-Login.getLayout = (page) => page;
+LoginPage.getLayout = (page) => page;
 
-export default Login;
+export default LoginPage;

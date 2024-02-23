@@ -43,7 +43,8 @@ const TwoPageLayout = ({ data, content, goBack }) => {
             alt="login cover image"
             src={data.cover_image}
             sizes="50vw"
-            priority
+            placeholder="blur"
+            blurDataURL={data.cover_image}
             fill
             className="object-fit-cover"
           />
