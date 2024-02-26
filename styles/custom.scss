@@ -106,6 +106,12 @@ $custom-utilities: (
     ),
 );
 
+@each $color, $value in $theme-colors {
+  .hover-#{$color}:hover {
+    color: $value !important
+  }
+}
+
 $utilities: map-merge($utilities, $custom-utilities);
 
 @import "~bootstrap/scss/bootstrap";

@@ -10,11 +10,6 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <Row></Row>
-      <Row></Row>
-      <h1 className="text-orange">
-        <Link href="/account">Account Page</Link>
-      </h1>
     </>
   );
 }
