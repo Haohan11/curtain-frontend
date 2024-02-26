@@ -11,7 +11,7 @@ const AuthCodeInput = () => {
         <Fragment key={n}>
           <FormInput
             ref={(ref) => ref && (numbers[n] = ref)}
-            style={{ width: "48px" }}
+            style={{ width: "var(--uni-height)" }}
             className="text-center text-indent-0"
             placeholder=""
             name={`authCode${n}`}

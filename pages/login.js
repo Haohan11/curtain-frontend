@@ -4,14 +4,14 @@ import Image from "next/image";
 import { Form, FormGroup, FormCheck } from "react-bootstrap";
 
 import TwoPageLayout from "@/components/twoPageLayout";
-import pageJson from "@/data/pageData";
 import FormInput from "@/components/input/formInput";
 import FormLabel from "@/components/input/formLabel";
 import FormPassword from "@/components/input/formPassword";
 import SubmitButton from "@/components/input/submitButton";
 import AuthCodeInput from "@/components/input/authCodeInput";
-
 import Logo from "@/components/logo";
+
+import pageJson from "@/data/pageData";
 
 const LoginPage = () => {
   const [pageName, setPageName] = useState("login");
@@ -39,17 +39,6 @@ const LoginPage = () => {
       onSubmit={handleSubmit}
     >
       <Logo className="mb-3" width={150} />
-      {/* <div
-        className="position-relative mb-4"
-        style={{ width: "150px", height: "150px" }}
-      >
-        <Image
-          alt="logo"
-          className="object-fit-contain"
-          fill
-          src="/image/logo.svg"
-        />
-      </div> */}
       <h1 className="fw-bold fs-2 my-5 text-darkblue">{pageData.title}</h1>
       <div className="col-6">
         {pageName === "login" && (
