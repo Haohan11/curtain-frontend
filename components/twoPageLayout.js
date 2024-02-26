@@ -49,7 +49,7 @@ const TwoPageLayout = ({ data, content, goBack }) => {
             className="object-fit-cover"
           />
           <div className="position-absolute w-100 bottom-0 text-white p-5">
-            <Container className="p-12">
+            <Container className="p-xl-12 p-6">
               <h1 className="fw-bold" style={{ fontSize: "100px" }}>
                 {data.cover_title}
               </h1>
@@ -70,9 +70,9 @@ const TwoPageLayout = ({ data, content, goBack }) => {
         </div>
       </Col>
       <Col>
-        <div className="vh-100 px-4 flex-column">
+        <div className="vh-100 px-4 px-lg-6 flex-column">
           <div
-            className="flex-center text-textgrey px-5"
+            className="flex-center text-textgrey"
             style={{ height: "10vh" }}
           >
             {headContent()}

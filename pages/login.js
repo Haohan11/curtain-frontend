@@ -40,7 +40,7 @@ const LoginPage = () => {
     >
       <Logo className="mb-3" width={150} />
       <h1 className="fw-bold fs-2 my-5 text-darkblue">{pageData.title}</h1>
-      <div className="col-6">
+      <div style={{ width: "clamp(275px, 60% ,350px)" }}>
         {pageName === "login" && (
           <>
             <FormGroup className="mb-3">
