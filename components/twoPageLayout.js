@@ -77,7 +77,7 @@ const TwoPageLayout = ({ data, content, goBack }) => {
           >
             {headContent()}
           </div>
-          <div style={{ height: "80vh" }}>{content}</div>
+          <div className="overflow-y-auto scroll" style={{ height: "80vh" }}>{content}</div>
           <div className="flex-center" style={{ height: "10vh" }}>
             <p className="text-textgrey">
               Copyright © 2024 XiangYu Drapery. All rights reserved.

@@ -30,8 +30,8 @@ const AccountPage = () => {
   };
 
   const content = (
-    <Form className="row h-100 py-5 ps-4 pe-18" onSubmit={handleSubmit}>
-      <Col sm={4} className="vstack align-items-center">
+    <Form className="row h-100 py-5 p-0 pe-4 pe-lg-6 pe-xxl-16 g-0" onSubmit={handleSubmit}>
+      <Col sm={1} lg={3} className="vstack align-items-center position-sticky" style={{height: 'fit-content', top: "1.5625rem"}}>
         <Image
           className="mx-auto mb-5 rounded-circle"
           alt="user image"
@@ -51,7 +51,7 @@ const AccountPage = () => {
           <span>Size：120*120</span>
         </div>
       </Col>
-      <Col sm={8} className="vstack text-textblue">
+      <Col sm={"auto"} className="vstack text-textblue">
         <div className="mb-10">
           <h4 className="fw-bold mb-3">基本資料</h4>
           <FormInput
