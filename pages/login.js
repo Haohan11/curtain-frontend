@@ -9,6 +9,7 @@ import FormInput from "@/components/input/formInput";
 import FormLabel from "@/components/input/formLabel";
 import FormPassword from "@/components/input/formPassword";
 import SubmitButton from "@/components/input/submitButton";
+import AuthCodeInput from "@/components/input/authCodeInput";
 
 import Logo from "@/components/logo";
 
@@ -21,9 +22,9 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target)
-    Object.fromEntries(formData)
-    console.log(Object.fromEntries(formData))
+    const formData = new FormData(e.target);
+    Object.fromEntries(formData);
+    console.log(Object.fromEntries(formData));
 
     const purpose = pageData.submitTo;
 
@@ -83,11 +84,8 @@ const LoginPage = () => {
             <FormGroup className="mb-3">
               <FormInput placeholder="電話號碼" name="phoneNumber"></FormInput>
             </FormGroup>
-            <FormGroup className="mb-3 hstack justify-content-between">
-              <FormInput style={{width: '47.63px'}} className="border-2 border-textgrey" placeholder="" name="phoneNumber"></FormInput><span className="fw-bold text-textgrey  fs-5">-</span>
-              <FormInput style={{width: '47.63px'}} className="border-2 border-textgrey" placeholder="" name="phoneNumber"></FormInput><span className="fw-bold text-textgrey  fs-5">-</span>
-              <FormInput style={{width: '47.63px'}} className="border-2 border-textgrey" placeholder="" name="phoneNumber"></FormInput><span className="fw-bold text-textgrey  fs-5">-</span>
-              <FormInput style={{width: '47.63px'}} className="border-2 border-textgrey" placeholder="" name="phoneNumber"></FormInput>
+            <FormGroup className="mb-3 hstack justify-content-between align-items-center">
+              <AuthCodeInput />
             </FormGroup>
           </>
         )}

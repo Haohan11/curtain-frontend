@@ -110,8 +110,8 @@ $utilities: map-merge($utilities, $custom-utilities);
 
 @import "~bootstrap/scss/bootstrap";
 
-
-@for $i from 1 through 10 {
+// let 0 to override not 0 attribute
+@for $i from 10 through 0 {
   .text-indent-#{$i} {
     text-indent: $i * .1rem;
   }
