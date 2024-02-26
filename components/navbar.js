@@ -91,7 +91,7 @@ const Navbar = () => {
       ) : (
         <Link
           href="#"
-          className="pe-4 flex-center text-darkblue"
+          className="pe-6 flex-center text-darkblue"
           onClick={login}
         >
           <User className="me-2" />

@@ -7,11 +7,9 @@ import ArrowDown from "@/icon/arrow-down";
 
 import Div from "@/components/exposeDiv";
 import addClassName from "@/tool/addClassName";
+const Wrapper = addClassName(Div, "position-relative pe-4");
 
 const NavItem = ({ data, thin, button, isShow, setShow, ...props }) => {
-//   const [show, setShow] = useState(false);
-  const Wrapper = addClassName(Div, "position-relative pe-4");
-
   return (
     <Wrapper {...props}>
       <div
