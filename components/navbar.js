@@ -21,10 +21,7 @@ const Bar = () => (
 const getItemsInit = () =>
   new Map(Object.keys(navData).map((name) => [name, false]));
 
-const Navbar = () => {
-  const [loginState, setLoginState] = useState(false);
-  const login = () => setLoginState(true);
-  const logout = () => setLoginState(false);
+const Navbar = ({isLogin, login, logout}) => {
 
   const [itemsOpen, setItemsOpen] = useState(getItemsInit);
   const toggleOpen = (name) => {
@@ -34,9 +31,9 @@ const Navbar = () => {
   };
 
   return (
-    <div className="hstack ps-8 pe-4 border-bottom border-2 border-linegrey fs-5 text-textgrey" style={{height: "75px"}}>
+    <div className="hstack ps-4 pe-2 border-bottom border-2 border-linegrey fs-5-sm text-textgrey" style={{height: "72px"}}>
       <Logo width={48} />
-      {loginState && (
+      {isLogin && (
         <>
           <span className="fw-bold ms-12">展示模式</span>
           <Form.Switch className="ms-4 fs-1-lg"></Form.Switch>
@@ -58,7 +55,7 @@ const Navbar = () => {
         className="ms-auto"
       />
       <Bar />
-      {loginState ? (
+      {isLogin ? (
         <>
           <NavItem
             data={navData["workMenu"]}
@@ -91,7 +88,7 @@ const Navbar = () => {
       ) : (
         <Link
           href="#"
-          className="pe-6 flex-center text-darkblue"
+          className="pe-5 flex-center text-darkblue"
           onClick={login}
         >
           <User className="me-2" />

@@ -21,7 +21,7 @@ const NavItem = ({ data, thin, button, isShow, setShow, ...props }) => {
       </div>
       {isShow && (
         <Card
-          className="position-absolute end-0 p-5 text-textblue shadow rounded-3 border-0"
+          className="position-absolute end-0 p-5 text-textblue shadow rounded-3 border-0 z-3"
           style={{ top: "calc(100% + .5rem)" }}
         >
           <ul className="vstack">
