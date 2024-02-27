@@ -1,9 +1,10 @@
 import { Col, Row as BSRow } from "react-bootstrap";
-import ColorCheck from "@/components/input/colorRadio";
+import ColorRadio from "@/components/input/colorRadio";
 import CompDiv from "@/components/Div";
 import addClassName from "@/tool/addClassName";
 
 import pickerData from "@/data/pickerData";
+import Stars from "./input/starsRating";
 
 const Span = addClassName(CompDiv, "d-inline text-textgrey");
 const Row = addClassName(BSRow, "g-0 m-0 p-0");
@@ -42,9 +43,9 @@ const LeftSide = ({ isLogin }) => {
             <Span>顏色</Span>
           </Col>
           <Col>
-            <div className="ms--1 pe-1 hstack justify-content-between align-items-start">
+            <div className="pe-1 hstack justify-content-between align-items-start">
               {pickerData.map(({ id, name, image }) => (
-                <ColorCheck
+                <ColorRadio
                   key={id}
                   id={id}
                   name={"color"}
@@ -61,8 +62,8 @@ const LeftSide = ({ isLogin }) => {
           </Col>
           <Col>
             <div className="">
-              place textplace textplace textplace textplace textplace textplace
-              textplace textplace textplace textplace textplace text
+              沉穩素雅設計，妝點室內氣息。
+              內附調整型掛勾，可調節窗簾長度，自由決定是否露出軌道。並讓擺折曲線更加美觀。
             </div>
           </Col>
         </InfoRow>
@@ -71,7 +72,7 @@ const LeftSide = ({ isLogin }) => {
             <Span>面料材質</Span>
           </Col>
           <Col>
-            <div className="">place text</div>
+            <div className="">curtain material</div>
           </Col>
         </InfoRow>
         <InfoRow>
@@ -79,7 +80,7 @@ const LeftSide = ({ isLogin }) => {
             <Span>遮光效果</Span>
           </Col>
           <Col>
-            <div className="">place text</div>
+            <Stars name={"cover_rate"} />
           </Col>
         </InfoRow>
         <InfoRow>
@@ -87,7 +88,7 @@ const LeftSide = ({ isLogin }) => {
             <Span>吸音效果</Span>
           </Col>
           <Col>
-            <div className="">place text</div>
+            <Stars name={"cancel_rate"} />
           </Col>
         </InfoRow>
       </div>
