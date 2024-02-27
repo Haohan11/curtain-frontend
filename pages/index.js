@@ -20,11 +20,11 @@ export default function Home() {
       <Row className="border-bottom border-2 m-0" style={{ height: "610px" }}>
         <Col sm={3} className="p-0 h-100 overflow-y-auto scroll">
           <div className="vstack">
-            <p className="fs-5 fw-bold text-darkblue p-4 m-0 border-2 border-bottom border-linegrey">
+            <p className="fs-6 fw-bold text-darkblue p-4 m-0 border-2 border-bottom border-linegrey">
               {loginState ? "組合列表" : "商品資訊"}
             </p>
             <div className="p-4">
-              <p className="pb-4 fs-5 fw-bold text-darkblue dashed">
+              <p className="pb-4 fs-6 fw-bold text-darkblue dashed">
                 Product name
               </p>
             </div>

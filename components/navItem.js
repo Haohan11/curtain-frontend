@@ -29,8 +29,8 @@ const NavItem = ({ data, thin, button, isShow, setShow, ...props }) => {
               <li
                 onClick={item.action}
                 className={`px-${
-                  thin ? "3" : "12"
-                } text-nowrap cursor-pointer hover-orange fw-bold  fs-6 ${
+                  thin ? "3" : "10"
+                } text-nowrap cursor-pointer hover-orange fw-bold  fs-6-sm ${
                   index !== 0 && "mt-2"
                 }`}
                 key={index}

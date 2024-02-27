@@ -31,15 +31,15 @@ const Navbar = ({isLogin, login, logout}) => {
   };
 
   return (
-    <div className="hstack ps-4 pe-2 border-bottom border-2 border-linegrey fs-5-sm text-textgrey" style={{height: "72px"}}>
+    <div className="hstack ps-6 pe-2 border-bottom border-2 border-linegrey fs-6-sm text-textgrey" style={{height: "66px"}}>
       <Logo width={48} />
       {isLogin && (
         <>
-          <span className="fw-bold ms-12">展示模式</span>
-          <Form.Switch className="ms-4 fs-1-lg"></Form.Switch>
+          <span className="fw-bold ms-10">展示模式</span>
+          <Form.Switch className="ms-4 fs-1"></Form.Switch>
           <Bar />
           <span className="fw-bold">目前提案</span>
-          <FormControl className="ms-4 w-25 text-darkblue text-indent-5 uni-height" defaultValue="未命名" />
+          <FormControl className="ms-4 w-25 text-darkblue text-indent-5 uni-height fs-6-sm" defaultValue="未命名" />
           <NavItem
             data={navData["operation"]}
             isShow={itemsOpen.get("operation")}
@@ -76,7 +76,7 @@ const Navbar = ({isLogin, login, logout}) => {
             setShow={() => toggleOpen("workCenter")}
             button={
               <div
-                className="text-textgrey hover-orange flex-center fs-6 mt-2 cursor-pointer"
+                className="text-textgrey hover-orange flex-center fs-6-sm mt-2 cursor-pointer"
                 onClick={logout}
               >
                 <Leave className="hover-orange me-2" />
