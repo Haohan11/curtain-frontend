@@ -2,7 +2,7 @@ import Star from "@/icon/star";
 import StarEmpty from "@/icon/star-outline";
 
 const Stars = ({ number: n }) => {
-  const number = isNaN(n) ? 1 : Math.min(Math.max(1, n), 5);
+  const number = isNaN(+n) ? 1 : Math.min(Math.max(1, n), 5);
 
   return (
     <div className="hstack">

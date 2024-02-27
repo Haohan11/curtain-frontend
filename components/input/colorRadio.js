@@ -1,13 +1,13 @@
 import { forwardRef } from "react";
 import Image from "next/image";
-import { FormGroup, FormCheck, FormLabel } from "react-bootstrap";
+import { FormCheck, FormLabel } from "react-bootstrap";
 
 const ColorCheck = forwardRef(function ColorCheck(
   { id, label, src, name, onClick },
   ref
 ) {
   return (
-    <FormLabel className="text-center cursor-pointer">
+    <FormLabel className="text-center cursor-pointer m-0">
       <FormCheck className="d-inline-block position-relative lh-1">
         <FormCheck.Input
           ref={ref}
