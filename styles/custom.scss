@@ -49,24 +49,28 @@ $fs-increase: 1.1;
 $fs-decrease: 0.9;
 
 $font-sizes: (
-  1-sm: $h1-font-size * $fs-decrease,
-  1: $h1-font-size,
+  0: $h1-font-size * 2,
+  1-xxl: $h1-font-size * 1.5,
+  1-xl: $h1-font-size * 1.25,
   1-lg: $h1-font-size * $fs-increase,
-  2-sm: $h2-font-size * $fs-decrease,
-  2: $h2-font-size,
+  1: $h1-font-size,
+  1-sm: $h1-font-size * $fs-decrease,
   2-lg: $h2-font-size * $fs-increase,
-  3-sm: $h3-font-size * $fs-decrease,
-  3: $h3-font-size,
+  2: $h2-font-size,
+  2-sm: $h2-font-size * $fs-decrease,
   3-lg: $h3-font-size * $fs-increase,
-  4-sm: $h4-font-size * $fs-decrease,
-  4: $h4-font-size,
+  3: $h3-font-size,
+  3-sm: $h3-font-size * $fs-decrease,
   4-lg: $h4-font-size * $fs-increase,
-  5-sm: $h5-font-size * $fs-decrease,
-  5: $h5-font-size,
+  4: $h4-font-size,
+  4-sm: $h4-font-size * $fs-decrease,
   5-lg: $h5-font-size * $fs-increase,
-  6-sm: $h6-font-size * $fs-decrease,
+  5: $h5-font-size,
+  5-sm: $h5-font-size * $fs-decrease,
+  6-lg: $h6-font-size * $fs-increase,
   6: $h6-font-size,
-  6-lg: $h6-font-size * $fs-increase
+  6-sm: $h6-font-size * $fs-decrease,
+  6-xs: $h6-font-size * 0.8,
 );
 
 @import "~bootstrap/scss/maps";
