@@ -1,4 +1,3 @@
-import "@/styles/custom.scss";
 import "@/styles/globals.scss";
 
 import Head from "next/head";
