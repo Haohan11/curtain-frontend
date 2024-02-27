@@ -4,7 +4,7 @@ import CompDiv from "@/components/Div";
 import addClassName from "@/tool/addClassName";
 
 import pickerData from "@/data/pickerData";
-import Stars from "./input/starsRating";
+import Stars from "@/components/staticStars";
 
 const Span = addClassName(CompDiv, "d-inline text-textgrey");
 const Row = addClassName(BSRow, "g-0 m-0 p-0");
@@ -80,7 +80,7 @@ const LeftSide = ({ isLogin }) => {
             <Span>遮光效果</Span>
           </Col>
           <Col>
-            <Stars name={"cover_rate"} />
+            <Stars name={"cover_rate"} number={5} />
           </Col>
         </InfoRow>
         <InfoRow>
