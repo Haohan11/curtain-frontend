@@ -10,11 +10,12 @@ const Stars = ({ number: n }) => {
         .fill(true)
         .concat(Array(5 - number).fill(false))
         .map((fill, index) => (
-          <>
-            <div className={`d-inline-block lh-1 ${index !== 4 && "pe-1"}`}>
-              {fill ? <Star /> : <StarEmpty />}
-            </div>
-          </>
+          <div
+            key={index}
+            className={`d-inline-block lh-1 ${index !== 4 && "pe-1"}`}
+          >
+            {fill ? <Star /> : <StarEmpty />}
+          </div>
         ))}
     </div>
   );

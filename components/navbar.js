@@ -21,8 +21,7 @@ const Bar = () => (
 const getItemsInit = () =>
   new Map(Object.keys(navData).map((name) => [name, false]));
 
-const Navbar = ({isLogin, login, logout}) => {
-
+const Navbar = ({ isLogin, login, logout }) => {
   const [itemsOpen, setItemsOpen] = useState(getItemsInit);
   const toggleOpen = (name) => {
     setItemsOpen((prev) => {
@@ -31,15 +30,21 @@ const Navbar = ({isLogin, login, logout}) => {
   };
 
   return (
-    <div className="hstack ps-6 pe-2 border-bottom border-2 border-linegrey fs-6-sm text-textgrey" style={{height: "66px"}}>
+    <div
+      className="hstack ps-6 pe-2 border-bottom border-2 border-linegrey fs-6-sm text-textgrey"
+      style={{ height: "66px" }}
+    >
       <Logo width={48} />
       {isLogin && (
         <>
           <span className="fw-bold ms-10">展示模式</span>
-          <Form.Switch className="ms-4 fs-1"></Form.Switch>
+          <Form.Switch className="ms-4 fs-1 model-switch"></Form.Switch>
           <Bar />
           <span className="fw-bold">目前提案</span>
-          <FormControl className="ms-4 w-25 text-darkblue text-indent-5 uni-height fs-6-sm" defaultValue="未命名" />
+          <FormControl
+            className="ms-4 w-25 text-darkblue text-indent-5 uni-height fs-6-sm"
+            defaultValue="未命名"
+          />
           <NavItem
             data={navData["operation"]}
             isShow={itemsOpen.get("operation")}
