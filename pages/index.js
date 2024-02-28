@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <>
       <Navbar isLogin={loginState} login={login} logout={logout} />
-      <Row className="border-bottom border-2 m-0" style={{ height: "610px" }}>
+      <Row className="border-bottom border-2 m-0" style={{ height: "550px" }}>
         <Col sm={3} className="p-0 h-100 overflow-y-auto scroll">
           <LeftSide isLogin={loginState} />
         </Col>

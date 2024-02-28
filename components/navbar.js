@@ -38,7 +38,7 @@ const Navbar = ({ isLogin, login, logout }) => {
       {isLogin && (
         <>
           <span className="fw-bold ms-10">展示模式</span>
-          <Form.Switch className="ms-4 fs-1 model-switch"></Form.Switch>
+          <Form.Switch className="ms-4 fs-1 model-switch me--2"></Form.Switch>
           <Bar />
           <span className="fw-bold">目前提案</span>
           <FormControl
