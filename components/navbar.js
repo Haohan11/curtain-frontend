@@ -13,7 +13,7 @@ import navData from "@/data/navData";
 
 const Bar = () => (
   <span
-    className="ps-2 border-end border-2 me-4"
+    className="border-end border-2 me-3"
     style={{ height: "1.8rem" }}
   ></span>
 );
@@ -38,7 +38,7 @@ const Navbar = ({ isLogin, login, logout }) => {
       {isLogin && (
         <>
           <span className="fw-bold ms-10">展示模式</span>
-          <Form.Switch className="ms-4 fs-1 model-switch me--2"></Form.Switch>
+          <Form.Switch className="ms-4 fs-1 model-switch"></Form.Switch>
           <Bar />
           <span className="fw-bold">目前提案</span>
           <FormControl
