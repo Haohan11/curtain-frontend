@@ -20,7 +20,7 @@ export default function Home() {
   return (
     <>
       <Navbar isLogin={loginState} login={login} logout={logout} />
-      <Row className="border-bottom border-2 m-0" style={{ height: "610px" }}>
+      <Row className="border-bottom border-2 m-0" style={{ height: "var(--main-section-height)" }}>
         <Col sm={3} className="p-0 h-100 overflow-y-auto scroll">
           <LeftSide isLogin={loginState} />
         </Col>
@@ -39,7 +39,7 @@ export default function Home() {
       </Row>
       <Row
         className="shadow-lg"
-        style={{ height: "calc(100vh - var(--nav-height) - 610px)" }}
+        style={{ height: "calc(100vh - var(--nav-height) - var(--main-section-height))" }}
       >
         <Col sm={"auto"} xxl={3} className="h-100">
           <SearchPannel />
