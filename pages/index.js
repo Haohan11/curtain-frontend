@@ -11,7 +11,7 @@ import addClassName from "@/tool/addClassName";
 const Row = addClassName(BSRow, "g-0");
 
 export default function Home() {
-  const [loginState, setLoginState] = useState(false);
+  const [loginState, setLoginState] = useState(true);
   const login = () => setLoginState(true);
   const logout = () => setLoginState(false);
 
