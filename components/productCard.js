@@ -54,7 +54,7 @@ const ProductCard = ({
   dynamic,
 }) => {
   return (
-    <Accordion defaultActiveKey="0">
+    <Accordion key={`pc_${dynamic}_${index}`} defaultActiveKey={index === 0 || !dynamic ? "0" : undefined}>
       {dynamic ? (
         <FormLabel
           className={`w-100 cursor-pointer ${cardHeadClassName}`}
