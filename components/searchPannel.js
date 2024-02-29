@@ -13,7 +13,7 @@ import addClassName from "@/tool/addClassName";
 
 const Input = addClassName(FormControl, "text-textgrey text-indent-2");
 const Select = addClassName(FormSelect, "text-textgrey");
-const Row = addClassName(BSRow, "g-0 mb-2");
+const Row = addClassName(BSRow, "mb-2");
 const TitleCol = addClassName(
   Col,
   "flex-center justify-content-start col-sm-4 fw-bold"

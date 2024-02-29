@@ -6,6 +6,8 @@ import { Row as BSRow, Col } from "react-bootstrap";
 import Navbar from "@/components/navbar";
 import LeftSide from "@/components/leftSide";
 import SearchPannel from "@/components/searchPannel";
+import ProductList from "@/components/productList";
+
 import addClassName from "@/tool/addClassName";
 
 const Row = addClassName(BSRow, "g-0");
@@ -42,7 +44,9 @@ export default function Home() {
         <Col sm={"auto"} className="h-100">
           <SearchPannel />
         </Col>
-        <Col></Col>
+        <Col>
+          <ProductList />
+        </Col>
       </Row>
     </>
   );
