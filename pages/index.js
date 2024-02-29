@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-import Link from "next/link";
 import Image from "next/image";
 import { Row as BSRow, Col } from "react-bootstrap";
 
 import Navbar from "@/components/navbar";
 import LeftSide from "@/components/leftSide";
+import SearchPannel from "@/components/searchPannel";
 import addClassName from "@/tool/addClassName";
 
 const Row = addClassName(BSRow, "g-0");
@@ -28,12 +28,21 @@ export default function Home() {
               alt="enviroment image"
               fill
               priority
-              sizes="100vw"
+              sizes="70vw"
               src={"/image/livingroom.jpg"}
               className="object-fit-contain"
             />
           </div>
         </Col>
+      </Row>
+      <Row
+        className="shadow-lg"
+        style={{ height: "calc(100vh - var(--nav-height) - 550px)" }}
+      >
+        <Col sm={"auto"} className="h-100">
+          <SearchPannel />
+        </Col>
+        <Col></Col>
       </Row>
     </>
   );

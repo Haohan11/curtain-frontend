@@ -32,7 +32,7 @@ const Navbar = ({ isLogin, login, logout }) => {
   return (
     <div
       className="hstack ps-6 pe-2 border-bottom border-2 border-linegrey fs-6-sm text-textgrey"
-      style={{ height: "66px" }}
+      style={{ height: "var(--nav-height)" }}
     >
       <Logo width={48} />
       {isLogin && (
