@@ -76,7 +76,8 @@
 
 .form-check-input:checked {
   background-color: var(--bs-checkboxblue);
-  border-color: var(--bs-checkboxblue);
+  border: none;
+  // border-color: var(--bs-checkboxblue);
 }
 
 .form-check-input:focus {
@@ -147,4 +148,17 @@ a {
 .rating label:hover ~ label .star-bg,
 .rating input[type="radio"]:checked ~ label .star-bg {
   fill: $star;
+}
+
+.export-template {
+  width: 842px;
+  height: 595px;
+}
+
+.export-template .head {
+  height: 47px;
+}
+
+.export-template .img-box {
+  height: 435px;
 }

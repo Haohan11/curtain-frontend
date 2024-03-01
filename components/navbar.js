@@ -9,7 +9,7 @@ import User from "@/icon/user";
 import { Form, FormControl } from "react-bootstrap";
 import NavItem from "@/components/navItem";
 
-import navData from "@/data/navData";
+
 
 const Bar = () => (
   <span
@@ -18,10 +18,10 @@ const Bar = () => (
   ></span>
 );
 
-const getItemsInit = () =>
-  new Map(Object.keys(navData).map((name) => [name, false]));
+const Navbar = ({ isLogin, login, logout, data: navData }) => {
+  const getItemsInit = () =>
+    new Map(Object.keys(navData).map((name) => [name, false]));
 
-const Navbar = ({ isLogin, login, logout }) => {
   const [itemsOpen, setItemsOpen] = useState(getItemsInit);
   const toggleOpen = (name) => {
     setItemsOpen((prev) => {
