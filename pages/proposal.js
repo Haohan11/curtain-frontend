@@ -29,10 +29,10 @@ const ProposalPage = () => {
       <Col>
         <div className="vh-100 position-relative overflow-y-auto">
           <div className="position-sticky top-0 p-6 flex-center justify-content-between border-bottom bg-white">
-            <div className="flex-center text-textgrey">
+            <div className="flex-center text-textgrey cursor-pointer">
               <ReturnButton />
             </div>
-            <div className="flex-center text-textblue">
+            <div className="flex-center text-textblue cursor-pointer">
               <Cross />
               <span className="ms-2">新增提案組合</span>
             </div>
@@ -46,7 +46,7 @@ const ProposalPage = () => {
                 style={{ width: "300px" }}
                 className="position-relative"
               >
-                <FormInput placeholder="搜尋" />
+                <FormInput placeholder="搜尋" className="pe-8" />
                 <div className="position-absolute top-0 end-0 text-linegrey p-2">
                   <Search />
                 </div>
