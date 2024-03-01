@@ -15,11 +15,11 @@ const ColorCheck = forwardRef(function ColorCheck(
           name={name}
           value={id}
           onClick={onClick}
-          className={`m-0 rounded-1`}
+          className={`m-0 rounded-1 bg-${Math.random() < 0.5 && "primary" || Math.random() < 0.5 && "orange" || Math.random() > 0.5 && "red" || "success"}`}
         />
-        <Image alt="color radio image" fill sizes="1em" src={src} />
+        {src && <Image alt="color radio image" fill sizes="1em" src={src} />}
       </FormCheck>
-      <div className="d-block m-0 fs-6-xs">{label}</div>
+      <div className="d-block fs-6-xs">{label}</div>
     </FormLabel>
   );
 });

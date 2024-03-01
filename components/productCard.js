@@ -2,7 +2,7 @@ import { useContext } from "react";
 
 import {
   Col,
-  Row as BSRow,
+  Row,
   FormCheck,
   FormLabel,
   Accordion,
@@ -21,8 +21,7 @@ import AddCube from "@/icon/add-border";
 import addClassName from "@/tool/addClassName";
 
 const Span = addClassName(CompDiv, "d-inline text-textgrey");
-const Row = addClassName(BSRow, "g-0 m-0 p-0");
-const InfoRow = addClassName(BSRow, "g-0 pb-2");
+const InfoRow = addClassName(Row, "g-0 pb-2");
 
 const cardHeadClassName = "p-4 pb-0 position-sticky bg-white z-1";
 const cardHeadStyle = { top: "66px" };
@@ -33,9 +32,11 @@ const FoldButton = ({ eventKey, ...props }) => {
   const { activeEventKey } = useContext(AccordionContext);
 
   const isMe = activeEventKey === eventKey;
-  const ToggleButton = isMe ? addClassName(SubtractCube, "text-textgrey") : addClassName(AddCube, "text-checkboxblue")
+  const ToggleButton = isMe
+    ? addClassName(SubtractCube, "text-textgrey")
+    : addClassName(AddCube, "text-checkboxblue");
 
-  return <ToggleButton {...props} onClick={fold} />
+  return <ToggleButton {...props} onClick={fold} />;
 };
 
 const ProductCard = ({
@@ -54,7 +55,10 @@ const ProductCard = ({
   dynamic,
 }) => {
   return (
-    <Accordion key={`pc_${dynamic}_${index}`} defaultActiveKey={index === 0 || !dynamic ? "0" : undefined}>
+    <Accordion
+      key={`pc_${dynamic}_${index}`}
+      defaultActiveKey={index === 0 || !dynamic ? "0" : undefined}
+    >
       {dynamic ? (
         <FormLabel
           className={`w-100 cursor-pointer ${cardHeadClassName}`}
@@ -69,10 +73,7 @@ const ProductCard = ({
               name="product_card"
             ></FormCheck>
             {product_name}
-            <FoldButton
-              eventKey="0"
-              className="ms-auto cursor-pointer"
-            />
+            <FoldButton eventKey="0" className="ms-auto cursor-pointer" />
             <TrashCan className="ms-2 text-red cursor-pointer" />
           </div>
         </FormLabel>
@@ -104,17 +105,18 @@ const ProductCard = ({
               <Span>顏色</Span>
             </Col>
             <Col>
-              <div className="pe-1 hstack justify-content-between align-items-start">
+              <Row className="row-cols-5">
                 {colors?.map(({ id, name, image_url }) => (
-                  <ColorRadio
-                    key={id}
-                    id={id}
-                    name={"color"}
-                    label={name}
-                    src={image_url}
-                  />
+                  <Col key={id}>
+                    <ColorRadio
+                      id={id}
+                      name={"color"}
+                      label={name}
+                      src={image_url}
+                    />
+                  </Col>
                 ))}
-              </div>
+              </Row>
             </Col>
           </InfoRow>
           <InfoRow>

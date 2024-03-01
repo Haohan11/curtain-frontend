@@ -6,6 +6,10 @@
   --main-section-height: min(610px, 60vh);
 }
 
+.uni-height {
+  height: var(--uni-height);
+}
+
 .flex-center {
   display: flex;
   justify-content: center;
