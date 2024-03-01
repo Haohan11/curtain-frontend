@@ -2,35 +2,28 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Row, Col as BSCol, Container } from "react-bootstrap";
-import ArrowLeft from "@/icon/arrow-left";
 import addClassName from "@/tool/addClassName";
+import ReturnButton from "./returnButton";
+import copyrightText from "@/data/copyrightText"
 
 const Col = addClassName(BSCol, "p-0");
 
 const TwoPageLayout = ({ data, content, goBack }) => {
-
   const headContent = () => {
     const destination = data.returnTo;
     if (!destination) return;
 
-    const returnButton = (
-      <>
-        <ArrowLeft width="2rem" height="2rem" className="me-2" />
-        <span className="fs-5-sm">{data.returnText}</span>
-      </>
-    );
-
     if (destination === "login")
       return (
         <div className="flex-center cursor-pointer me-auto" onClick={goBack}>
-          {returnButton}
+          <ReturnButton text={data.returnText} />
         </div>
       );
 
     if (destination === "homepage")
       return (
         <Link href={"/"} className="flex-center me-auto">
-          {returnButton}
+          <ReturnButton text={data.returnText} />
         </Link>
       );
   };
@@ -71,16 +64,15 @@ const TwoPageLayout = ({ data, content, goBack }) => {
       </Col>
       <Col>
         <div className="vh-100 px-4 px-lg-6 flex-column">
-          <div
-            className="flex-center text-textgrey"
-            style={{ height: "10vh" }}
-          >
+          <div className="flex-center text-textgrey" style={{ height: "10vh" }}>
             {headContent()}
           </div>
-          <div className="overflow-y-auto scroll" style={{ height: "80vh" }}>{content}</div>
+          <div className="overflow-y-auto scroll" style={{ height: "80vh" }}>
+            {content}
+          </div>
           <div className="flex-center" style={{ height: "10vh" }}>
             <p className="text-textgrey">
-              Copyright © 2024 XiangYu Drapery. All rights reserved.
+              {copyrightText}
             </p>
           </div>
         </div>

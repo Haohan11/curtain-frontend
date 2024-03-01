@@ -71,7 +71,7 @@ export default function Home({ envData }) {
               src={"/image/livingroom.jpg"}
               className="object-fit-contain"
             />
-            <span className="position-absolute top-0 text-linegrey bg-textgrey p-2 rounded-2 ms-4 mt-3">
+            <span className="position-absolute top-0 text-white bg-textgrey p-2 rounded-2 ms-4 mt-3">
               目前環境 : {env}
             </span>
           </div>
