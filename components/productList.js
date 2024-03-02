@@ -7,9 +7,9 @@ import Cross from "@/icon/cross";
 
 const ProductList = () => {
   return (
-    <div className="position-relative h-100">
+    <div className="position-relative h-100" style={{minHeight: "350px"}}>
       <Row
-        className="row-cols-5 pt-3 px-2 g-0 justify-content-evenly mx-auto"
+        className="row-cols-5 pt-3 px-2 g-1 justify-content-evenly mx-auto"
         style={{ maxWidth: "1080px" }}
       >
         {[...new Array(5)].map((_, index) => (

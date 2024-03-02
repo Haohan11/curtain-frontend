@@ -87,7 +87,7 @@ export default function Home({ envData }) {
         <Col sm={3} className="h-100">
           <SearchPannel />
         </Col>
-        <Col>
+        <Col className="h-100 overflow-y-auto">
           <ProductList />
         </Col>
       </Row>
