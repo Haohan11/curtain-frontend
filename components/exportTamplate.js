@@ -29,7 +29,7 @@ const ExportTemplate = ({ data: { env, product } }) => {
                 "border border-3 border-checkboxblue rounded-2"
               }`}
             >
-              <ColorRadio />
+              <ColorRadio src={color.image_url} />
             </div>
           ))}
         </div>

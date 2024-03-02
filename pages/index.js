@@ -54,7 +54,7 @@ export default function Home({ envData }) {
         data={navData}
       />
       <Row
-        className="border-bottom border-2 m-0"
+        className="m-0"
         style={{ height: "var(--main-section-height)" }}
       >
         <Col sm={3} className="p-0 h-100 overflow-y-auto scroll">
@@ -84,7 +84,7 @@ export default function Home({ envData }) {
             "calc(100vh - var(--nav-height) - var(--main-section-height))",
         }}
       >
-        <Col sm={"auto"} xxl={3} className="h-100">
+        <Col sm={3} className="h-100">
           <SearchPannel />
         </Col>
         <Col>

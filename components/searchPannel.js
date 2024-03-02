@@ -6,19 +6,15 @@ import {
   FormSelect,
 } from "react-bootstrap";
 
-import ColorRadio from "@/components/input/colorRadio";
+import ColorRadios from "./input/colorRadios";
 import Stars from "@/components/input/starsRating";
 import Search from "@/icon/search";
 
 import addClassName from "@/tool/addClassName";
 
-const Input = addClassName(FormControl, "text-textgrey text-indent-2 py-2");
 const Select = addClassName(FormSelect, "text-textgrey");
 const Row = addClassName(BSRow, "mb-3 g-0");
-const TitleCol = addClassName(
-  Col,
-  "col-sm-4 fw-bold py-2"
-);
+const TitleCol = addClassName(Col, "col-sm-4 fw-bold py-2");
 
 const SearchPannel = () => {
   return (
@@ -36,7 +32,10 @@ const SearchPannel = () => {
             <span>關鍵字</span>
           </TitleCol>
           <Col>
-            <FormControl className="text-textgrey text-indent-2 uni-height" placeholder="輸入產品名稱" />
+            <FormControl
+              className="text-textgrey text-indent-2 uni-height"
+              placeholder="輸入產品名稱"
+            />
           </Col>
         </Row>
         <Row>
@@ -44,17 +43,7 @@ const SearchPannel = () => {
             <span>色系</span>
           </TitleCol>
           <Col>
-            <div className="row row-cols-5 gy-1">
-              {["紅色", "藍色", "綠色", "綠色", "綠色", "綠色"].map((item, index) => (
-                <Col key={index}>
-                  <ColorRadio
-                    id={index}
-                    name="color"
-                    label={item}
-                  />
-                </Col>
-              ))}
-            </div>
+            <ColorRadios />
           </Col>
         </Row>
         <Row>
@@ -62,17 +51,7 @@ const SearchPannel = () => {
             <span>風格</span>
           </TitleCol>
           <Col>
-          <div className="row row-cols-5 gy-1">
-              {["紅色", "藍色", "綠色", "綠色", "綠色", "綠色"].map((item, index) => (
-                <Col key={index}>
-                  <ColorRadio
-                    id={index}
-                    name="color"
-                    label={item}
-                  />
-                </Col>
-              ))}
-            </div>
+            <ColorRadios />
           </Col>
         </Row>
         <Row>
@@ -91,7 +70,10 @@ const SearchPannel = () => {
             <span>遮光度</span>
           </TitleCol>
           <Col>
-              <Stars name={"block"} className="ps-2 uni-height border rounded-2" />
+            <Stars
+              name={"block"}
+              className="ps-2 uni-height border rounded-2"
+            />
           </Col>
         </Row>
         <Row>
@@ -99,7 +81,7 @@ const SearchPannel = () => {
             <span>吸音效果</span>
           </TitleCol>
           <Col>
-              <Stars name={"mute"} className="ps-2 uni-height border rounded-2" />
+            <Stars name={"mute"} className="ps-2 uni-height border rounded-2" />
           </Col>
         </Row>
       </Form>

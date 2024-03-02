@@ -15,11 +15,11 @@ const ColorRadio = forwardRef(function ColorRadio(
           name={name}
           value={id}
           onClick={onClick}
-          className={`m-0 rounded-1`}
+          className={`m-0 rounded-1 color-input`}
         />
         <Image alt="color radio image" fill sizes="1em" src={src || `/color_check/${id % 2 === 0 && "red" || id % 3 === 0 && "green" || id % 5 === 0 && "blue" || "brown"}.jpg`} />
       </FormCheck>
-      <div className="d-block fs-6-xs">{label}</div>
+      <div className="d-block fs-6-xs text-break">{label}</div>
     </FormLabel>
   );
 });

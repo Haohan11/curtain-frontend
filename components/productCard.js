@@ -10,7 +10,7 @@ import {
   useAccordionButton,
 } from "react-bootstrap";
 
-import ColorRadio from "@/components/input/colorRadio";
+import ColorRadios from "./input/colorRadios";
 import CompDiv from "@/components/Div";
 import Stars from "@/components/staticStars";
 
@@ -105,18 +105,7 @@ const ProductCard = ({
               <Span>顏色</Span>
             </Col>
             <Col>
-              <Row className="row-cols-5">
-                {colors?.map(({ id, name, image_url }) => (
-                  <Col key={id}>
-                    <ColorRadio
-                      id={id}
-                      name={"color"}
-                      label={name}
-                      src={image_url}
-                    />
-                  </Col>
-                ))}
-              </Row>
+              <ColorRadios colors={colors}/>
             </Col>
           </InfoRow>
           <InfoRow>
