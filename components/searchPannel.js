@@ -3,16 +3,15 @@ import {
   Col,
   Form,
   FormControl,
-  FormSelect,
 } from "react-bootstrap";
 
 import ColorRadios from "./input/colorRadios";
 import Stars from "@/components/input/starsRating";
 import Search from "@/icon/search";
+import Select from "@/components/input/select";
 
 import addClassName from "@/tool/addClassName";
 
-const Select = addClassName(FormSelect, "text-textgrey");
 const Row = addClassName(BSRow, "mb-3 g-0");
 const TitleCol = addClassName(Col, "col-sm-4 fw-bold py-2");
 
@@ -59,9 +58,10 @@ const SearchPannel = () => {
             <span>面料材質</span>
           </TitleCol>
           <Col>
-            <Select className="uni-height">
-              <option>絲綢</option>
-              <option>帆布</option>
+            <Select isMulti options={[
+              {value: 0, label: "絲綢"},
+              {value: 1, label: "帆布"}
+            ]}>
             </Select>
           </Col>
         </Row>
