@@ -39,14 +39,15 @@ const AccountPage = () => {
             defaultValue={"1004987"}
           />
           <FormInput
-            className="mb-3 text-textdarkblue"
+            className="mb-2 text-textdarkblue"
             disabled
             defaultValue={"1004987@gmail.com"}
           />
-          <FormGroup className="mb-2" controlId="userName">
-            <FormLabel className="fw-bold text-textblue">姓名</FormLabel>
-            <FormInput name="userName"></FormInput>
-          </FormGroup>
+          <FormInput
+            className="mb-3 text-textdarkblue"
+            disabled
+            defaultValue={"小火龍"}
+          />
           <FormGroup controlId="phoneNumber">
             <FormLabel className="fw-bold text-textblue">手機號碼</FormLabel>
             <FormInput name="phoneNumber"></FormInput>
