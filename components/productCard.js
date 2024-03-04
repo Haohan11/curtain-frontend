@@ -23,7 +23,7 @@ import addClassName from "@/tool/addClassName";
 const Span = addClassName(CompDiv, "d-inline text-textgrey");
 const InfoRow = addClassName(Row, "g-0 pb-2");
 
-const cardHeadClassName = "p-4 pb-0 position-sticky bg-white z-1";
+const cardHeadClassName = "p-4 pb-0 position-sticky bg-white z-1 rounded-3";
 const cardHeadStyle = { top: "66px" };
 const cardTitleClassName = "pb-3 fs-6 m-0 fw-bold text-darkblue dashed";
 

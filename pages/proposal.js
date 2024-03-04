@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import Logo from "@/icon/logoWhiteSvg";
 import ReturnButton from "@/components/returnButton";
+import CombinationCard from "@/components/combinationCard";
 import Cross from "@/icon/cross";
 import Search from "@/icon/search";
 
@@ -36,7 +37,7 @@ const ProposalPage = () => {
             </div>
           </div>
           <div className="p-8">
-            <div className="hstack justify-content-between">
+            <div className="hstack justify-content-between mb-12">
               <span className="fs-1-sm fw-bold text-darkblue">
                 我的提案組合
               </span>
@@ -47,6 +48,7 @@ const ProposalPage = () => {
                 </div>
               </div>
             </div>
+            <CombinationCard />
           </div>
         </div>
       </Col>
