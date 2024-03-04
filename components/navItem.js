@@ -23,23 +23,22 @@ const NavItem = ({ data, thin, button, isShow, setShow, ...props }) => {
           style={{ top: "calc(100% + .5rem)" }}
         >
           <ul className="vstack">
-            {data.items.map((item, index) => (
-              <li
-                onClick={item.action}
-                className={`px-${
-                  thin ? "3" : "10"
-                } text-nowrap cursor-pointer hover-orange fw-bold  fs-6-sm ${
-                  index !== 0 && "mt-2"
-                }`}
-                key={index}
-              >
-                {item.link ? (
-                  <Link href={item.link}>{item.label}</Link>
-                ) : (
-                  item.label
-                )}
-              </li>
-            ))}
+            {data.items.map((item, index) => {
+              const className = `px-${
+                thin ? "3" : "10"
+              } text-nowrap cursor-pointer hover-orange fw-bold fs-6-sm ${
+                index !== 0 && "mt-2"
+              }`;
+              return item.link ? (
+                <Link href={item.link} className={className} key={index}>
+                  {item.label}
+                </Link>
+              ) : (
+                <li onClick={item.action} className={className} key={index}>
+                  {item.label}
+                </li>
+              );
+            })}
           </ul>
           {button}
         </Card>
