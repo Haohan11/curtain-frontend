@@ -7,7 +7,9 @@ const LeftSide = ({ isLogin, data: productData }) => {
         {isLogin ? "組合列表" : "商品資訊"}
       </p>
       {productData.map(({ data, id }, index) => (
-        <ProductCard key={id} data={{...data, id, index}} dynamic={isLogin} />
+        <div key={id} className="border-bottom">
+          <ProductCard data={{ ...data, id, index }} dynamic={isLogin} deletable={isLogin} checkable={isLogin} sticky />
+        </div>
       ))}
     </div>
   );

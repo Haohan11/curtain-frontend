@@ -10,22 +10,24 @@ import {
   useAccordionButton,
 } from "react-bootstrap";
 
-import ColorRadios from "./input/colorRadios";
+import ColorRadios from "@/components/input/colorRadios";
 import CompDiv from "@/components/Div";
 import Stars from "@/components/staticStars";
 
 import TrashCan from "@/icon/trashcan";
 import SubtractCube from "@/icon/subtract-border";
 import AddCube from "@/icon/add-border";
+import Curtain from "@/icon/curtain";
 
 import addClassName from "@/tool/addClassName";
 
 const Span = addClassName(CompDiv, "d-inline text-textgrey");
 const InfoRow = addClassName(Row, "g-0 pb-2");
 
-const cardHeadClassName = "p-4 pb-0 position-sticky bg-white z-1 rounded-3";
+const cardHeadClassName = "p-4 pb-0";
 const cardHeadStyle = { top: "66px" };
-const cardTitleClassName = "pb-3 fs-6 m-0 fw-bold text-darkblue dashed";
+const cardTitleClassName = "pb-2 fs-6 m-0 fw-bold text-darkblue";
+const stickyClassName = "position-sticky bg-white z-1 rounded-3";
 
 const FoldButton = ({ eventKey, ...props }) => {
   const fold = useAccordionButton(eventKey);
@@ -53,6 +55,9 @@ const ProductCard = ({
     index,
   },
   dynamic,
+  checkable,
+  deletable,
+  sticky,
 }) => {
   return (
     <Accordion
@@ -61,29 +66,39 @@ const ProductCard = ({
     >
       {dynamic ? (
         <FormLabel
-          className={`w-100 cursor-pointer ${cardHeadClassName}`}
+          className={`w-100 cursor-pointer ${
+            sticky && stickyClassName
+          } ${cardHeadClassName}`}
           style={cardHeadStyle}
         >
           <div className={`d-flex ${cardTitleClassName}`}>
-            <FormCheck
-              className="pe-none"
-              type="radio"
-              inline
-              defaultChecked={index === 0}
-              name="product_card"
-            ></FormCheck>
+            {checkable ? (
+              <FormCheck
+                className="pe-none"
+                type="radio"
+                inline
+                defaultChecked={index === 0}
+                name="product_card"
+              />
+            ) : (
+              <Curtain className="me-2 text-linegrey" />
+            )}
             {product_name}
             <FoldButton eventKey="0" className="ms-auto cursor-pointer" />
-            <TrashCan className="ms-2 text-red cursor-pointer" />
+            {deletable && <TrashCan className="ms-2 text-red cursor-pointer" />}
           </div>
         </FormLabel>
       ) : (
-        <div className={cardHeadClassName} style={cardHeadStyle}>
+        <div
+          className={`${sticky && stickyClassName} ${cardHeadClassName}`}
+          style={cardHeadStyle}
+        >
           <p className={cardTitleClassName}>{product_name}</p>
         </div>
       )}
       <Accordion.Collapse eventKey="0">
-        <div className="p-4 text-textblue border-bottom border-linegrey">
+        <div className="p-4 pt-0 text-textblue">
+          <div className="dashed mb-4"></div>
           <InfoRow>
             <Col sm={4}>
               <Span>型號</Span>
@@ -105,7 +120,7 @@ const ProductCard = ({
               <Span>顏色</Span>
             </Col>
             <Col>
-              <ColorRadios colors={colors}/>
+              <ColorRadios colors={colors} />
             </Col>
           </InfoRow>
           <InfoRow>

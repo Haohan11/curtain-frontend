@@ -22,14 +22,11 @@ const ExportTemplate = ({ data: { env, product } }) => {
         <div className="hstack">
           <span className="text-textgrey me-4">顏色</span>
           {product.colors.map((color) => (
-            <div
-              key={color.id}
-              className={`ms-3 lh-1 ${
-                color.id === 0 &&
-                "border border-3 border-checkboxblue rounded-2"
-              }`}
-            >
-              <ColorRadio src={color.image_url} />
+            <div key={color.id} className="me-2">
+              <ColorRadio
+                src={color.image_url}
+                defaultChecked={color.id === 0}
+              />
             </div>
           ))}
         </div>
@@ -77,7 +74,6 @@ const ExportTemplate = ({ data: { env, product } }) => {
               <Stars />
             </Col>
           </Box>
-          <Box></Box>
         </div>
         <div className="col-5">
           <Row>
