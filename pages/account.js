@@ -1,7 +1,6 @@
-import { useRef } from "react";
 import Image from "next/image";
 
-import { Col, Form, FormControl, FormGroup } from "react-bootstrap";
+import { Col, Form, FormGroup } from "react-bootstrap";
 
 import TwoPageLayout from "@/components/twoPageLayout";
 import pageJson from "@/data/pageData";
@@ -10,17 +9,8 @@ import FormLabel from "@/components/input/formLabel";
 import FormPassword from "@/components/input/formPassword";
 import SubmitButton from "@/components/input/submitButton";
 
-import Upload from "@/icon/upload";
-
 const AccountPage = () => {
   const pageData = pageJson["account"];
-
-  const fileInputRef = useRef()
-
-  const handleUploadAvatar = (e) => {
-    const file = e.target.files[0]
-    console.log(file === undefined ? "no file" : file)
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,17 +29,6 @@ const AccountPage = () => {
           width={125}
           height={125}
         />
-        <FormGroup className="text-textblue flex-center mb-5 cursor-pointer" onClick={() => {
-          fileInputRef.current.click()
-        }}>
-          <FormControl onChange={handleUploadAvatar} ref={fileInputRef} type="file" hidden/>
-          <Upload />
-          <span className="ms-2 fw-bold">上傳大頭貼</span>
-        </FormGroup>
-        <div className="vstack align-items-center text-textgrey">
-          <span>Max：200kb</span>
-          <span>Size：120*120</span>
-        </div>
       </Col>
       <Col sm={"auto"} className="vstack text-textblue">
         <div className="mb-10">
