@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Row, Col as BSCol, Container } from "react-bootstrap";
 import addClassName from "@/tool/addClassName";
 import ReturnButton from "./returnButton";
-import copyrightText from "@/data/copyrightText"
+import copyrightText from "@/data/copyrightText";
 
 const Col = addClassName(BSCol, "p-0");
 
@@ -15,16 +15,16 @@ const TwoPageLayout = ({ data, content, goBack }) => {
 
     if (destination === "login")
       return (
-        <div className="flex-center cursor-pointer me-auto" onClick={goBack}>
-          <ReturnButton text={data.returnText} />
-        </div>
+        <ReturnButton
+          className="me-auto"
+          text={data.returnText}
+          action={goBack}
+        />
       );
 
     if (destination === "homepage")
       return (
-        <Link href={"/"} className="flex-center me-auto">
-          <ReturnButton text={data.returnText} />
-        </Link>
+        <ReturnButton className="me-auto" href={"/"} text={data.returnText} />
       );
   };
 
@@ -71,9 +71,7 @@ const TwoPageLayout = ({ data, content, goBack }) => {
             {content}
           </div>
           <div className="flex-center" style={{ height: "10vh" }}>
-            <p className="text-textgrey">
-              {copyrightText}
-            </p>
+            <p className="text-textgrey">{copyrightText}</p>
           </div>
         </div>
       </Col>
