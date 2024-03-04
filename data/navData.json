@@ -20,6 +20,6 @@
   },
   "workCenter": {
     "navText": "工作中心",
-    "items": [{ "label": "我的帳號", "link": "/account" }]
+    "items": [{ "label": "我的帳號", "name": "myAccount" }]
   }
 }

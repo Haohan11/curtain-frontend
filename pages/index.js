@@ -42,6 +42,17 @@ export default function Home({ envData }) {
           })(),
         });
     }
+
+    if(item.name === "combination") {
+      item.link = "/proposal"
+    }
+    return item;
+  });
+
+  navData["workCenter"]["items"] = navData["workCenter"]["items"].map((item) => {
+    if(item.name === "myAccount") {
+      item.link = "/account"
+    }
     return item;
   });
 
