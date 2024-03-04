@@ -51,9 +51,9 @@ const mockColorsData = [
 
 const ColorRadios = ({ colors = mockColorsData }) => {
   return (
-    <Row className="row-cols-3">
+    <Row className="d-flex">
       {colors.map(({ id, name, image_url }, index) => (
-        <Col className="text-center" key={id || index}>
+        <Col key={id || index}>
           <ColorRadio id={id} name={"color"} label={name} src={image_url} />
         </Col>
       ))}
