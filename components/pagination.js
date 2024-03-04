@@ -5,7 +5,7 @@ import ArrowRight from "@/icon/arrow-right";
 
 const pagination = () => {
   return (
-    <div className="w-100 px-4 py-4 position-absolute bottom-0 left-0 fs-6-sm flex-center" >
+    <div className="w-100 p-4 fs-6-sm flex-center" >
       <ArrowLeft width={36} className="me-2" />
       <span className="mx-3">1</span>
       <span className="mx-3">2</span>

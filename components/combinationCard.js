@@ -85,7 +85,7 @@ const mockCombinationData = {
 
 const CombinationCard = ({ data = mockCombinationData }) => {
   return (
-    <div className="px-5">
+    <div className="px-5 mt-12">
       <Row className="g-10 border-bottom pb-9">
         <Col sm={"auto"} className="ps-0">
           <Image
