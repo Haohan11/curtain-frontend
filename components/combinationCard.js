@@ -119,7 +119,7 @@ const CombinationCard = ({ data = mockCombinationData }) => {
               <SubmitButton type="button" className="px-9">
                 開啟提案
               </SubmitButton>
-              <div className="ms-2 px-4 text-red cursor-pointer">
+              <div className="ms-6 me-4 text-red cursor-pointer">
                 <TrashCan />
               </div>
             </div>
