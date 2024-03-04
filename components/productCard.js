@@ -30,7 +30,9 @@ const cardTitleClassName = "pb-2 fs-6 m-0 fw-bold text-darkblue";
 const stickyClassName = "position-sticky bg-white z-1 rounded-3";
 
 const FoldButton = ({ eventKey, ...props }) => {
-  const fold = useAccordionButton(eventKey);
+  const fold = useAccordionButton(eventKey, (event) => {
+    event.preventDefault()
+  });
   const { activeEventKey } = useContext(AccordionContext);
 
   const isMe = activeEventKey === eventKey;

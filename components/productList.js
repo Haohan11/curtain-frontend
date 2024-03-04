@@ -1,19 +1,19 @@
 import Image from "next/image";
-import { Col, FormSelect, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 
 import Pagination from "@/components/pagination";
-
+import ColorRadio from "./input/colorRadio";
 import Cross from "@/icon/cross";
 
 const ProductList = () => {
   return (
-    <div className="position-relative h-100" style={{minHeight: "350px"}}>
+    <div className="position-relative h-100" style={{ minHeight: "350px" }}>
       <Row
         className="row-cols-5 pt-3 px-2 g-1 justify-content-evenly mx-auto"
         style={{ maxWidth: "1080px" }}
       >
         {[...new Array(5)].map((_, index) => (
-          <Col key={index} className="" style={{ maxWidth: "185px" }}>
+          <Col key={index} style={{ maxWidth: "185px" }}>
             <div
               className="position-relative w-100"
               style={{ aspectRatio: "185 / 120" }}
@@ -28,9 +28,11 @@ const ProductList = () => {
             <p className="p-2 m-0 text-center text-darkblue fw-bold">
               Product name
             </p>
-            <FormSelect className="text-textgrey">
-              <option>選擇顏色</option>
-            </FormSelect>
+            <div className="hstack justify-content-around">
+              {[...new Array(5)].map((_, colorIndex) => (
+                <ColorRadio key={colorIndex} id={colorIndex + 1} name={`color_${index}`} />
+              ))}
+            </div>
             <div className="flex-center fw-bold text-checkboxblue py-2">
               <div className="cursor-pointer">
                 <Cross />

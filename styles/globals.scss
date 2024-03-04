@@ -74,6 +74,11 @@
   border-radius: 0.15rem;
 }
 
+.form-check-input:active {
+  filter: none;
+  background-color: transparent;
+}
+
 .form-check-input:focus {
   box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
 }

@@ -72,7 +72,7 @@ const SearchPannel = () => {
           <Col>
             <Stars
               name={"block"}
-              className="ps-2 uni-height border rounded-2"
+              className="ps-2 uni-height "
             />
           </Col>
         </Row>
@@ -81,7 +81,7 @@ const SearchPannel = () => {
             <span>吸音效果</span>
           </TitleCol>
           <Col>
-            <Stars name={"mute"} className="ps-2 uni-height border rounded-2" />
+            <Stars name={"mute"} className="ps-2 uni-height" />
           </Col>
         </Row>
       </Form>
