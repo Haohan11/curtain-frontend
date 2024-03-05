@@ -61,6 +61,7 @@ const ProductCard = ({
   deletable,
   sticky,
 }) => {
+  const handledelete = event => event.preventDefault()
   return (
     <Accordion
       key={`pc_${dynamic}_${index}`}
@@ -68,7 +69,7 @@ const ProductCard = ({
     >
       {dynamic ? (
         <FormLabel
-          className={`w-100 cursor-pointer ${
+          className={`w-100 ${checkable && "cursor-pointer"} ${
             sticky && stickyClassName
           } ${cardHeadClassName}`}
           style={cardHeadStyle}
@@ -87,7 +88,7 @@ const ProductCard = ({
             )}
             {product_name}
             <FoldButton eventKey="0" className="ms-auto cursor-pointer" />
-            {deletable && <TrashCan className="ms-2 text-red cursor-pointer" />}
+            {deletable && <TrashCan className="ms-2 text-red cursor-pointer" onClick={handledelete} />}
           </div>
         </FormLabel>
       ) : (

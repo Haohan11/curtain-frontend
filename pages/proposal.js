@@ -134,115 +134,115 @@ const mockCombinationData = [
       },
     ],
   },
-  // {
-  //   combination_name: "提案組合C",
-  //   image: "/image/yellow_room.jpg",
-  //   env_name: "廚房",
-  //   created_at: "2024/1/11 15:23",
-  //   data: [
-  //     {
-  //       product_name: "Product name",
-  //       model: "product model",
-  //       series: "product series",
-  //       colors: [
-  //         {
-  //           name: "海藻",
-  //           image_url: "/color_check/blue.jpg",
-  //           id: 0,
-  //         },
-  //         {
-  //           name: "板木",
-  //           image_url: "/color_check/brown.jpg",
-  //           id: 1,
-  //         },
-  //         {
-  //           name: "海苔",
-  //           image_url: "/color_check/green.jpg",
-  //           id: 2,
-  //         },
-  //         {
-  //           name: "蘇丹紅",
-  //           image_url: "/color_check/red.jpg",
-  //           id: 3,
-  //         },
-  //         {
-  //           name: "頁岩",
-  //           image_url: "/color_check/grey.jpg",
-  //           id: 4,
-  //         },
-  //       ],
-  //       description:
-  //         "沉穩素雅設計，妝點室內氣息。 內附調整型掛勾，可調節窗簾長度，自由決定是否露出軌道。並讓擺折曲線更加美觀。",
-  //       material: "product material",
-  //       absorption_rate: "5",
-  //       blocking_rate: "2",
-  //     },
-  //     {
-  //       product_name: "Premium Chair",
-  //       model: "PCH-2000",
-  //       series: "Luxury Collection",
-  //       colors: [
-  //         {
-  //           name: "Royal Blue",
-  //           image_url: "/color_check/blue.jpg",
-  //           id: 0,
-  //         },
-  //         {
-  //           name: "Velvet Red",
-  //           image_url: "/color_check/red.jpg",
-  //           id: 1,
-  //         },
-  //         {
-  //           name: "Ebony Black",
-  //           image_url: "/color_check/green.jpg",
-  //           id: 2,
-  //         },
-  //         {
-  //           name: "Champagne Gold",
-  //           image_url: "/color_check/brown.jpg",
-  //           id: 3,
-  //         },
-  //       ],
-  //       description:
-  //         "Experience unparalleled comfort and style with our Premium Chair from the Luxury Collection. The sophisticated design enhances any interior, and the adjustable hanging hooks allow you to customize the curtain length, revealing or concealing the track as desired.",
-  //       material: "High-quality Upholstery",
-  //       absorption_rate: "4",
-  //       blocking_rate: "3",
-  //     },
-  //     {
-  //       product_name: "Premium Chair",
-  //       model: "PCH-2000",
-  //       series: "Luxury Collection",
-  //       colors: [
-  //         {
-  //           name: "Royal Blue",
-  //           image_url: "/color_check/blue.jpg",
-  //           id: 0,
-  //         },
-  //         {
-  //           name: "Velvet Red",
-  //           image_url: "/color_check/red.jpg",
-  //           id: 1,
-  //         },
-  //         {
-  //           name: "Ebony Black",
-  //           image_url: "/color_check/green.jpg",
-  //           id: 2,
-  //         },
-  //         {
-  //           name: "Champagne Gold",
-  //           image_url: "/color_check/brown.jpg",
-  //           id: 3,
-  //         },
-  //       ],
-  //       description:
-  //         "Experience unparalleled comfort and style with our Premium Chair from the Luxury Collection. The sophisticated design enhances any interior, and the adjustable hanging hooks allow you to customize the curtain length, revealing or concealing the track as desired.",
-  //       material: "High-quality Upholstery",
-  //       absorption_rate: "4",
-  //       blocking_rate: "3",
-  //     },
-  //   ],
-  // },
+  {
+    combination_name: "提案組合C",
+    image: "/image/yellow_room.jpg",
+    env_name: "廚房",
+    created_at: "2024/1/11 15:23",
+    data: [
+      {
+        product_name: "Product name",
+        model: "product model",
+        series: "product series",
+        colors: [
+          {
+            name: "海藻",
+            image_url: "/color_check/blue.jpg",
+            id: 0,
+          },
+          {
+            name: "板木",
+            image_url: "/color_check/brown.jpg",
+            id: 1,
+          },
+          {
+            name: "海苔",
+            image_url: "/color_check/green.jpg",
+            id: 2,
+          },
+          {
+            name: "蘇丹紅",
+            image_url: "/color_check/red.jpg",
+            id: 3,
+          },
+          {
+            name: "頁岩",
+            image_url: "/color_check/grey.jpg",
+            id: 4,
+          },
+        ],
+        description:
+          "沉穩素雅設計，妝點室內氣息。 內附調整型掛勾，可調節窗簾長度，自由決定是否露出軌道。並讓擺折曲線更加美觀。",
+        material: "product material",
+        absorption_rate: "5",
+        blocking_rate: "2",
+      },
+      {
+        product_name: "Premium Chair",
+        model: "PCH-2000",
+        series: "Luxury Collection",
+        colors: [
+          {
+            name: "Royal Blue",
+            image_url: "/color_check/blue.jpg",
+            id: 0,
+          },
+          {
+            name: "Velvet Red",
+            image_url: "/color_check/red.jpg",
+            id: 1,
+          },
+          {
+            name: "Ebony Black",
+            image_url: "/color_check/green.jpg",
+            id: 2,
+          },
+          {
+            name: "Champagne Gold",
+            image_url: "/color_check/brown.jpg",
+            id: 3,
+          },
+        ],
+        description:
+          "Experience unparalleled comfort and style with our Premium Chair from the Luxury Collection. The sophisticated design enhances any interior, and the adjustable hanging hooks allow you to customize the curtain length, revealing or concealing the track as desired.",
+        material: "High-quality Upholstery",
+        absorption_rate: "4",
+        blocking_rate: "3",
+      },
+      {
+        product_name: "Premium Chair",
+        model: "PCH-2000",
+        series: "Luxury Collection",
+        colors: [
+          {
+            name: "Royal Blue",
+            image_url: "/color_check/blue.jpg",
+            id: 0,
+          },
+          {
+            name: "Velvet Red",
+            image_url: "/color_check/red.jpg",
+            id: 1,
+          },
+          {
+            name: "Ebony Black",
+            image_url: "/color_check/green.jpg",
+            id: 2,
+          },
+          {
+            name: "Champagne Gold",
+            image_url: "/color_check/brown.jpg",
+            id: 3,
+          },
+        ],
+        description:
+          "Experience unparalleled comfort and style with our Premium Chair from the Luxury Collection. The sophisticated design enhances any interior, and the adjustable hanging hooks allow you to customize the curtain length, revealing or concealing the track as desired.",
+        material: "High-quality Upholstery",
+        absorption_rate: "4",
+        blocking_rate: "3",
+      },
+    ],
+  },
 ];
 
 const ProposalPage = () => {
@@ -284,10 +284,12 @@ const ProposalPage = () => {
             {mockCombinationData.map((data, index) => (
               <CombinationCard key={index} data={data} />
             ))}
-            <div style={{height: '200px'}}></div>
-            <div className="position-absolute bottom-0 w-100 ms--8 mb--8">
+            <div style={{ height: "250px" }}></div>
+            <div className="position-absolute bottom-0 w-100 ms--8  mb--8">
               <Pagination />
-              <div className="mt-12 flex-center py-8 text-textgrey">{copyrightText}</div>
+              <div className="mt-12 flex-center py-6 text-textgrey">
+                {copyrightText}
+              </div>
             </div>
           </div>
         </div>
