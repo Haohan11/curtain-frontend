@@ -67,13 +67,6 @@ const Navbar = ({ isLogin, login, logout, data: navData }) => {
             isShow={itemsOpen.get("workMenu")}
             setShow={() => toggleOpen("workMenu")}
           />
-          <Image
-            className="rounded-circle me-2"
-            alt="user image"
-            src={"/image/user.jpg"}
-            width={35}
-            height={35}
-          />
           <NavItem
             data={navData["workCenter"]}
             thin
