@@ -1,11 +1,12 @@
 import { useState } from "react";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { Row as BSRow, Col } from "react-bootstrap";
 
 import Navbar from "@/components/navbar";
 import LeftSide from "@/components/leftSide";
-import SearchPannel from "@/components/searchPannel";
+// import SearchPannel from "@/components/searchPannel";
 import ProductList from "@/components/productList";
 
 import addClassName from "@/tool/addClassName";
@@ -14,11 +15,19 @@ import ExportTemplate from "@/components/exportTamplate";
 
 import productData from "@/data/productData";
 import rawNavData from "@/data/navData";
+
+import { getStockData } from "@/tool/request";
+
+const SearchPannel = dynamic(
+  async () => await import("@/components/searchPannel"),
+  { ssr: false }
+);
+
 const navData = rawNavData;
 
 const Row = addClassName(BSRow, "g-0");
 
-export default function Home({ envData }) {
+export default function Home({ stockData, envData }) {
   const [loginState, setLoginState] = useState(true);
   const login = () => setLoginState(true);
   const logout = () => setLoginState(false);
@@ -43,18 +52,20 @@ export default function Home({ envData }) {
         });
     }
 
-    if(item.name === "combination") {
-      item.link = "/proposal"
+    if (item.name === "combination") {
+      item.link = "/proposal";
     }
     return item;
   });
 
-  navData["workCenter"]["items"] = navData["workCenter"]["items"].map((item) => {
-    if(item.name === "myAccount") {
-      item.link = "/account"
+  navData["workCenter"]["items"] = navData["workCenter"]["items"].map(
+    (item) => {
+      if (item.name === "myAccount") {
+        item.link = "/account";
+      }
+      return item;
     }
-    return item;
-  });
+  );
 
   return (
     <>
@@ -64,10 +75,7 @@ export default function Home({ envData }) {
         logout={logout}
         data={navData}
       />
-      <Row
-        className="m-0"
-        style={{ height: "var(--main-section-height)" }}
-      >
+      <Row className="m-0" style={{ height: "var(--main-section-height)" }}>
         <Col sm={3} className="p-0 h-100 overflow-y-auto scroll">
           <LeftSide isLogin={loginState} data={productData} />
         </Col>
@@ -115,9 +123,11 @@ export default function Home({ envData }) {
   );
 }
 
-export async function getStaticProps() {
+export const getStaticProps = async () => {
+  const stockData = (await getStockData({ page: 1, size: 5 })) || [];
   return {
     props: {
+      stockData,
       envData: [
         { label: "客廳", name: "livingroom" },
         { label: "臥室", name: "bedroom" },
@@ -125,4 +135,4 @@ export async function getStaticProps() {
       ],
     },
   };
-}
+};
