@@ -17,13 +17,12 @@ const AuthCodeInput = () => {
             name={`authCode${n}`}
             onKeyDown={(e) => {
               const regex = /^\d$/;
-              if (regex.test(e.key)) return;
-              e.preventDefault();
+              if (!regex.test(e.key)) e.preventDefault();
             }}
             onInput={({ target }) => {
-                const value = target.value
+              const value = target.value;
               if (value === "") return;
-              target.value %= value < 0 ? value : 10
+              target.value %= value < 0 ? value : 10;
               target.blur();
               for (let node of numbers) {
                 if (node.value === "") return node.focus();

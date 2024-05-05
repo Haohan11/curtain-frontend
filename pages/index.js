@@ -7,7 +7,7 @@ import { Row as BSRow, Col } from "react-bootstrap";
 import Navbar from "@/components/navbar";
 import LeftSide from "@/components/leftSide";
 // import SearchPannel from "@/components/searchPannel";
-import ProductList from "@/components/productList";
+import StockList from "@/components/stockList";
 
 import addClassName from "@/tool/addClassName";
 import exportImage from "@/tool/exportImage";
@@ -107,7 +107,7 @@ export default function Home({ stockData, envData }) {
           <SearchPannel />
         </Col>
         <Col className="h-100 overflow-y-auto">
-          <ProductList />
+          <StockList data={stockData} />
         </Col>
       </Row>
       <ExportTemplate
@@ -124,7 +124,8 @@ export default function Home({ stockData, envData }) {
 }
 
 export const getStaticProps = async () => {
-  const stockData = (await getStockData({ page: 1, size: 5 })) || [];
+  const stockData = (await getStockData({ page: 1, size: 5 })) || { total: 0, totalPages: 0, list: [] };
+
   return {
     props: {
       stockData,

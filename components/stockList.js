@@ -5,33 +5,50 @@ import Pagination from "@/components/pagination";
 import ColorRadio from "./input/colorRadio";
 import Cross from "@/icon/cross";
 
-const ProductList = () => {
+import { transImageUrl } from "@/tool/lib";
+
+const StockList = ({ data }) => {
+  const { totalPages, data: list } = data;
+  console.log(data)
+
   return (
     <div className="position-relative h-100" style={{ minHeight: "350px" }}>
       <Row
         className="row-cols-5 pt-3 px-2 g-1 justify-content-evenly mx-auto"
         style={{ maxWidth: "1080px" }}
       >
-        {[...new Array(5)].map((_, index) => (
-          <Col key={index} style={{ maxWidth: "185px" }}>
+        {list.map((item, index) => (
+          <Col key={item.id} style={{ maxWidth: "185px" }}>
             <div
-              className="position-relative w-100"
+              className="position-relative w-100 rounded-3 overflow-hidden"
               style={{ aspectRatio: "185 / 120" }}
             >
               <Image
-                alt="product image"
+                alt="stock image"
+                className="object-fit-cover"
                 sizes="185px"
-                src={"/image/xmas.jpg"}
+                src={
+                  transImageUrl(item.colorList?.[0]?.stock_image) ||
+                  "/image/xmas.jpg"
+                }
                 fill
               />
             </div>
             <p className="p-2 m-0 text-center text-darkblue fw-bold">
-              Product name
+              {item.name ?? "Product Name"}
             </p>
             <div className="hstack justify-content-around">
-              {[...new Array(5)].map((_, colorIndex) => (
-                <ColorRadio key={colorIndex} id={colorIndex + 1} name={`color_${index}`} />
-              ))}
+              {!item.colorList || item.colorList.length === 0 ? (
+                <span className="text-textgrey">目前沒有商品顏色</span>
+              ) : (
+                item.colorList.map((color) => (
+                  <ColorRadio
+                    key={color.id}
+                    // label={color.name}
+                    src={transImageUrl(color.color_image)}
+                  />
+                ))
+              )}
             </div>
             <div className="flex-center fw-bold text-checkboxblue py-2">
               <div className="cursor-pointer">
@@ -42,9 +59,9 @@ const ProductList = () => {
           </Col>
         ))}
       </Row>
-      <Pagination />
+      <Pagination totalPage={totalPages} />
     </div>
   );
 };
 
-export default ProductList;
+export default StockList;

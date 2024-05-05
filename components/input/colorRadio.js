@@ -19,6 +19,7 @@ const ColorRadio = forwardRef(function ColorRadio(
           defaultChecked={defaultChecked}
         />
         <Image
+          className="rounded-1"
           alt="color radio image"
           fill
           sizes="1em"

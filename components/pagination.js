@@ -3,9 +3,11 @@ import { FormControl } from "react-bootstrap";
 import ArrowLeft from "@/icon/arrow-left";
 import ArrowRight from "@/icon/arrow-right";
 
-const pagination = () => {
+import { onlyNumber } from "@/tool/lib";
+
+const pagination = ({ total, totalPage }) => {
   return (
-    <div className="w-100 p-4 fs-6-sm flex-center" >
+    <div className="w-100 p-4 fs-6-sm flex-center">
       <ArrowLeft width={36} className="me-2" />
       <span className="mx-3">1</span>
       <span className="mx-3">2</span>
@@ -17,8 +19,10 @@ const pagination = () => {
         <FormControl
           className="d-inline-block mx-2 text-center text-textgrey rounded-3"
           style={{ height: "45px", width: "48px" }}
+          onKeyDown={onlyNumber}
         />
-        <span>/ 200</span>
+        <span className="me-2">/</span>
+        <span>{totalPage}</span>
       </div>
     </div>
   );

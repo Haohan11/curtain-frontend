@@ -1,7 +1,7 @@
 const BASEURL = process.env.NEXT_PUBLIC_BACKENDURL;
 
 export const getStockData = async ({ page = 1, size = 5 }) => {
-  const URL = `${BASEURL}/stock?page=${page}&size=${size}`;
+  const URL = `${BASEURL}/stock?page=${page}&size=${size}&onlyEnable=`;
   try {
     const res = await fetch(URL);
     if (!res.ok) return false;
