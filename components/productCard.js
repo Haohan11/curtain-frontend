@@ -47,7 +47,7 @@ const ProductCard = ({
   data: {
     id,
     product_name,
-    model,
+    code,
     series,
     colors,
     description,
@@ -107,7 +107,7 @@ const ProductCard = ({
               <Span>型號</Span>
             </Col>
             <Col>
-              <div className="">{model}</div>
+              <div className="">{code}</div>
             </Col>
           </InfoRow>
           <InfoRow>

@@ -21,3 +21,24 @@ export const onlyNumber = (event) => {
     return;
   event.preventDefault();
 };
+
+export const toFormData = (values) => {
+  const formData = new FormData();
+  for (const key in values) {
+    const value = values[key];
+    if (!Array.isArray(value)) {
+      formData.append(key, value);
+      continue;
+    }
+
+    value.forEach((item) => {
+      formData.append(
+        key,
+        typeof item === "object" && !(item instanceof File)
+          ? JSON.stringify(item)
+          : item
+      );
+    });
+  }
+  return formData
+}

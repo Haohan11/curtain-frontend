@@ -2,8 +2,8 @@
   {
     "id": 0,
     "data": {
-      "product_name": "Product name",
-      "model": "product model",
+      "name": "Product name",
+      "code": "product model",
       "series": "product series",
       "colors": [
         {
@@ -41,8 +41,8 @@
   {
     "id": 1,
     "data": {
-      "product_name": "Premium Chair",
-      "model": "PCH-2000",
+      "name": "Premium Chair",
+      "code": "PCH-2000",
       "series": "Luxury Collection",
       "colors": [
         {

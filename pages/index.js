@@ -10,11 +10,11 @@ import LeftSide from "@/components/leftSide";
 import StockList from "@/components/stockList";
 
 import addClassName from "@/tool/addClassName";
-import exportImage from "@/tool/exportImage";
 import ExportTemplate from "@/components/exportTamplate";
 
+import { useCombination } from "@/hook/provider/combinationProvider";
+
 import productData from "@/data/productData";
-import navData from "@/data/navData";
 
 import { getStockData } from "@/tool/request";
 
@@ -30,40 +30,8 @@ export default function Home({ stockData, envData }) {
   const login = () => setLoginState(true);
   const logout = () => setLoginState(false);
 
+  const { combination, setCombination } = useCombination();
   const [env, setEnv] = useState(envData[0]["label"]);
-  const [product, setProduct] = useState(0);
-
-  navData["changeEnv"]["items"] = envData.map((env) => {
-    env.action = () => setEnv(env.label);
-    return env;
-  });
-
-  navData["workMenu"]["items"] = navData["workMenu"]["items"].map((item) => {
-    if (item.name === "exportImage") {
-      item.action = () =>
-        exportImage({
-          env,
-          product: (() => {
-            const { data } = productData.find((data) => data.id === product);
-            return data;
-          })(),
-        });
-    }
-
-    if (item.name === "combination") {
-      item.link = "/proposal";
-    }
-    return item;
-  });
-
-  navData["workCenter"]["items"] = navData["workCenter"]["items"].map(
-    (item) => {
-      if (item.name === "myAccount") {
-        item.link = "/account";
-      }
-      return item;
-    }
-  );
 
   return (
     <>
@@ -71,11 +39,10 @@ export default function Home({ stockData, envData }) {
         isLogin={loginState}
         login={login}
         logout={logout}
-        data={navData}
       />
       <Row className="m-0" style={{ height: "var(--main-section-height)" }}>
         <Col sm={3} className="p-0 h-100 overflow-y-auto scroll">
-          <LeftSide isLogin={loginState} data={productData} />
+          <LeftSide isLogin={loginState} data={combination.stockList} />
         </Col>
         <Col className="p-0 bg-linegrey">
           <div className="position-relative h-100">

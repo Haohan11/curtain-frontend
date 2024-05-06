@@ -6,14 +6,13 @@ import Logo from "@/icon/logoWhiteSvg";
 import ReturnButton from "@/components/returnButton";
 import CombinationCard from "@/components/combinationCard";
 import Pagination from "@/components/pagination";
-import Cross from "@/icon/cross";
 import Search from "@/icon/search";
 
 import copyrightText from "@/data/copyrightText";
 
 const mockCombinationData = [
   {
-    combination_name: "提案組合A",
+    combination_name: "組合A",
     image: "/image/dark_room.jpg",
     env_name: "客廳",
     created_at: "2024/1/11 15:23",
@@ -90,7 +89,7 @@ const mockCombinationData = [
     ],
   },
   {
-    combination_name: "提案組合B",
+    combination_name: "組合B",
     image: "/image/white_room.jpg",
     env_name: "臥室",
     created_at: "2024/1/11 15:23",
@@ -135,7 +134,7 @@ const mockCombinationData = [
     ],
   },
   {
-    combination_name: "提案組合C",
+    combination_name: "組合C",
     image: "/image/yellow_room.jpg",
     env_name: "廚房",
     created_at: "2024/1/11 15:23",
@@ -268,7 +267,7 @@ const ProposalPage = () => {
           <div className="position-relative p-8" style={{ minHeight: "85vh" }}>
             <div className="hstack justify-content-between">
               <span className="fs-1-sm fw-bold text-darkblue">
-                我的提案組合
+                我的組合
               </span>
               <div style={{ width: "300px" }} className="position-relative">
                 <FormInput placeholder="搜尋" className="pe-8" />

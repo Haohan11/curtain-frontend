@@ -6,7 +6,7 @@ import ProductCard from "@/components/productCard";
 import SubmitButton from "@/components/input/submitButton";
 
 const mockCombinationData = {
-  combination_name: "提案組合A",
+  combination_name: "組合A",
   image: "/image/dark_room.jpg",
   env_name: "客廳",
   created_at: "2024/1/11 15:23",
@@ -110,14 +110,14 @@ const CombinationCard = ({ data = mockCombinationData }) => {
               </div>
               <div className="text-textgrey">
                 <span className="d-inline-block" style={{ width: "90px" }}>
-                  提案場景
+                  組合場景
                 </span>
                 <span className="text-darkblue fw-bold">{data.env_name}</span>
               </div>
             </div>
             <div className="ms-auto flex-center align-self-start">
               <SubmitButton type="button" className="px-9">
-                開啟提案
+                開啟組合
               </SubmitButton>
               <div className="ms-6 me-4 text-red cursor-pointer">
                 <TrashCan />

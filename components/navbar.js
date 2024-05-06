@@ -1,15 +1,16 @@
 import { useState } from "react";
 
-import Image from "next/image";
 import Link from "next/link";
+
 import Leave from "@/icon/leave";
 import Logo from "@/icon/logoSvg";
-
 import User from "@/icon/user";
 import { Form, FormControl } from "react-bootstrap";
+
 import NavItem from "@/components/navItem";
+import navData from "@/data/navData";
 
-
+import { useCombination } from "@/hook/provider/combinationProvider";
 
 const Bar = () => (
   <span
@@ -18,7 +19,9 @@ const Bar = () => (
   ></span>
 );
 
-const Navbar = ({ isLogin, login, logout, data: navData }) => {
+const Navbar = ({ isLogin, login, logout }) => {
+  const { combination } = useCombination()
+
   const getItemsInit = () =>
     new Map(Object.keys(navData).map((name) => [name, false]));
 
@@ -40,10 +43,10 @@ const Navbar = ({ isLogin, login, logout, data: navData }) => {
           <span className="fw-bold ms-10">展示模式</span>
           <Form.Switch className="ms-4 fs-1 model-switch"></Form.Switch>
           <Bar />
-          <span className="fw-bold">目前提案</span>
+          <span className="fw-bold">當前組合</span>
           <FormControl
             className="ms-4 w-25 text-darkblue text-indent-5 uni-height fs-6-sm"
-            defaultValue="未命名"
+            defaultValue={combination.name}
           />
           <NavItem
             data={navData["operation"]}
