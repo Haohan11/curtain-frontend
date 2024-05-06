@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import Link from "next/link";
 
@@ -8,7 +8,9 @@ import User from "@/icon/user";
 import { Form, FormControl } from "react-bootstrap";
 
 import NavItem from "@/components/navItem";
-import navData from "@/data/navData";
+import exportImage from "@/tool/exportImage";
+
+import { createCombination } from "@/tool/request";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
 
@@ -19,8 +21,53 @@ const Bar = () => (
   ></span>
 );
 
-const Navbar = ({ isLogin, login, logout }) => {
-  const { combination } = useCombination()
+const Navbar = ({ isLogin, login, logout, envData, envId, setEnvId }) => {
+  const { combination } = useCombination();
+  const combName = useRef(combination.name);
+
+  const getHandledCombData = () => ({
+    user_id: combination.user_id,
+    id: combination.id,
+    environment_id: envId,
+    name: combName.current,
+    stockList: JSON.stringify(combination.stockList.map((stock) => stock.id)),
+  });
+
+  const navData = {
+    operation: {
+      navText: "操作",
+      items: [
+        { label: "新增組合", action: () => console.log(this?.setShow) },
+        { label: "儲存組合", action: async () => {
+          const result = await createCombination(getHandledCombData())
+          if(result === false) console.log("Fail to create combination.")
+        } },
+        { label: "另存組合" },
+      ],
+    },
+    changeEnv: {
+      navText: (() => {
+        const { name } = envData.find((env) => env.id === envId);
+        return name || "變更環境";
+      })(),
+      items: envData.map((env) => ({
+        ...env,
+        label: env.name,
+        action: () => setEnvId(env.id),
+      })),
+    },
+    workMenu: {
+      navText: "工作選單",
+      items: [
+        { label: "我的組合", name: "combination", link: "/combination" },
+        { label: "匯出圖檔", name: "exportImage", action: exportImage },
+      ],
+    },
+    workCenter: {
+      navText: "工作中心",
+      items: [{ label: "我的帳號", name: "myAccount", link: "/account" }],
+    },
+  };
 
   const getItemsInit = () =>
     new Map(Object.keys(navData).map((name) => [name, false]));
@@ -47,6 +94,7 @@ const Navbar = ({ isLogin, login, logout }) => {
           <FormControl
             className="ms-4 w-25 text-darkblue text-indent-5 uni-height fs-6-sm"
             defaultValue={combination.name}
+            onInput={(e) => (combName.current = e.target.value)}
           />
           <NavItem
             data={navData["operation"]}

@@ -23,15 +23,7 @@ const ColorRadio = forwardRef(function ColorRadio(
           alt="color radio image"
           fill
           sizes="1em"
-          src={
-            src ||
-            `/color_check/${
-              (id % 2 === 0 && "red") ||
-              (id % 3 === 0 && "green") ||
-              (id % 5 === 0 && "blue") ||
-              "brown"
-            }.jpg`
-          }
+          src={src || "/color_check/brown.jpg"}
         />
       </FormCheck>
       {label && (

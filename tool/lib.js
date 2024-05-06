@@ -2,7 +2,7 @@ export const toArray = (target) => (Array.isArray(target) ? target : [target]);
 
 export const transImageUrl = (path) =>
   typeof path === "string"
-    ? `${process.env.NEXT_PUBLIC_BACKENDURL}/${path.replace(/\\/g, "/")}`
+    ? `${process.env.NEXT_PUBLIC_BACKENDURL}${path.replace(/\\/g, "/")}`
     : "";
 
 export const onlyNumber = (event) => {

@@ -8,7 +8,7 @@ const mockAuthor = {
   create_id: "admin",
   modify_name: "han",
   modify_id: "admin",
-}
+};
 
 export const getStockData = async ({ page = 1, size = 5 }) => {
   const URL = `${BASEURL}/stock?page=${page}&size=${size}&onlyEnable=`;
@@ -26,23 +26,39 @@ export const getStockData = async ({ page = 1, size = 5 }) => {
   }
 };
 
+export const getEnvironmentData = async () => {
+  const URL = `${BASEURL}/environment?onlyEnable=`;
+
+  try {
+    const res = await fetch(URL);
+    if (!res.ok) return false;
+
+    const {
+      data: { list },
+    } = await res.json();
+    return list;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 export const createCombination = async (values) => {
   const URL = `${BASEURL}/combination`;
 
-  Object.assign(values, mockAuthor)
-  const formData = toFormData(values)
+  Object.assign(values, mockAuthor);
+  const formData = toFormData(values);
 
   try {
     const res = await fetch(URL, {
       method: "POST",
       body: formData,
     });
-    if(!res.ok) return false
+    if (!res.ok) return false;
     const result = await res.json();
-    return result.status
+    return result.status;
   } catch (error) {
     console.log("Create combination error:", error);
     return false;
   }
-
-}
+};
