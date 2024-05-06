@@ -14,6 +14,7 @@ import ExportTemplate from "@/components/exportTamplate";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
 
+// current only ref by exportTemplate
 import productData from "@/data/productData";
 
 import { getStockData } from "@/tool/request";
@@ -32,6 +33,43 @@ export default function Home({ stockData, envData }) {
 
   const { combination, setCombination } = useCombination();
   const [env, setEnv] = useState(envData[0]["label"]);
+
+  // current select stock id
+  const [product, setProduct] = useState(0);
+
+  // navdata :: handle navdata bellow
+  // navData["changeEnv"]["items"] = envData.map((env) => {
+  //   env.action = () => setEnv(env.label);
+  //   return env;
+  // });
+
+  // navData["workMenu"]["items"] = navData["workMenu"]["items"].map((item) => {
+  //   if (item.name === "exportImage") {
+  //     item.action = () =>
+  //       exportImage({
+  //         env,
+  //         product: (() => {
+  //           const { data } = productData.find((data) => data.id === product);
+  //           return data;
+  //         })(),
+  //       });
+  //   }
+
+  //   if (item.name === "combination") {
+  //     item.link = "/proposal";
+  //   }
+  //   return item;
+  // });
+
+  // navData["workCenter"]["items"] = navData["workCenter"]["items"].map(
+  //   (item) => {
+  //     if (item.name === "myAccount") {
+  //       item.link = "/account";
+  //     }
+  //     return item;
+  //   }
+  // );
+  // navdata :: handle navdata above
 
   return (
     <>

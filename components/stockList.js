@@ -7,8 +7,20 @@ import Cross from "@/icon/cross";
 
 import { transImageUrl } from "@/tool/lib";
 
+import { useCombination } from "@/hook/provider/combinationProvider";
+
 const StockList = ({ data }) => {
   const { totalPages, data: list } = data;
+  const { combination, setCombination } = useCombination();
+
+  const addToCombination = (stock) => {
+    if (combination.stockIdCache.has(stock.id)) return;
+    setCombination((prev) => ({
+      ...prev,
+      stockIdCache: prev.stockIdCache.add(stock.id),
+      stockList: [...prev.stockList, stock],
+    }));
+  };
 
   return (
     <div className="position-relative h-100" style={{ minHeight: "350px" }}>
@@ -51,7 +63,10 @@ const StockList = ({ data }) => {
               )}
             </div>
             <div className="flex-center fw-bold text-checkboxblue py-2">
-              <div className="cursor-pointer">
+              <div
+                className="cursor-pointer"
+                onClick={() => addToCombination(item)}
+              >
                 <Cross />
                 <span className="fs-6-sm ms-2">加入組合</span>
               </div>

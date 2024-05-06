@@ -13,10 +13,10 @@ const LeftSide = ({ isLogin, data: stockList }) => {
           <span className="text-textgrey">組合內沒有商品</span>
         </div>
       ) : (
-        stockList.map(({ data, id }, index) => (
-          <div key={id} className="border-bottom">
+        stockList.map((stock, index) => (
+          <div key={stock.id} className="border-bottom">
             <ProductCard
-              data={{ ...data, id, index }}
+              data={{ ...stock, index }}
               dynamic={isLogin}
               deletable={isLogin}
               checkable={isLogin}

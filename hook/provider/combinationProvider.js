@@ -7,7 +7,8 @@ export const CombinationProvider = ({ children }) => {
     id: null,
     environment_id: null,
     name: "未命名",
-    stockList: []
+    stockList: [],
+    stockIdCache: new Set()
   });
 
   return (

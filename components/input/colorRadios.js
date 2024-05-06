@@ -1,60 +1,42 @@
 import { Row, Col } from "react-bootstrap";
 import ColorRadio from "@/components/input/colorRadio";
 
+import { transImageUrl } from "@/tool/lib";
+
 const mockColorsData = [
   {
     name: "海藻",
-    image_url: "/color_check/blue.jpg",
+    color_image: "/color_check/blue.jpg",
     id: 0,
   },
   {
     name: "板木",
-    image_url: "/color_check/brown.jpg",
+    color_image: "/color_check/brown.jpg",
     id: 1,
   },
   {
     name: "海苔",
-    image_url: "/color_check/green.jpg",
+    color_image: "/color_check/green.jpg",
     id: 2,
   },
   {
     name: "蘇丹紅",
-    image_url: "/color_check/red.jpg",
+    color_image: "/color_check/red.jpg",
     id: 3,
   },
   {
     name: "頁岩",
-    image_url: "/color_check/grey.jpg",
+    color_image: "/color_check/grey.jpg",
     id: 4,
   },
-//   {
-//     name: "Royal Blue",
-//     image_url: "/color_check/blue.jpg",
-//     id: 5,
-//   },
-//   {
-//     name: "Velvet Red",
-//     image_url: "/color_check/red.jpg",
-//     id: 6,
-//   },
-//   {
-//     name: "Ebony Black",
-//     image_url: "/color_check/green.jpg",
-//     id: 7,
-//   },
-//   {
-//     name: "Champagne Gold",
-//     image_url: "/color_check/brown.jpg",
-//     id: 8,
-//   },
 ];
 
 const ColorRadios = ({ colors = mockColorsData }) => {
   return (
     <Row className="row-cols-3 row-cols-xxl-5">
-      {colors.map(({ id, name, image_url }, index) => (
+      {colors.map(({ id, name, color_image }, index) => (
         <Col className="p-0" key={id || index}>
-          <ColorRadio id={id} name={"color"} label={name} src={image_url} />
+          <ColorRadio id={id} name={"color"} label={name} src={transImageUrl(color_image)} />
         </Col>
       ))}
     </Row>

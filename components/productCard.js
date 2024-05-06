@@ -20,6 +20,9 @@ import AddCube from "@/icon/add-border";
 import Curtain from "@/icon/curtain";
 
 import addClassName from "@/tool/addClassName";
+import { toArray } from "@/tool/lib";
+
+import { useCombination } from "@/hook/provider/combinationProvider";
 
 const Span = addClassName(CompDiv, "d-inline text-textgrey");
 const InfoRow = addClassName(Row, "g-0 pb-2");
@@ -31,7 +34,7 @@ const stickyClassName = "position-sticky bg-white z-1 rounded-3";
 
 const FoldButton = ({ eventKey, ...props }) => {
   const fold = useAccordionButton(eventKey, (event) => {
-    event.preventDefault()
+    event.preventDefault();
   });
   const { activeEventKey } = useContext(AccordionContext);
 
@@ -45,26 +48,35 @@ const FoldButton = ({ eventKey, ...props }) => {
 
 const ProductCard = ({
   data: {
+    name,
     id,
-    product_name,
-    code,
-    series,
-    colors,
-    description,
-    material,
-    blocking_rate,
-    absorption_rate,
     index,
+    code,
+    series: { name: series },
+    material,
+    colorList,
+    description,
+    absorption,
+    block,
   },
   dynamic,
   checkable,
   deletable,
   sticky,
 }) => {
-  const handledelete = event => event.preventDefault()
+  const { setCombination } = useCombination();
+  const removeFromCombination = () => {
+    setCombination((prev) => {
+      prev.stockIdCache.delete(id);
+      return {
+        ...prev,
+        stockList: prev.stockList.filter((stock) => stock.id !== id),
+      };
+    });
+  };
   return (
     <Accordion
-      key={`pc_${dynamic}_${index}`}
+      key={`pc_${dynamic}_${id}`}
       defaultActiveKey={index === 0 || !dynamic ? "0" : undefined}
     >
       {dynamic ? (
@@ -86,9 +98,14 @@ const ProductCard = ({
             ) : (
               <Curtain className="me-2 text-linegrey" />
             )}
-            {product_name}
+            {name}
             <FoldButton eventKey="0" className="ms-auto cursor-pointer" />
-            {deletable && <TrashCan className="ms-2 text-red cursor-pointer" onClick={handledelete} />}
+            {deletable && (
+              <TrashCan
+                className="ms-2 text-red cursor-pointer"
+                onClick={removeFromCombination}
+              />
+            )}
           </div>
         </FormLabel>
       ) : (
@@ -96,7 +113,7 @@ const ProductCard = ({
           className={`${sticky && stickyClassName} ${cardHeadClassName}`}
           style={cardHeadStyle}
         >
-          <p className={cardTitleClassName}>{product_name}</p>
+          <p className={cardTitleClassName}>{name}</p>
         </div>
       )}
       <Accordion.Collapse eventKey="0">
@@ -123,23 +140,31 @@ const ProductCard = ({
               <Span>顏色</Span>
             </Col>
             <Col>
-              <ColorRadios colors={colors} />
+              <ColorRadios colors={colorList} />
             </Col>
           </InfoRow>
-          <InfoRow>
-            <Col sm={4}>
-              <Span>描述</Span>
-            </Col>
-            <Col>
-              <div>{description}</div>
-            </Col>
-          </InfoRow>
+          {description && (
+            <InfoRow>
+              <Col sm={4}>
+                <Span>描述</Span>
+              </Col>
+              <Col>
+                <div>{description}</div>
+              </Col>
+            </InfoRow>
+          )}
           <InfoRow>
             <Col sm={4}>
               <Span>面料材質</Span>
             </Col>
             <Col>
-              <div>{material}</div>
+              <div>
+                {toArray(material).reduce(
+                  (text, item, index) =>
+                    `${text}${index === 0 ? "" : "，"}${item.name}`,
+                  ""
+                )}
+              </div>
             </Col>
           </InfoRow>
           <InfoRow>
@@ -147,7 +172,7 @@ const ProductCard = ({
               <Span>遮光效果</Span>
             </Col>
             <Col>
-              <Stars number={absorption_rate} />
+              <Stars number={block} />
             </Col>
           </InfoRow>
           <InfoRow>
@@ -155,7 +180,7 @@ const ProductCard = ({
               <Span>吸音效果</Span>
             </Col>
             <Col>
-              <Stars number={blocking_rate} />
+              <Stars number={absorption} />
             </Col>
           </InfoRow>
         </div>
