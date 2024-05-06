@@ -9,7 +9,6 @@ import { transImageUrl } from "@/tool/lib";
 
 const StockList = ({ data }) => {
   const { totalPages, data: list } = data;
-  console.log(data)
 
   return (
     <div className="position-relative h-100" style={{ minHeight: "350px" }}>
@@ -20,7 +19,7 @@ const StockList = ({ data }) => {
         {list.map((item, index) => (
           <Col key={item.id} style={{ maxWidth: "185px" }}>
             <div
-              className="position-relative w-100 rounded-3 overflow-hidden"
+              className="position-relative w-100 rounded-3 overflow-hidden shadow-sm"
               style={{ aspectRatio: "185 / 120" }}
             >
               <Image
@@ -44,6 +43,7 @@ const StockList = ({ data }) => {
                 item.colorList.map((color) => (
                   <ColorRadio
                     key={color.id}
+                    name={item.id}
                     // label={color.name}
                     src={transImageUrl(color.color_image)}
                   />

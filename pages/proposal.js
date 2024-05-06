@@ -264,10 +264,6 @@ const ProposalPage = () => {
         <div className="vh-100 position-relative overflow-y-auto">
           <div className="position-sticky top-0 z-2 p-6 flex-center justify-content-between border-bottom bg-white">
             <ReturnButton href={"/"} />
-            <div className="flex-center text-textblue cursor-pointer">
-              <Cross />
-              <span className="ms-2">新增提案組合</span>
-            </div>
           </div>
           <div className="position-relative p-8" style={{ minHeight: "85vh" }}>
             <div className="hstack justify-content-between">

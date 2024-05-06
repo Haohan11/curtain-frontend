@@ -17,9 +17,11 @@ const pagination = ({ total, totalPage }) => {
       <div className="position-absolute end-0 pe-6 text-textblue">
         <span>選擇頁數</span>
         <FormControl
-          className="d-inline-block mx-2 text-center text-textgrey rounded-3"
-          style={{ height: "45px", width: "48px" }}
+          className="d-inline-block mx-2 text-center text-textgrey rounded-3 fs-6-sm"
+          style={{ height: "38px", width: "42px" }}
           onKeyDown={onlyNumber}
+          defaultValue={1}
+          disabled
         />
         <span className="me-2">/</span>
         <span>{totalPage}</span>

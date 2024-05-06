@@ -14,7 +14,7 @@ import exportImage from "@/tool/exportImage";
 import ExportTemplate from "@/components/exportTamplate";
 
 import productData from "@/data/productData";
-import rawNavData from "@/data/navData";
+import navData from "@/data/navData";
 
 import { getStockData } from "@/tool/request";
 
@@ -22,8 +22,6 @@ const SearchPannel = dynamic(
   async () => await import("@/components/searchPannel"),
   { ssr: false }
 );
-
-const navData = rawNavData;
 
 const Row = addClassName(BSRow, "g-0");
 
