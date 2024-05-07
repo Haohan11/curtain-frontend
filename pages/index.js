@@ -2,6 +2,7 @@ import { useState } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Row as BSRow, Col } from "react-bootstrap";
+import { signOut, getSession } from "next-auth/react";
 
 import Navbar from "@/components/navbar";
 import LeftSide from "@/components/leftSide";
@@ -27,7 +28,8 @@ const Row = addClassName(BSRow, "g-0");
 export default function Home({ stockData, envData }) {
   const [loginState, setLoginState] = useState(true);
   const login = () => setLoginState(true);
-  const logout = () => setLoginState(false);
+  // const logout = () => setLoginState(false);
+  const logout = () => signOut({ callbackUrl: "/login" });;
 
   const { combination, setCombination } = useCombination();
   const [envId, setEnvId] = useState(combination.environment_id ?? envData[0]["id"])
@@ -94,13 +96,37 @@ export default function Home({ stockData, envData }) {
   );
 }
 
-export const getStaticProps = async () => {
-  const stockData = (await getStockData({ page: 1, size: 5 })) || {
+// export const getStaticProps = async () => {
+//   const stockData = (await getStockData({ page: 1, size: 5 })) || {
+//     total: 0,
+//     totalPages: 0,
+//     list: [],
+//   };
+//   const envData = (await getEnvironmentData()) || [];
+
+//   return {
+//     props: {
+//       stockData,
+//       envData,
+//     },
+//   };
+// };
+
+export const getServerSideProps = async (context) => {
+  const session = await getSession(context)
+  console.log("index session: ",session);
+  if (!session) {
+      return {
+        redirect: { destination: "/login" },
+      };
+  }
+  const accessToken = session.user.accessToken;
+  const stockData = (await getStockData({ accessToken, page: 1, size: 5 })) || {
     total: 0,
     totalPages: 0,
     list: [],
   };
-  const envData = (await getEnvironmentData()) || [];
+  const envData = (await getEnvironmentData(accessToken)) || [];
 
   return {
     props: {
@@ -108,4 +134,4 @@ export const getStaticProps = async () => {
       envData,
     },
   };
-};
+}

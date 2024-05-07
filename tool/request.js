@@ -10,10 +10,14 @@ const mockAuthor = {
   modify_id: "admin",
 };
 
-export const getStockData = async ({ page = 1, size = 5 }) => {
+export const getStockData = async ({ token, page = 1, size = 5 }) => {
   const URL = `${BASEURL}/stock?page=${page}&size=${size}&onlyEnable=`;
   try {
-    const res = await fetch(URL);
+    const res = await fetch(URL, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+    });
     if (!res.ok) return false;
 
     const {
@@ -26,11 +30,14 @@ export const getStockData = async ({ page = 1, size = 5 }) => {
   }
 };
 
-export const getEnvironmentData = async () => {
+export const getEnvironmentData = async (token) => {
   const URL = `${BASEURL}/environment?onlyEnable=`;
-
   try {
-    const res = await fetch(URL);
+    const res = await fetch(URL, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+    });
     if (!res.ok) return false;
 
     const {
