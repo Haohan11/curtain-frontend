@@ -32,13 +32,13 @@ export default function Home({ stockData, envData }) {
 
   const { combination, setCombination } = useCombination();
   const [envId, setEnvId] = useState(
-    combination.environment_id ?? envData[0].id
+    combination.environment_id ?? envData?.[0]?.id
   );
   const {
     name: envName,
     env_image,
     mask_image,
-  } = envData.find((env) => env.id === envId);
+  } = envData.find((env) => env.id === envId) ?? {};
 
   const [currentSelect, setCurrentSelect] = useState({
     stock: combination.stockList?.[0] || stockData.data?.[0] || null,
@@ -92,7 +92,9 @@ export default function Home({ stockData, envData }) {
               <Image
                 alt="mask image"
                 className="object-fit-cover"
+                priority
                 fill
+                sizes="70vw"
                 src={transImageUrl(color_image) || "/image/livingroom.jpg"}
                 style={{
                   maskImage: `url('${transImageUrl(mask_image)}')`,

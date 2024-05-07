@@ -69,3 +69,23 @@ export const createCombination = async (values) => {
     return false;
   }
 };
+
+export const getCombinations = async (token) => {
+  const URL = `${BASEURL}/combination`;
+
+  try {
+    const res = await fetch(URL, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+    });
+    if (!res.ok) return false;
+    const {
+      data: { total, totalPages, list },
+    } = await res.json();
+    return { total, totalPages, list };
+  } catch (error) {
+    console.log("Failed to get combination:", error);
+    return false;
+  }
+};

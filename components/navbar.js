@@ -22,8 +22,11 @@ const Bar = () => (
 );
 
 const Navbar = ({ isLogin, login, logout, envData, envId, setEnvId }) => {
-  const { combination } = useCombination();
+  const { combination, resetCombination } = useCombination();
   const combName = useRef(combination.name);
+
+  // for force name input reRender
+  const [nameKey, setNameKey] = useState(0)
 
   const getHandledCombData = () => ({
     user_id: combination.user_id,
@@ -38,16 +41,21 @@ const Navbar = ({ isLogin, login, logout, envData, envId, setEnvId }) => {
       navText: "操作",
       items: [
         { label: "新增組合", action: () => console.log(this?.setShow) },
-        { label: "儲存組合", action: async () => {
-          const result = await createCombination(getHandledCombData())
-          if(result === false) console.log("Fail to create combination.")
-        } },
+        {
+          label: "儲存組合",
+          action: async () => {
+            const result = await createCombination(getHandledCombData());
+            if(result === false) return console.log("Fail to create combination.");
+            resetCombination();
+            setNameKey(prev => prev + 1)
+          },
+        },
         { label: "另存組合" },
       ],
     },
     changeEnv: {
       navText: (() => {
-        const { name } = envData.find((env) => env.id === envId);
+        const { name } = envData.find((env) => env.id === envId) ?? {};
         return name || "變更環境";
       })(),
       items: envData.map((env) => ({
@@ -92,6 +100,7 @@ const Navbar = ({ isLogin, login, logout, envData, envId, setEnvId }) => {
           <Bar />
           <span className="fw-bold">當前組合</span>
           <FormControl
+            key={`${nameKey}`}
             className="ms-4 w-25 text-darkblue text-indent-5 uni-height fs-6-sm"
             defaultValue={combination.name}
             onInput={(e) => (combName.current = e.target.value)}

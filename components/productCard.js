@@ -121,7 +121,7 @@ const ProductCard = ({
             ) : (
               <Curtain className="me-2 text-linegrey" />
             )}
-            {name}
+            {name || "Product Name"}
             <FoldButton eventKey="0" className="ms-auto cursor-pointer" />
             {deletable && (
               <TrashCan
@@ -136,7 +136,7 @@ const ProductCard = ({
           className={`${sticky && stickyClassName} ${cardHeadClassName}`}
           style={cardHeadStyle}
         >
-          <p className={cardTitleClassName}>{name}</p>
+          <p className={cardTitleClassName}>{name || "Product Name"}</p>
         </div>
       )}
       <Accordion.Collapse eventKey="0">

@@ -8,6 +8,9 @@ import CombinationCard from "@/components/combinationCard";
 import Pagination from "@/components/pagination";
 import Search from "@/icon/search";
 
+import { getCombinations } from "@/tool/request";
+import { useSession } from "next-auth/react";
+
 import copyrightText from "@/data/copyrightText";
 
 const mockCombinationData = [
@@ -244,7 +247,9 @@ const mockCombinationData = [
   },
 ];
 
-const ProposalPage = () => {
+const CombinationPage = () => {
+  const { data } = useSession();
+
   return (
     <Row className="g-0">
       <Col sm={"auto"} className="d-none d-md-block">
@@ -266,7 +271,14 @@ const ProposalPage = () => {
           </div>
           <div className="position-relative p-8" style={{ minHeight: "85vh" }}>
             <div className="hstack justify-content-between">
-              <span className="fs-1-sm fw-bold text-darkblue">
+              <span
+                className="fs-1-sm fw-bold text-darkblue"
+                onClick={async () => {
+                  if (!data?.user?.accessToken) return;
+                  const result = await getCombinations(data.user.accessToken);
+                  console.log(result);
+                }}
+              >
                 我的組合
               </span>
               <div style={{ width: "300px" }} className="position-relative">
@@ -293,4 +305,4 @@ const ProposalPage = () => {
   );
 };
 
-export default ProposalPage;
+export default CombinationPage;
