@@ -6,7 +6,6 @@ import { signOut, getSession } from "next-auth/react";
 
 import Navbar from "@/components/navbar";
 import LeftSide from "@/components/leftSide";
-// import SearchPannel from "@/components/searchPannel";
 import StockList from "@/components/stockList";
 import ExportTemplate from "@/components/exportTamplate";
 
@@ -32,9 +31,23 @@ export default function Home({ stockData, envData }) {
   const logout = () => signOut({ callbackUrl: "/login" });;
 
   const { combination, setCombination } = useCombination();
-  const [envId, setEnvId] = useState(combination.environment_id ?? envData[0]["id"])
+  const [envId, setEnvId] = useState(
+    combination.environment_id ?? envData[0].id
+  );
+  const {
+    name: envName,
+    env_image,
+    mask_image,
+  } = envData.find((env) => env.id === envId);
 
-  const { name: envName, env_image } = envData.find(env => env.id === envId)
+  const [currentSelect, setCurrentSelect] = useState({
+    stock: combination.stockList?.[0] || stockData.data?.[0] || null,
+    colorIndex: 0,
+    getColorImage() {
+      return this.stock?.colorList?.[this.colorIndex ?? 0]?.color_image;
+    },
+  });
+  const color_image = currentSelect.getColorImage();
 
   // current select stock id
   const [product, setProduct] = useState(0);
@@ -53,19 +66,41 @@ export default function Home({ stockData, envData }) {
       />
       <Row className="m-0" style={{ height: "var(--main-section-height)" }}>
         <Col sm={3} className="p-0 h-100 overflow-y-auto scroll">
-          <LeftSide isLogin={loginState} data={combination.stockList} />
+          <LeftSide
+            isLogin={loginState}
+            data={combination.stockList}
+            setCurrentSelect={setCurrentSelect}
+          />
         </Col>
         <Col className="p-0 bg-linegrey">
-          <div className="position-relative h-100">
-            <Image
-              alt="enviroment image"
-              fill
-              placeholder="blur"
-              blurDataURL={transImageUrl(env_image) || "/image/livingroom.jpg"}
-              sizes="70vw"
-              src={transImageUrl(env_image) || "/image/livingroom.jpg"}
-              className="object-fit-contain"
-            />
+          <div className="position-relative h-100 flex-center overflow-hidden">
+            <div
+              className="position-relative h-100"
+              style={{ aspectRatio: "16 / 9" }}
+            >
+              <Image
+                alt="enviroment image"
+                className="object-fit-contain"
+                fill
+                placeholder="blur"
+                blurDataURL={
+                  transImageUrl(env_image) || "/image/livingroom.jpg"
+                }
+                sizes="70vw"
+                src={transImageUrl(env_image) || "/image/livingroom.jpg"}
+              />
+              <Image
+                alt="mask image"
+                className="object-fit-cover"
+                fill
+                src={transImageUrl(color_image) || "/image/livingroom.jpg"}
+                style={{
+                  maskImage: `url('${transImageUrl(mask_image)}')`,
+                  maskRepeat: "no-repeat",
+                  maskSize: "contain",
+                }}
+              />
+            </div>
           </div>
         </Col>
       </Row>
@@ -96,22 +131,6 @@ export default function Home({ stockData, envData }) {
   );
 }
 
-// export const getStaticProps = async () => {
-//   const stockData = (await getStockData({ page: 1, size: 5 })) || {
-//     total: 0,
-//     totalPages: 0,
-//     list: [],
-//   };
-//   const envData = (await getEnvironmentData()) || [];
-
-//   return {
-//     props: {
-//       stockData,
-//       envData,
-//     },
-//   };
-// };
-
 export const getServerSideProps = async (context) => {
   const session = await getSession(context)
   console.log("index session: ",session);
@@ -124,7 +143,7 @@ export const getServerSideProps = async (context) => {
   const stockData = (await getStockData({ accessToken, page: 1, size: 5 })) || {
     total: 0,
     totalPages: 0,
-    list: [],
+    data: [],
   };
   const envData = (await getEnvironmentData(accessToken)) || [];
 

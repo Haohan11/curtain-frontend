@@ -1,6 +1,6 @@
 import ProductCard from "./productCard";
 
-const LeftSide = ({ isLogin, data: stockList }) => {
+const LeftSide = ({ isLogin, data: stockList, setCurrentSelect }) => {
   return (
     <div className="vstack h-100">
       <div className="d-flex fs-6 fw-bold text-darkblue p-4 m-0 border-2 border-bottom border-linegrey position-sticky top-0 bg-white z-2">
@@ -21,6 +21,7 @@ const LeftSide = ({ isLogin, data: stockList }) => {
               deletable={isLogin}
               checkable={isLogin}
               sticky
+              setCurrentSelect={setCurrentSelect}
             />
           </div>
         ))

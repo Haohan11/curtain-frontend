@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 
 import {
   Col,
@@ -47,7 +47,14 @@ const FoldButton = ({ eventKey, ...props }) => {
 };
 
 const ProductCard = ({
-  data: {
+  data,
+  dynamic,
+  checkable,
+  deletable,
+  sticky,
+  setCurrentSelect,
+}) => {
+  const {
     name,
     id,
     index,
@@ -58,12 +65,7 @@ const ProductCard = ({
     description,
     absorption,
     block,
-  },
-  dynamic,
-  checkable,
-  deletable,
-  sticky,
-}) => {
+  } = data;
   const { setCombination } = useCombination();
   const removeFromCombination = () => {
     setCombination((prev) => {
@@ -74,6 +76,21 @@ const ProductCard = ({
       };
     });
   };
+
+  const colorIndexRef = useRef(0);
+
+  const selectStock = setCurrentSelect
+    ? (stock) =>
+        setCurrentSelect((prev) => ({
+          ...prev,
+          stock,
+          colorIndex: colorIndexRef.current,
+        }))
+    : () => {};
+  const selectColor = setCurrentSelect
+    ? (index) => setCurrentSelect((prev) => ({ ...prev, colorIndex: index }))
+    : () => {};
+
   return (
     <Accordion
       key={`pc_${dynamic}_${id}`}
@@ -94,6 +111,7 @@ const ProductCard = ({
                 inline
                 defaultChecked={index === 0}
                 name="product_card"
+                onInput={() => selectStock(data)}
               />
             ) : (
               <Curtain className="me-2 text-linegrey" />
@@ -140,7 +158,15 @@ const ProductCard = ({
               <Span>顏色</Span>
             </Col>
             <Col>
-              <ColorRadios colors={colorList} />
+              <ColorRadios
+                colors={colorList}
+                radioname={`${dynamic ? "dynamic" : "static"}_${id ?? index}`}
+                checkfirst
+                onInput={(e, { index }) => {
+                  colorIndexRef.current = index;
+                  selectColor(index);
+                }}
+              />
             </Col>
           </InfoRow>
           {description && (
