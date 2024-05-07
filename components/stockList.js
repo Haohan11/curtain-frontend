@@ -9,7 +9,7 @@ import { transImageUrl } from "@/tool/lib";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
 
-const StockList = ({ data }) => {
+const StockList = ({ data, setCurrentSelect }) => {
   const { totalPages, data: list } = data;
   const { combination, setCombination } = useCombination();
 
@@ -28,7 +28,7 @@ const StockList = ({ data }) => {
         className="row-cols-5 pt-3 px-2 g-1 justify-content-evenly mx-auto"
         style={{ maxWidth: "1080px" }}
       >
-        {list.map((item, index) => (
+        {list.map((item) => (
           <Col key={item.id} style={{ maxWidth: "185px" }}>
             <div
               className="position-relative w-100 rounded-3 overflow-hidden shadow-sm"
@@ -52,12 +52,12 @@ const StockList = ({ data }) => {
               {!item.colorList || item.colorList.length === 0 ? (
                 <span className="text-textgrey">目前沒有商品顏色</span>
               ) : (
-                item.colorList.map((color) => (
+                item.colorList.map((color, index) => (
                   <ColorRadio
                     key={color.id}
-                    name={item.id}
-                    // label={color.name}
+                    name={`stocklist_${item.id}`}
                     src={transImageUrl(color.color_image)}
+                    onClick={() => setCurrentSelect(prev => ({...prev, stock: item, colorIndex: index}))}
                   />
                 ))
               )}

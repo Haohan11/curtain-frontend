@@ -88,7 +88,12 @@ const ProductCard = ({
         }))
     : () => {};
   const selectColor = setCurrentSelect
-    ? (index) => setCurrentSelect((prev) => ({ ...prev, colorIndex: index }))
+    ? (index) =>
+        setCurrentSelect((prev) => ({
+          ...prev,
+          stock: data,
+          colorIndex: index,
+        }))
     : () => {};
 
   return (
@@ -111,7 +116,7 @@ const ProductCard = ({
                 inline
                 defaultChecked={index === 0}
                 name="product_card"
-                onInput={() => selectStock(data)}
+                onClick={() => selectStock(data)}
               />
             ) : (
               <Curtain className="me-2 text-linegrey" />
@@ -162,7 +167,7 @@ const ProductCard = ({
                 colors={colorList}
                 radioname={`${dynamic ? "dynamic" : "static"}_${id ?? index}`}
                 checkfirst
-                onInput={(e, { index }) => {
+                onClick={(e, { index }) => {
                   colorIndexRef.current = index;
                   selectColor(index);
                 }}

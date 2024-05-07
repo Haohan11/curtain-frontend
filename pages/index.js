@@ -28,7 +28,7 @@ export default function Home({ stockData, envData }) {
   const [loginState, setLoginState] = useState(true);
   const login = () => setLoginState(true);
   // const logout = () => setLoginState(false);
-  const logout = () => signOut({ callbackUrl: "/login" });;
+  const logout = () => signOut({ callbackUrl: "/login" });
 
   const { combination, setCombination } = useCombination();
   const [envId, setEnvId] = useState(
@@ -115,7 +115,7 @@ export default function Home({ stockData, envData }) {
           <SearchPannel />
         </Col>
         <Col className="h-100 overflow-y-auto">
-          <StockList data={stockData} />
+          <StockList data={stockData} setCurrentSelect={setCurrentSelect} />
         </Col>
       </Row>
       <ExportTemplate
@@ -132,12 +132,12 @@ export default function Home({ stockData, envData }) {
 }
 
 export const getServerSideProps = async (context) => {
-  const session = await getSession(context)
-  console.log("index session: ",session);
+  const session = await getSession(context);
+  console.log("index session: ", session);
   if (!session) {
-      return {
-        redirect: { destination: "/login" },
-      };
+    return {
+      redirect: { destination: "/login" },
+    };
   }
   const accessToken = session.user.accessToken;
   const stockData = (await getStockData({ accessToken, page: 1, size: 5 })) || {
@@ -153,4 +153,4 @@ export const getServerSideProps = async (context) => {
       envData,
     },
   };
-}
+};

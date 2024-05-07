@@ -26,7 +26,13 @@ const mockColorsData = [
   },
 ];
 
-const ColorRadios = ({ colors = mockColorsData, radioname, checkfirst, onInput }) => {
+const ColorRadios = ({
+  colors = mockColorsData,
+  radioname,
+  checkfirst,
+  onInput,
+  onClick,
+}) => {
   return (
     <Row className="row-cols-3 row-cols-xxl-5">
       {colors.map(({ id, name, color_image }, index) => (
@@ -36,7 +42,14 @@ const ColorRadios = ({ colors = mockColorsData, radioname, checkfirst, onInput }
             label={name}
             src={transImageUrl(color_image) || "/color_check/red.jpg"}
             {...(checkfirst ? { defaultChecked: index === 0 } : {})}
-            onInput={(e) => onInput(e, {id, name, color_image, index})}
+            onClick={(e) =>
+              typeof onClick === "function" &&
+              onClick(e, { id, name, color_image, index })
+            }
+            onInput={(e) =>
+              typeof onInput === "function" &&
+              onInput(e, { id, name, color_image, index })
+            }
           />
         </Col>
       ))}
