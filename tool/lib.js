@@ -42,3 +42,12 @@ export const toFormData = (values) => {
   }
   return formData
 }
+
+export const checkExpires = (time) => {
+  const is = time * 1000 < Date.now()
+
+  console.log("time", time * 1000)
+  console.log("now", Date.now())
+
+  return is
+} 

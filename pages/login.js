@@ -1,9 +1,10 @@
 import { useState } from "react";
-import Image from "next/image";
 import { useRouter } from "next/router";
 
 import { Form, FormGroup, FormCheck } from "react-bootstrap";
 import { signIn, useSession, getSession } from "next-auth/react";
+
+import { checkExpires } from "@/tool/lib";
 
 import TwoPageLayout from "@/components/twoPageLayout";
 import FormInput from "@/components/input/formInput";
@@ -144,7 +145,7 @@ export default LoginPage;
 export const getServerSideProps = async (context) => {
   const session = await getSession(context)
   console.log("login session: " + session);
-  if (session) {
+  if (session && !checkExpires(session.exp)) {
       return {
         redirect: { destination: "/" },
       };

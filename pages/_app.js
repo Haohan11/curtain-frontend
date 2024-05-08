@@ -13,14 +13,12 @@ export default function App({
 
   return getLayout(
     <SessionProvider session={session}>
-    <>
       <Head>
         <title>翔宇窗飾</title>
       </Head>
       <main>
         <Component {...pageProps} />
       </main>
-    </>
     </SessionProvider>
   );
 }

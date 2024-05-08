@@ -49,7 +49,7 @@ export const authOptions = {
     signOut: "/",
   },
   callbacks: {
-    async jwt({ token, trigger, session ,user }) {
+    async jwt({ token, trigger, session, user }) {
       if (user) {
         return {
           ...token,
@@ -66,6 +66,7 @@ export const authOptions = {
       session.user.userId = token.userId;
       session.user.userName = token.userName;
       session.user.accessToken = token.accessToken;
+      session.exp = token.exp
 
       return session;
     },

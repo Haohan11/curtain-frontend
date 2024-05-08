@@ -9,6 +9,8 @@ import LeftSide from "@/components/leftSide";
 import StockList from "@/components/stockList";
 import ExportTemplate from "@/components/exportTamplate";
 
+import { checkExpires } from "@/tool/lib";
+
 // current only ref by exportTemplate
 import productData from "@/data/productData";
 import addClassName from "@/tool/addClassName";
@@ -136,13 +138,13 @@ export default function Home({ stockData, envData }) {
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
   console.log("index session: ", session);
-  if (!session) {
+  if (!session || checkExpires(session.exp)) {
     return {
       redirect: { destination: "/login" },
     };
   }
   const accessToken = session.user.accessToken;
-  const stockData = (await getStockData({ accessToken, page: 1, size: 5 })) || {
+  const stockData = (await getStockData(accessToken, { page: 1, size: 5 })) || {
     total: 0,
     totalPages: 0,
     data: [],

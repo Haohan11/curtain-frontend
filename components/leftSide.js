@@ -35,6 +35,7 @@ const LeftSide = ({ isLogin, data: stockList, setCurrentSelect }) => {
               deletable={isLogin}
               checkable={isLogin}
               sticky
+              // ProductCard will holding current select colorIndex while onClickColor is provide
               onClickLabel={(e, {colorIndex}) => setCurrentSelect((prev) => ({
                 ...prev,
                 stock,

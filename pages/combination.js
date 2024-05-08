@@ -1,28 +1,45 @@
 import { Row, Col } from "react-bootstrap";
-import FormInput from "@/components/input/formInput";
-import Image from "next/image";
 
-import Logo from "@/icon/logoWhiteSvg";
+import Image from "next/image";
+import { useRouter } from "next/router";
+
+import FormInput from "@/components/input/formInput";
 import ReturnButton from "@/components/returnButton";
 import CombinationCard from "@/components/combinationCard";
 import Pagination from "@/components/pagination";
+
+import Logo from "@/icon/logoWhiteSvg";
 import Search from "@/icon/search";
 
-import { getCombinations } from "@/tool/request";
-import { getSession } from "next-auth/react";
+import { getCombinations, deleteCombination } from "@/tool/request";
+import { checkExpires } from "@/tool/lib";
+
+import { getSession, useSession } from "next-auth/react";
+
+import { useCombination } from "@/hook/provider/combinationProvider";
 
 import copyrightText from "@/data/copyrightText";
 
 export default function CombinationPage({ combinationData }) {
+  const session = useSession()
+  const { data, status } = session;
+  const token = data?.user?.accessToken;
+
+  const router = useRouter();
+  console.log(session)
+
+  const { setCombination } = useCombination();
+
   return (
     <Row className="g-0">
-      <Col sm={"auto"} className="d-none d-md-block">
-        <div className="vh-100 position-relative p-6">
+      <Col sm={3} lg={2} className="d-none d-md-block">
+        <div className="vh-100 position-relative pt-8 text-center">
           <Image
             alt="curtain image"
             sizes="120px"
-            priority
             fill
+            placeholder="blur"
+            blurDataURL="/image/curtain.jpg"
             src={"/image/curtain.jpg"}
           />
           <Logo className="position-relative" />
@@ -43,13 +60,49 @@ export default function CombinationPage({ combinationData }) {
                 </div>
               </div>
             </div>
-            {combinationData.list.map((comb) => (
-              <div key={comb.id} className="mx-auto" style={{maxWidth: "1200px"}}>
-                <CombinationCard data={comb} />
-              </div>
-            ))}
+            {
+              {
+                loading: (
+                  <div className="p-12 mt-12 text-center rounded-2 bg-light">
+                    <span className="fs-5 fw-bold text-textgrey">
+                      驗證中...
+                    </span>
+                  </div>
+                ),
+                authenticated:
+                  combinationData.list.length === 0 ? (
+                    <div className="p-12 mt-12 text-center rounded-2 bg-light">
+                      <span className="fs-5 fw-bold text-textgrey">
+                        目前沒有組合資料
+                      </span>
+                    </div>
+                  ) : (
+                    combinationData.list.map((comb) => (
+                      <div
+                        key={comb.id}
+                        className="mx-auto"
+                        style={{ maxWidth: "1000px" }}
+                      >
+                        <CombinationCard
+                          data={comb}
+                          onDelete={async () => {
+                            if (!token) return;
+                            const result = await deleteCombination(token, {
+                              id: comb.id,
+                            });
+                            if (!result) return;
+                            router.push(router.asPath.split("?")[0]);
+                          }}
+                        />
+                      </div>
+                    ))
+                  ),
+                unauthenticated: <></>,
+              }[status]
+            }
+            {}
             <div className="mt-12">
-              <Pagination totalPage={combinationData.totalPages}/>
+              <Pagination totalPage={combinationData.totalPages} />
               <div className="mt-10 flex-center text-textgrey">
                 {copyrightText}
               </div>
@@ -64,12 +117,14 @@ export default function CombinationPage({ combinationData }) {
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
   const accessToken = session?.user?.accessToken;
-  if (!session || !accessToken)
+  if (!session || !accessToken || checkExpires(session.exp))
     return {
-      redirect: { desitination: "/login", permanent: false },
+      redirect: { destination: "/login", permanent: false },
     };
 
-  const result = (await getCombinations(accessToken)) || {
+  const combinationData = (await getCombinations(accessToken, {
+    ...context.query,
+  })) || {
     total: 0,
     totalPages: 0,
     list: [],
@@ -77,7 +132,7 @@ export const getServerSideProps = async (context) => {
 
   return {
     props: {
-      combinationData: result,
+      combinationData,
     },
   };
 };

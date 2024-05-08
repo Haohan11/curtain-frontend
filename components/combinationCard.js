@@ -9,6 +9,8 @@ import { transImageUrl } from "@/tool/lib";
 
 const CombinationCard = ({
   data: { env_image, name, create_time, environment_name, stockList },
+  onDelete,
+  onOpen,
 }) => {
   return (
     <div className="px-5 mt-12 pb-8">
@@ -42,10 +44,17 @@ const CombinationCard = ({
               </div>
             </div>
             <div className="ms-auto flex-center align-self-start">
-              <SubmitButton type="button" className="px-9">
+              <SubmitButton
+                type="button"
+                className="px-9"
+                {...(typeof onOpen === "function" && { onClick: onOpen })}
+              >
                 開啟組合
               </SubmitButton>
-              <div className="ms-6 me-4 text-red cursor-pointer">
+              <div
+                className="ms-6 me-4 text-red cursor-pointer"
+                {...(typeof onDelete === "function" && { onClick: onDelete })}
+              >
                 <TrashCan />
               </div>
             </div>
