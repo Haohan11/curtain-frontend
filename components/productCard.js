@@ -50,7 +50,10 @@ const ProductCard = ({
   checkable,
   deletable,
   sticky,
-  setCurrentSelect,
+  onClickLabel,
+  onInputLabel,
+  onClickColor,
+  onInputColor,
   onDelete,
   colorCheckable = true,
 }) => {
@@ -68,23 +71,6 @@ const ProductCard = ({
   } = data;
 
   const colorIndexRef = useRef(0);
-
-  const selectStock = setCurrentSelect
-    ? (stock) =>
-        setCurrentSelect((prev) => ({
-          ...prev,
-          stock,
-          colorIndex: colorIndexRef.current,
-        }))
-    : () => {};
-  const selectColor = setCurrentSelect
-    ? (index) =>
-        setCurrentSelect((prev) => ({
-          ...prev,
-          stock: data,
-          colorIndex: index,
-        }))
-    : () => {};
 
   return (
     <Accordion
@@ -106,7 +92,14 @@ const ProductCard = ({
                 inline
                 defaultChecked={index === 0}
                 name="product_card"
-                onClick={() => selectStock(data)}
+                {...(typeof onClickLabel === "function" && {
+                  onClick: (e) =>
+                    onClickLabel(e, { colorIndex: colorIndexRef.current }),
+                })}
+                {...(typeof onInputLabel === "function" && {
+                  onInput: (e) =>
+                    onInputLabel(e, { colorIndex: colorIndexRef.current }),
+                })}
               />
             ) : (
               <Curtain className="me-2 text-linegrey" />
@@ -116,9 +109,7 @@ const ProductCard = ({
             {deletable && (
               <TrashCan
                 className="ms-2 text-red cursor-pointer"
-                {...(typeof onDelete === "function"
-                  ? { onClick: onDelete }
-                  : {})}
+                {...(typeof onDelete === "function" && { onClick: onDelete })}
               />
             )}
           </div>
@@ -160,10 +151,18 @@ const ProductCard = ({
                 radioname={`${dynamic ? "dynamic" : "static"}_${id ?? index}`}
                 checkfirst
                 checkable={colorCheckable}
-                onClick={(e, { index }) => {
-                  colorIndexRef.current = index;
-                  selectColor(index);
-                }}
+                {...(typeof onClickColor === "function" && {
+                  onClick: (e, color) => {
+                    onClickColor(e, color);
+                    colorIndexRef.current = color.index;
+                  },
+                })}
+                {...(typeof onInputColor === "function" && {
+                  onInput: (e, color) => {
+                    onInputColor(e, color);
+                    colorIndexRef.current = color.index;
+                  },
+                })}
               />
             </Col>
           </InfoRow>

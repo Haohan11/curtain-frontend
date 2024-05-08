@@ -36,22 +36,16 @@ const ColorRadios = ({
 }) => {
   return (
     <Row className="row-cols-3 row-cols-xxl-5">
-      {colors.map(({ id, name, color_image }, index) => (
-        <Col className="p-0" key={id}>
+      {colors.map((color, index) => (
+        <Col className="p-0" key={color.id}>
           <ColorRadio
             name={radioname}
-            label={name}
+            label={color.name}
             disabled={!checkable}
-            src={transImageUrl(color_image) || "/color_check/red.jpg"}
-            {...(checkfirst ? { defaultChecked: index === 0 } : {})}
-            onClick={(e) =>
-              typeof onClick === "function" &&
-              onClick(e, { id, name, color_image, index })
-            }
-            onInput={(e) =>
-              typeof onInput === "function" &&
-              onInput(e, { id, name, color_image, index })
-            }
+            src={transImageUrl(color.color_image) || "/color_check/red.jpg"}
+            {...(checkfirst && { defaultChecked: index === 0 })}
+            {...(typeof onClick === "function" && {onClick: (e) => onClick(e, { ...color, index })})}
+            {...(typeof onInput === "function" && {onInput: (e) => onInput(e, { ...color, index })})}
           />
         </Col>
       ))}
