@@ -3,12 +3,12 @@ import Image from "next/image";
 import { FormCheck, FormLabel } from "react-bootstrap";
 
 const ColorRadio = forwardRef(function ColorRadio(
-  { id, label, src, name, onClick, onInput, defaultChecked },
+  { id, label, src, name, onClick, onInput, defaultChecked, disabled },
   ref
 ) {
   return (
     <FormLabel
-      className="text-center cursor-pointer m-0"
+      className={`text-center cursor-pointer m-0 ${disabled ? "pe-none" : ""}`}
       style={{ userSelect: "none" }}
     >
       <FormCheck className="d-inline-block position-relative lh-1">
@@ -21,6 +21,7 @@ const ColorRadio = forwardRef(function ColorRadio(
             onInput,
             defaultChecked,
             value: id,
+            disabled,
           }}
           className={`m-0 rounded-1 color-input`}
         />

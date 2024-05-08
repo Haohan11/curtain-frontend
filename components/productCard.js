@@ -22,8 +22,6 @@ import Curtain from "@/icon/curtain";
 import addClassName from "@/tool/addClassName";
 import { toArray } from "@/tool/lib";
 
-import { useCombination } from "@/hook/provider/combinationProvider";
-
 const Span = addClassName(CompDiv, "d-inline text-textgrey");
 const InfoRow = addClassName(Row, "g-0 pb-2");
 
@@ -53,6 +51,8 @@ const ProductCard = ({
   deletable,
   sticky,
   setCurrentSelect,
+  onDelete,
+  colorCheckable = true,
 }) => {
   const {
     name,
@@ -66,16 +66,6 @@ const ProductCard = ({
     absorption,
     block,
   } = data;
-  const { setCombination } = useCombination();
-  const removeFromCombination = () => {
-    setCombination((prev) => {
-      prev.stockIdCache.delete(id);
-      return {
-        ...prev,
-        stockList: prev.stockList.filter((stock) => stock.id !== id),
-      };
-    });
-  };
 
   const colorIndexRef = useRef(0);
 
@@ -126,7 +116,9 @@ const ProductCard = ({
             {deletable && (
               <TrashCan
                 className="ms-2 text-red cursor-pointer"
-                onClick={removeFromCombination}
+                {...(typeof onDelete === "function"
+                  ? { onClick: onDelete }
+                  : {})}
               />
             )}
           </div>
@@ -167,6 +159,7 @@ const ProductCard = ({
                 colors={colorList}
                 radioname={`${dynamic ? "dynamic" : "static"}_${id ?? index}`}
                 checkfirst
+                checkable={colorCheckable}
                 onClick={(e, { index }) => {
                   colorIndexRef.current = index;
                   selectColor(index);

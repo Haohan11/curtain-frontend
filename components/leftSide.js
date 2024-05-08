@@ -1,6 +1,19 @@
 import ProductCard from "./productCard";
 
+import { useCombination } from "@/hook/provider/combinationProvider";
+
 const LeftSide = ({ isLogin, data: stockList, setCurrentSelect }) => {
+  const { setCombination } = useCombination();
+
+  const removeFromCombination = (id) => {
+    setCombination((prev) => {
+      prev.stockIdCache.delete(id);
+      return {
+        ...prev,
+        stockList: prev.stockList.filter((stock) => stock.id !== id),
+      };
+    });
+  };
   return (
     <div className="vstack h-100">
       <div className="d-flex fs-6 fw-bold text-darkblue p-4 m-0 border-2 border-bottom border-linegrey position-sticky top-0 bg-white z-2">
@@ -22,6 +35,7 @@ const LeftSide = ({ isLogin, data: stockList, setCurrentSelect }) => {
               checkable={isLogin}
               sticky
               setCurrentSelect={setCurrentSelect}
+              onDelete={() => removeFromCombination(stock.id)}
             />
           </div>
         ))

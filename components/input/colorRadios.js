@@ -32,6 +32,7 @@ const ColorRadios = ({
   checkfirst,
   onInput,
   onClick,
+  checkable = true,
 }) => {
   return (
     <Row className="row-cols-3 row-cols-xxl-5">
@@ -40,6 +41,7 @@ const ColorRadios = ({
           <ColorRadio
             name={radioname}
             label={name}
+            disabled={!checkable}
             src={transImageUrl(color_image) || "/color_check/red.jpg"}
             {...(checkfirst ? { defaultChecked: index === 0 } : {})}
             onClick={(e) =>

@@ -9,247 +9,11 @@ import Pagination from "@/components/pagination";
 import Search from "@/icon/search";
 
 import { getCombinations } from "@/tool/request";
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 
 import copyrightText from "@/data/copyrightText";
 
-const mockCombinationData = [
-  {
-    combination_name: "組合A",
-    image: "/image/dark_room.jpg",
-    env_name: "客廳",
-    created_at: "2024/1/11 15:23",
-    data: [
-      {
-        product_name: "Product name",
-        model: "product model",
-        series: "product series",
-        colors: [
-          {
-            name: "海藻",
-            image_url: "/color_check/blue.jpg",
-            id: 0,
-          },
-          {
-            name: "板木",
-            image_url: "/color_check/brown.jpg",
-            id: 1,
-          },
-          {
-            name: "海苔",
-            image_url: "/color_check/green.jpg",
-            id: 2,
-          },
-          {
-            name: "蘇丹紅",
-            image_url: "/color_check/red.jpg",
-            id: 3,
-          },
-          {
-            name: "頁岩",
-            image_url: "/color_check/grey.jpg",
-            id: 4,
-          },
-        ],
-        description:
-          "沉穩素雅設計，妝點室內氣息。 內附調整型掛勾，可調節窗簾長度，自由決定是否露出軌道。並讓擺折曲線更加美觀。",
-        material: "product material",
-        absorption_rate: "5",
-        blocking_rate: "2",
-      },
-      {
-        product_name: "Premium Chair",
-        model: "PCH-2000",
-        series: "Luxury Collection",
-        colors: [
-          {
-            name: "Royal Blue",
-            image_url: "/color_check/blue.jpg",
-            id: 0,
-          },
-          {
-            name: "Velvet Red",
-            image_url: "/color_check/red.jpg",
-            id: 1,
-          },
-          {
-            name: "Ebony Black",
-            image_url: "/color_check/green.jpg",
-            id: 2,
-          },
-          {
-            name: "Champagne Gold",
-            image_url: "/color_check/brown.jpg",
-            id: 3,
-          },
-        ],
-        description:
-          "Experience unparalleled comfort and style with our Premium Chair from the Luxury Collection. The sophisticated design enhances any interior, and the adjustable hanging hooks allow you to customize the curtain length, revealing or concealing the track as desired.",
-        material: "High-quality Upholstery",
-        absorption_rate: "4",
-        blocking_rate: "3",
-      },
-    ],
-  },
-  {
-    combination_name: "組合B",
-    image: "/image/white_room.jpg",
-    env_name: "臥室",
-    created_at: "2024/1/11 15:23",
-    data: [
-      {
-        product_name: "Product name",
-        model: "product model",
-        series: "product series",
-        colors: [
-          {
-            name: "海藻",
-            image_url: "/color_check/blue.jpg",
-            id: 0,
-          },
-          {
-            name: "板木",
-            image_url: "/color_check/brown.jpg",
-            id: 1,
-          },
-          {
-            name: "海苔",
-            image_url: "/color_check/green.jpg",
-            id: 2,
-          },
-          {
-            name: "蘇丹紅",
-            image_url: "/color_check/red.jpg",
-            id: 3,
-          },
-          {
-            name: "頁岩",
-            image_url: "/color_check/grey.jpg",
-            id: 4,
-          },
-        ],
-        description:
-          "沉穩素雅設計，妝點室內氣息。 內附調整型掛勾，可調節窗簾長度，自由決定是否露出軌道。並讓擺折曲線更加美觀。",
-        material: "product material",
-        absorption_rate: "5",
-        blocking_rate: "2",
-      },
-    ],
-  },
-  {
-    combination_name: "組合C",
-    image: "/image/yellow_room.jpg",
-    env_name: "廚房",
-    created_at: "2024/1/11 15:23",
-    data: [
-      {
-        product_name: "Product name",
-        model: "product model",
-        series: "product series",
-        colors: [
-          {
-            name: "海藻",
-            image_url: "/color_check/blue.jpg",
-            id: 0,
-          },
-          {
-            name: "板木",
-            image_url: "/color_check/brown.jpg",
-            id: 1,
-          },
-          {
-            name: "海苔",
-            image_url: "/color_check/green.jpg",
-            id: 2,
-          },
-          {
-            name: "蘇丹紅",
-            image_url: "/color_check/red.jpg",
-            id: 3,
-          },
-          {
-            name: "頁岩",
-            image_url: "/color_check/grey.jpg",
-            id: 4,
-          },
-        ],
-        description:
-          "沉穩素雅設計，妝點室內氣息。 內附調整型掛勾，可調節窗簾長度，自由決定是否露出軌道。並讓擺折曲線更加美觀。",
-        material: "product material",
-        absorption_rate: "5",
-        blocking_rate: "2",
-      },
-      {
-        product_name: "Premium Chair",
-        model: "PCH-2000",
-        series: "Luxury Collection",
-        colors: [
-          {
-            name: "Royal Blue",
-            image_url: "/color_check/blue.jpg",
-            id: 0,
-          },
-          {
-            name: "Velvet Red",
-            image_url: "/color_check/red.jpg",
-            id: 1,
-          },
-          {
-            name: "Ebony Black",
-            image_url: "/color_check/green.jpg",
-            id: 2,
-          },
-          {
-            name: "Champagne Gold",
-            image_url: "/color_check/brown.jpg",
-            id: 3,
-          },
-        ],
-        description:
-          "Experience unparalleled comfort and style with our Premium Chair from the Luxury Collection. The sophisticated design enhances any interior, and the adjustable hanging hooks allow you to customize the curtain length, revealing or concealing the track as desired.",
-        material: "High-quality Upholstery",
-        absorption_rate: "4",
-        blocking_rate: "3",
-      },
-      {
-        product_name: "Premium Chair",
-        model: "PCH-2000",
-        series: "Luxury Collection",
-        colors: [
-          {
-            name: "Royal Blue",
-            image_url: "/color_check/blue.jpg",
-            id: 0,
-          },
-          {
-            name: "Velvet Red",
-            image_url: "/color_check/red.jpg",
-            id: 1,
-          },
-          {
-            name: "Ebony Black",
-            image_url: "/color_check/green.jpg",
-            id: 2,
-          },
-          {
-            name: "Champagne Gold",
-            image_url: "/color_check/brown.jpg",
-            id: 3,
-          },
-        ],
-        description:
-          "Experience unparalleled comfort and style with our Premium Chair from the Luxury Collection. The sophisticated design enhances any interior, and the adjustable hanging hooks allow you to customize the curtain length, revealing or concealing the track as desired.",
-        material: "High-quality Upholstery",
-        absorption_rate: "4",
-        blocking_rate: "3",
-      },
-    ],
-  },
-];
-
-const CombinationPage = () => {
-  const { data } = useSession();
-
+export default function CombinationPage({ combinationData }) {
   return (
     <Row className="g-0">
       <Col sm={"auto"} className="d-none d-md-block">
@@ -265,22 +29,13 @@ const CombinationPage = () => {
         </div>
       </Col>
       <Col>
-        <div className="vh-100 position-relative overflow-y-auto">
+        <div className="vh-100 position-relative d-flex flex-column overflow-y-auto">
           <div className="position-sticky top-0 z-2 p-6 flex-center justify-content-between border-bottom bg-white">
             <ReturnButton href={"/"} />
           </div>
-          <div className="position-relative p-8" style={{ minHeight: "85vh" }}>
+          <div className="pt-12 pb-10 px-8 px-lg-12 px-xl-16">
             <div className="hstack justify-content-between">
-              <span
-                className="fs-1-sm fw-bold text-darkblue"
-                onClick={async () => {
-                  if (!data?.user?.accessToken) return;
-                  const result = await getCombinations(data.user.accessToken);
-                  console.log(result);
-                }}
-              >
-                我的組合
-              </span>
+              <span className="fs-1-sm fw-bold text-darkblue">我的組合</span>
               <div style={{ width: "300px" }} className="position-relative">
                 <FormInput placeholder="搜尋" className="pe-8" />
                 <div className="position-absolute top-0 end-0 text-linegrey p-2">
@@ -288,13 +43,14 @@ const CombinationPage = () => {
                 </div>
               </div>
             </div>
-            {mockCombinationData.map((data, index) => (
-              <CombinationCard key={index} data={data} />
+            {combinationData.list.map((comb) => (
+              <div key={comb.id} className="mx-auto" style={{maxWidth: "1200px"}}>
+                <CombinationCard data={comb} />
+              </div>
             ))}
-            <div style={{ height: "250px" }}></div>
-            <div className="position-absolute bottom-0 w-100 ms--8  mb--8">
-              <Pagination />
-              <div className="mt-12 flex-center py-6 text-textgrey">
+            <div className="mt-12">
+              <Pagination totalPage={combinationData.totalPages}/>
+              <div className="mt-10 flex-center text-textgrey">
                 {copyrightText}
               </div>
             </div>
@@ -303,6 +59,25 @@ const CombinationPage = () => {
       </Col>
     </Row>
   );
-};
+}
 
-export default CombinationPage;
+export const getServerSideProps = async (context) => {
+  const session = await getSession(context);
+  const accessToken = session?.user?.accessToken;
+  if (!session || !accessToken)
+    return {
+      redirect: { desitination: "/login", permanent: false },
+    };
+
+  const result = (await getCombinations(accessToken)) || {
+    total: 0,
+    totalPages: 0,
+    list: [],
+  };
+
+  return {
+    props: {
+      combinationData: result,
+    },
+  };
+};
