@@ -11,16 +11,7 @@ import { useCombination } from "@/hook/provider/combinationProvider";
 
 const StockList = ({ data, setCurrentSelect }) => {
   const { totalPages, data: list } = data;
-  const { combination, setCombination } = useCombination();
-
-  const addToCombination = (stock) => {
-    if (combination.stockIdCache.has(stock.id)) return;
-    setCombination((prev) => ({
-      ...prev,
-      stockIdCache: prev.stockIdCache.add(stock.id),
-      stockList: [...prev.stockList, stock],
-    }));
-  };
+  const { addToCombination } = useCombination();
 
   return (
     <div className="position-relative h-100" style={{ minHeight: "350px" }}>

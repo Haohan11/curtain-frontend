@@ -10,9 +10,11 @@ import { Form, FormControl } from "react-bootstrap";
 import NavItem from "@/components/navItem";
 import exportImage from "@/tool/exportImage";
 
-import { createCombination } from "@/tool/request";
+import { createCombination, updateCombination } from "@/tool/request";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
+
+import { useSession } from "next-auth/react";
 
 const Bar = () => (
   <span
@@ -22,35 +24,58 @@ const Bar = () => (
 );
 
 const Navbar = ({ isLogin, login, logout, envData, envId, setEnvId }) => {
+  const session = useSession();
+  const token = session?.data?.user?.accessToken;
+
   const { combination, resetCombination } = useCombination();
   const combName = useRef(combination.name);
 
-  // for force name input reRender
-  const [nameKey, setNameKey] = useState(0)
+  const reset = () => {
+    resetCombination();
+    setNameKey((prev) => prev + 1);
+  };
 
-  const getHandledCombData = () => ({
-    user_id: combination.user_id,
-    id: combination.id,
-    environment_id: envId,
-    name: combName.current,
-    stockList: JSON.stringify(combination.stockList.map((stock) => stock.id)),
-  });
+  // for force name input reRender
+  const [nameKey, setNameKey] = useState(0);
+
+  const getHandledCombData = () => {
+    try {
+      const { id } = combination;
+      const name = combName.current;
+      if (!envId || !name)
+        throw new Error(
+          `Combination data invalid: envId: ${envId}, combination name: ${name}`
+        );
+      return {
+        id,
+        name,
+        environment_id: envId,
+        stockList: JSON.stringify(
+          combination.stockList.map((stock) => stock.id)
+        ),
+      };
+    } catch (error) {
+      return !!console.log("Failed to handle combination data:", error);
+    }
+  };
 
   const navData = {
     operation: {
       navText: "操作",
       items: [
-        { label: "新增組合", action: () => console.log(this?.setShow) },
+        { label: "新增組合", action: reset },
         {
           label: "儲存組合",
           action: async () => {
-            const result = await createCombination(getHandledCombData());
-            if(result === false) return console.log("Fail to create combination.");
-            resetCombination();
-            setNameKey(prev => prev + 1)
+            const data = getHandledCombData();
+            (data &&
+              token &&
+              (data.id === null
+                ? await createCombination(token, data)
+                : await updateCombination(token, data))) ||
+              console.log("Fail to create combination.");
           },
         },
-        { label: "另存組合" },
       ],
     },
     changeEnv: {

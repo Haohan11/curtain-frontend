@@ -3,17 +3,7 @@ import ProductCard from "./productCard";
 import { useCombination } from "@/hook/provider/combinationProvider";
 
 const LeftSide = ({ isLogin, data: stockList, setCurrentSelect }) => {
-  const { setCombination } = useCombination();
-
-  const removeFromCombination = (id) => {
-    setCombination((prev) => {
-      prev.stockIdCache.delete(id);
-      return {
-        ...prev,
-        stockList: prev.stockList.filter((stock) => stock.id !== id),
-      };
-    });
-  };
+  const { removeFromCombination } = useCombination();
 
   return (
     <div className="vstack h-100">

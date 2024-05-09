@@ -32,7 +32,7 @@ export default function Home({ stockData, envData }) {
   // const logout = () => setLoginState(false);
   const logout = () => signOut({ callbackUrl: "/login" });
 
-  const { combination, setCombination } = useCombination();
+  const { combination } = useCombination();
   const [envId, setEnvId] = useState(
     combination.environment_id ?? envData?.[0]?.id
   );

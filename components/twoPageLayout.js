@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Row, Col as BSCol, Container } from "react-bootstrap";
 import addClassName from "@/tool/addClassName";
-import ReturnButton from "./returnButton";
+import ReturnButton from "./input/returnButton";
 import copyrightText from "@/data/copyrightText";
 
 const Col = addClassName(BSCol, "p-0");

@@ -4,7 +4,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 
 import FormInput from "@/components/input/formInput";
-import ReturnButton from "@/components/returnButton";
+import ReturnButton from "@/components/input/returnButton";
+import LinkButton from "@/components/input/linkButton";
 import CombinationCard from "@/components/combinationCard";
 import Pagination from "@/components/pagination";
 
@@ -21,14 +22,12 @@ import { useCombination } from "@/hook/provider/combinationProvider";
 import copyrightText from "@/data/copyrightText";
 
 export default function CombinationPage({ combinationData }) {
-  const session = useSession()
-  const { data, status } = session;
+  const { data, status } = useSession();
   const token = data?.user?.accessToken;
 
   const router = useRouter();
-  console.log(session)
 
-  const { setCombination } = useCombination();
+  const { loadCombination } = useCombination();
 
   return (
     <Row className="g-0">
@@ -93,14 +92,24 @@ export default function CombinationPage({ combinationData }) {
                             if (!result) return;
                             router.push(router.asPath.split("?")[0]);
                           }}
+                          onOpen={() => {
+                            loadCombination(comb)
+                            router.push("/")
+                          }}
                         />
                       </div>
                     ))
                   ),
-                unauthenticated: <></>,
+                unauthenticated: (
+                  <div className="p-12 mt-12 text-center rounded-2 bg-light flex-center">
+                    <span className="fs-5-lg fw-bold text-textgrey me-5">
+                      權限不足
+                    </span>
+                    <LinkButton href="/login">返回登入</LinkButton>
+                  </div>
+                ),
               }[status]
             }
-            {}
             <div className="mt-12">
               <Pagination totalPage={combinationData.totalPages} />
               <div className="mt-10 flex-center text-textgrey">
