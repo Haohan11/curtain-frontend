@@ -8,14 +8,17 @@ export const transImageUrl = (path) =>
 export const onlyNumber = (event) => {
   if (
     /^\d$/.test(event.key) ||
-    event.key === "Backspace" ||
-    event.key === "Delete" ||
-    event.key === "Escape" ||
-    event.key === "Tab" ||
-    event.key === "ArrowLeft" ||
-    event.key === "ArrowRight" ||
-    event.key === "Home" ||
-    event.key === "End" ||
+    [
+      "Backspace",
+      "Delete",
+      "Escape",
+      "Tab",
+      "ArrowLeft",
+      "ArrowRight",
+      "Home",
+      "End",
+      "Enter"
+    ].includes(event.key) ||
     (event.ctrlKey && ["a", "x", "c", "v"].includes(event.key))
   )
     return;

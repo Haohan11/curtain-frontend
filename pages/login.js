@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 
 import { Form, FormGroup, FormCheck } from "react-bootstrap";
-import { signIn, useSession, getSession } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 
 import { checkExpires } from "@/tool/lib";
 
@@ -47,16 +47,16 @@ const LoginPage = () => {
     console.log(data);
     const result = await signIn("credentials", {
       ...data,
-      redirect: false
+      redirect: false,
     });
-    console.log('result :', result);
+    console.log("result :", result);
     if (result?.ok) {
-        router.push("/");
+      router.push("/");
     } else {
       form.reset();
-      alert("帳號密碼錯誤")
+      alert("帳號密碼錯誤");
     }
-  }
+  };
 
   const content = (
     <Form
@@ -125,12 +125,11 @@ const LoginPage = () => {
             <LoginButton onClick={login}>{pageData.submitText}</LoginButton>
           </>
         )}
-        {pageName != "login"  && (
+        {pageName != "login" && (
           <>
             <SubmitButton>{pageData.submitText}</SubmitButton>
           </>
         )}
-        
       </div>
     </Form>
   );
@@ -143,15 +142,14 @@ LoginPage.getLayout = (page) => page;
 export default LoginPage;
 
 export const getServerSideProps = async (context) => {
-  const session = await getSession(context)
-  console.log("login session: ", session);
+  const session = await getSession(context);
   if (session && !checkExpires(session._exp)) {
-      return {
-        redirect: { destination: "/" },
-      };
+    return {
+      redirect: { destination: "/" },
+    };
   }
 
   return {
-    props : {}
+    props: {},
   };
-}
+};

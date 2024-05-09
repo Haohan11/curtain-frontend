@@ -137,7 +137,6 @@ export default function Home({ stockData, envData }) {
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
-  console.log("index session: ", session);
   if (!session || checkExpires(session._exp)) {
     return {
       redirect: { destination: "/login" },

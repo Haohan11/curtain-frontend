@@ -93,8 +93,8 @@ export default function CombinationPage({ combinationData }) {
                             router.push(router.asPath.split("?")[0]);
                           }}
                           onOpen={() => {
-                            loadCombination(comb)
-                            router.push("/")
+                            loadCombination(comb);
+                            router.push("/");
                           }}
                         />
                       </div>
@@ -111,7 +111,13 @@ export default function CombinationPage({ combinationData }) {
               }[status]
             }
             <div className="mt-12">
-              <Pagination totalPage={combinationData.totalPages} />
+              <Pagination
+                totalPage={combinationData.totalPages}
+                defaultPage={1}
+                onPageChange={(page) => {
+                  console.log(page);
+                }}
+              />
               <div className="mt-10 flex-center text-textgrey">
                 {copyrightText}
               </div>
