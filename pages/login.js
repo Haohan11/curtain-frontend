@@ -144,8 +144,8 @@ export default LoginPage;
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context)
-  console.log("login session: " + session);
-  if (session && !checkExpires(session.exp)) {
+  console.log("login session: ", session);
+  if (session && !checkExpires(session._exp)) {
       return {
         redirect: { destination: "/" },
       };

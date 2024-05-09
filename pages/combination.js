@@ -117,7 +117,7 @@ export default function CombinationPage({ combinationData }) {
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
   const accessToken = session?.user?.accessToken;
-  if (!session || !accessToken || checkExpires(session.exp))
+  if (!session || !accessToken || checkExpires(session._exp))
     return {
       redirect: { destination: "/login", permanent: false },
     };

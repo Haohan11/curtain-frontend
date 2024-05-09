@@ -40,14 +40,8 @@ export const toFormData = (values) => {
       );
     });
   }
-  return formData
-}
+  return formData;
+};
 
-export const checkExpires = (time) => {
-  const is = time * 1000 < Date.now()
-
-  console.log("time", time * 1000)
-  console.log("now", Date.now())
-
-  return is
-} 
+export const checkExpires = (time) =>
+  time ? time * 1000 < Date.now() : console.log("Invalid exp.");
