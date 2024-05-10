@@ -2,7 +2,12 @@ import ProductCard from "./productCard";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
 
-const LeftSide = ({ isLogin, data: stockList, setCurrentSelect }) => {
+const LeftSide = ({
+  isLogin,
+  data: stockList,
+  setSelectColor,
+  setSelectStock,
+}) => {
   const { removeFromCombination } = useCombination();
 
   return (
@@ -26,16 +31,33 @@ const LeftSide = ({ isLogin, data: stockList, setCurrentSelect }) => {
               checkable={isLogin}
               sticky
               // ProductCard will holding current select colorIndex while onClickColor is provide
-              onClickLabel={(e, {colorIndex}) => setCurrentSelect((prev) => ({
-                ...prev,
-                stock,
-                colorIndex,
-              }))}
-              onClickColor={(e, {index: colorIndex}) => setCurrentSelect((prev) => ({
-                ...prev,
-                stock,
-                colorIndex,
-              }))}
+              onClickLabel={(e, { colorIndex }) => {
+                setSelectColor((prev) => ({
+                  ...prev,
+                  stock,
+                  colorIndex,
+                }));
+                setSelectStock((prev) => ({
+                  ...prev,
+                  stock,
+                  colorIndex,
+                }));
+              }}
+              onClickColor={(e, { index: colorIndex }) => {
+                setSelectColor((prev) => ({
+                  ...prev,
+                  stock,
+                  colorIndex,
+                }));
+                setSelectStock((prev) =>
+                  prev.stock?.id === stock.id
+                    ? {
+                        ...prev,
+                        colorIndex,
+                      }
+                    : prev
+                );
+              }}
               onDelete={() => removeFromCombination(stock.id)}
             />
           </div>

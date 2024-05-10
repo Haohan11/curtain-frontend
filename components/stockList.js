@@ -10,10 +10,10 @@ import { transImageUrl } from "@/tool/lib";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
 
-const StockList = ({ data, setCurrentSelect }) => {
+const StockList = ({ data, setSelectColor, setSelectStock }) => {
   const router = useRouter();
   const { totalPages, data: list } = data;
-  const { addToCombination } = useCombination();
+  const { combination, addToCombination } = useCombination();
 
   return (
     <div className="position-relative py-3 d-flex flex-column h-100 justify-content-between">
@@ -51,7 +51,7 @@ const StockList = ({ data, setCurrentSelect }) => {
                     name={`stocklist_${item.id}`}
                     src={transImageUrl(color.color_image)}
                     onClick={() =>
-                      setCurrentSelect((prev) => ({
+                      setSelectColor((prev) => ({
                         ...prev,
                         stock: item,
                         colorIndex: index,
@@ -64,7 +64,16 @@ const StockList = ({ data, setCurrentSelect }) => {
             <div className="flex-center fw-bold text-checkboxblue py-2">
               <div
                 className="cursor-pointer"
-                onClick={() => addToCombination(item)}
+                onClick={() => {
+                  (!combination.stockList ||
+                    combination.stockList.length === 0) &&
+                    setSelectStock((prev) => ({
+                      ...prev,
+                      stock: item,
+                      colorIndex: 0,
+                    }));
+                  addToCombination(item);
+                }}
               >
                 <Cross />
                 <span className="fs-6-sm ms-2">加入組合</span>

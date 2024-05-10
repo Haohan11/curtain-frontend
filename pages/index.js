@@ -11,8 +11,6 @@ import ExportTemplate from "@/components/exportTamplate";
 
 import { checkExpires } from "@/tool/lib";
 
-// current only ref by exportTemplate
-import productData from "@/data/productData";
 import addClassName from "@/tool/addClassName";
 import { getStockData, getEnvironmentData } from "@/tool/request";
 import { transImageUrl } from "@/tool/lib";
@@ -37,22 +35,29 @@ export default function Home({ stockData, envData }) {
     combination.environment_id ?? envData?.[0]?.id
   );
   const {
-    name: envName,
+    name: env_name,
     env_image,
     mask_image,
   } = envData.find((env) => env.id === envId) ?? {};
 
-  const [currentSelect, setCurrentSelect] = useState({
+  // hold for show stock color
+  const [selectColor, setSelectColor] = useState({
     stock: combination.stockList?.[0] || stockData.data?.[0] || null,
     colorIndex: 0,
     getColorImage() {
       return this.stock?.colorList?.[this.colorIndex ?? 0]?.color_image;
     },
   });
-  const color_image = currentSelect.getColorImage();
+  const color_image = selectColor.getColorImage();
 
-  // current select stock id
-  const [product, setProduct] = useState(0);
+  // hold for export template
+  const [selectStock, setSelectStock] = useState({
+    stock: combination.stockList?.[0] || null,
+    colorIndex: 0,
+    getColorImage() {
+      return this.stock?.colorList?.[this.colorIndex ?? 0]?.color_image;
+    },
+  });
 
   return (
     <>
@@ -64,6 +69,7 @@ export default function Home({ stockData, envData }) {
           envData,
           envId,
           setEnvId,
+          selectStock
         }}
       />
       <Row className="m-0" style={{ height: "var(--main-section-height)" }}>
@@ -71,7 +77,10 @@ export default function Home({ stockData, envData }) {
           <LeftSide
             isLogin={loginState}
             data={combination.stockList}
-            setCurrentSelect={setCurrentSelect}
+            {...{
+              setSelectColor,
+              setSelectStock,
+            }}
           />
         </Col>
         <Col className="p-0 bg-linegrey">
@@ -119,16 +128,19 @@ export default function Home({ stockData, envData }) {
           <SearchPannel />
         </Col>
         <Col className="h-100 overflow-y-auto">
-          <StockList data={stockData} setCurrentSelect={setCurrentSelect} />
+          <StockList data={stockData} {...{ setSelectColor, setSelectStock }} />
         </Col>
       </Row>
       <ExportTemplate
+        // trigger render when color select
+        key={selectStock.colorIndex}
         data={{
-          envName,
-          product: (() => {
-            const { data } = productData.find((data) => data.id === product);
-            return data;
-          })(),
+          stock: selectStock.stock,
+          colorIndex: selectStock.colorIndex,
+          color_image: selectStock.getColorImage(),
+          env_name,
+          env_image,
+          mask_image,
         }}
       />
     </>

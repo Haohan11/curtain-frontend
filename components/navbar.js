@@ -23,7 +23,7 @@ const Bar = () => (
   ></span>
 );
 
-const Navbar = ({ isLogin, login, logout, envData, envId, setEnvId }) => {
+const Navbar = ({ isLogin, login, logout, envData, envId, setEnvId, selectStock }) => {
   const session = useSession();
   const token = session?.data?.user?.accessToken;
 
@@ -93,7 +93,7 @@ const Navbar = ({ isLogin, login, logout, envData, envId, setEnvId }) => {
       navText: "工作選單",
       items: [
         { label: "我的組合", name: "combination", link: "/combination" },
-        { label: "匯出圖檔", name: "exportImage", action: exportImage },
+        { label: "匯出圖檔", name: "exportImage", action: () => selectStock.stock !== null && exportImage() },
       ],
     },
     workCenter: {
