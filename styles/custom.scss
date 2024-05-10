@@ -23,6 +23,7 @@ $custom-theme-colors: (
   "textdarkblue": $textdarkblue,
   "linegrey": $linegrey,
   "checkboxblue": $checkboxblue,
+  "scroll": $scroll,
 );
 
 $theme-colors: map-merge($theme-colors, $custom-theme-colors);

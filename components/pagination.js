@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, Fragment } from "react";
 
 import { FormControl } from "react-bootstrap";
 
@@ -14,35 +14,92 @@ const Pagination = ({
   onPageChange,
   defaultPage = 1,
   inputTrigger,
+  extend: rawExtend,
 }) => {
-  const [page, setPage] = useState(defaultPage);
+  const intExtend = parseInt(rawExtend);
+  const extend =
+    isNaN(intExtend) || intExtend < 0 || intExtend > totalPage ? 2 : intExtend;
+
   const trigger = triggerDict.includes(inputTrigger) ? inputTrigger : "both";
   const enterTrigger = ["enter", "both"].includes(trigger);
   const blurTrigger = ["blur", "both"].includes(trigger);
 
+  const [page, setPage] = useState(defaultPage);
+  const inputKeyRef = useRef(0);
+
+  const checkPage = (target) => {
+    const targetPage = parseInt(target);
+    return (
+      !isNaN(targetPage) &&
+      targetPage >= 1 &&
+      targetPage <= totalPage &&
+      targetPage
+    );
+  };
+  const setCurrentPage = (cp) => {
+    const targetPage = checkPage(cp);
+    if (!targetPage) return;
+    setPage(targetPage);
+    onPageChange(targetPage);
+    inputKeyRef.current ++
+  };
+  const forward = () => page + 1 <= totalPage && setCurrentPage(page + 1);
+  const backward = () => page - 1 >= 1 && setCurrentPage(page - 1);
+
+
   return (
-    <div className="w-100 p-4 fs-6-sm flex-center">
-      <ArrowLeft width={36} className="me-2 cursor-pointer" />
-      <span className="mx-3">1</span>
-      <span className="mx-3">2</span>
-      <span className="mx-3">3</span>
-      <span className="mx-3">...</span>
-      <ArrowRight width={36} className="ms-2" />
+    <div
+      className="w-100 p-4 fs-6-sm flex-center"
+      style={{ userSelect: "none" }}
+    >
+      <ArrowLeft
+        width={38}
+        className={`me-2 ${page !== 1 && "cursor-pointer "}`}
+        {...(page === 1 && { color: "lightgray" })}
+        onClick={backward}
+      />
+      {[...Array(extend * 2 + 1)]
+        .reduce((store, _, index) => {
+          const pp = index - extend + page;
+          return pp >= 1 && pp <= totalPage ? [...store, pp] : store;
+        }, [])
+        .map((pp, index, array) => (
+          <Fragment key={pp}>
+            {index === 0 && pp > 1 && <span>. . .</span>}
+            <div
+              className={`px-3 cursor-pointer rounded-2 ${
+                pp === page && "bg-textblue text-white"
+              }`}
+              style={{
+                marginInline: "2px",
+                height: "40px",
+                lineHeight: "40px",
+              }}
+              onClick={() => setCurrentPage(pp)}
+            >
+              {pp}
+            </div>
+            {index === array.length - 1 && pp < totalPage && <span>. . .</span>}
+          </Fragment>
+        ))}
+      <ArrowRight
+        width={38}
+        className={`ms-2 ${page !== totalPage && "cursor-pointer "}`}
+        {...(page === totalPage && { color: "lightgray" })}
+        onClick={forward}
+      />
       <div className="position-absolute end-0 pe-6 text-textblue">
         <span>選擇頁數</span>
         <FormControl
+          key={inputKeyRef.current}
           className="d-inline-block mx-2 text-center text-textgrey rounded-3 fs-6-sm"
           style={{ height: "38px", width: "42px" }}
           onKeyDown={(e) => {
             onlyNumber(e);
-            enterTrigger &&
-              e.key === "Enter" &&
-              !isNaN(parseInt(e.target.value)) &&
-              onPageChange(e.target.value);
+            enterTrigger && e.key === "Enter" && setCurrentPage(e.target.value);
           }}
-          onBlur={(e) => blurTrigger && onPageChange(e.target.value)}
-          // onChange={(e) => onPageChange(e.target.value)}
-          defaultValue={defaultPage}
+          onBlur={(e) => blurTrigger && setCurrentPage(e.target.value)}
+          defaultValue={page}
         />
         <span className="me-2">/</span>
         <span>{totalPage}</span>

@@ -112,7 +112,8 @@ export default function CombinationPage({ combinationData }) {
             }
             <div className="mt-12">
               <Pagination
-                totalPage={combinationData.totalPages}
+                totalPage={5}
+                // totalPage={combinationData.totalPages}
                 defaultPage={1}
                 onPageChange={(page) => {
                   console.log(page);
