@@ -13,7 +13,7 @@ const ExportTemplate = ({
   data: { env_name, env_image, color_image, mask_image, stock, colorIndex },
 }) => {
   return (
-    <div id="export_target" className="export-template border">
+    <div id="export_target" className="position-fixed export-template border">
       <div className="head fs-6-sm fw-bold hstack w-100 justify-content-between px-4">
         <div>
           <Curtain width={28} color={"#D7DEEA"} />

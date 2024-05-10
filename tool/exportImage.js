@@ -4,7 +4,7 @@ const exportImage = async () => {
   const target = document.getElementById("export_target")
   const canvas = await html2canvas(target, {
     allowTaint: true,
-    useCORS: true
+    useCORS: true,
   });
 
   const dataUrl = canvas.toDataURL("image/jpg");

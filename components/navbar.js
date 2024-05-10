@@ -1,19 +1,19 @@
 import { useState, useRef } from "react";
 
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import Leave from "@/icon/leave";
 import Logo from "@/icon/logoSvg";
 import User from "@/icon/user";
 import { Form, FormControl } from "react-bootstrap";
+import Select from "@/components/input/select";
 
 import NavItem from "@/components/navItem";
 import exportImage from "@/tool/exportImage";
-
 import { createCombination, updateCombination } from "@/tool/request";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
-
 import { useSession } from "next-auth/react";
 
 const Bar = () => (
@@ -23,9 +23,23 @@ const Bar = () => (
   ></span>
 );
 
-const Navbar = ({ isLogin, login, logout, envData, envId, setEnvId, selectStock }) => {
+const Navbar = ({
+  isLogin,
+  login,
+  logout,
+  envData,
+  envId,
+  setEnvId,
+  selectStock,
+}) => {
+  const router = useRouter();
+
   const session = useSession();
   const token = session?.data?.user?.accessToken;
+
+  const showMode =
+    ["true", "false"].includes(router.query.showMode) &&
+    JSON.parse(router.query.showMode);
 
   const { combination, resetCombination } = useCombination();
   const combName = useRef(combination.name);
@@ -93,7 +107,11 @@ const Navbar = ({ isLogin, login, logout, envData, envId, setEnvId, selectStock 
       navText: "工作選單",
       items: [
         { label: "我的組合", name: "combination", link: "/combination" },
-        { label: "匯出圖檔", name: "exportImage", action: () => selectStock.stock !== null && exportImage() },
+        {
+          label: "匯出圖檔",
+          name: "exportImage",
+          action: () => selectStock.stock !== null && exportImage(),
+        },
       ],
     },
     workCenter: {
@@ -121,21 +139,35 @@ const Navbar = ({ isLogin, login, logout, envData, envId, setEnvId, selectStock 
       {isLogin && (
         <>
           <span className="fw-bold ms-10">展示模式</span>
-          <Form.Switch className="ms-4 fs-1 model-switch"></Form.Switch>
+          <Form.Switch
+            className="ms-4 fs-1 model-switch"
+            defaultChecked={showMode}
+            onInput={(e) =>
+              router.push({
+                query: { ...router.query, showMode: e.target.checked },
+              })
+            }
+          ></Form.Switch>
           <Bar />
-          <span className="fw-bold">當前組合</span>
-          <FormControl
-            key={`${nameKey}`}
-            className="ms-4 w-25 text-darkblue text-indent-5 uni-height fs-6-sm"
-            defaultValue={combination.name}
-            onInput={(e) => (combName.current = e.target.value)}
-          />
-          <NavItem
-            data={navData["operation"]}
-            isShow={itemsOpen.get("operation")}
-            setShow={() => toggleOpen("operation")}
-            className="ms-4"
-          />
+          <span className="fw-bold">{showMode ? "選擇組合" : "當前組合"}</span>
+          {showMode ? (
+            <Select className="ms-4 py-5" style={{height: "var(--uni-height)"}} />
+          ) : (
+            <>
+              <FormControl
+                key={`${nameKey}`}
+                className="ms-4 w-25 text-darkblue text-indent-5 uni-height fs-6-sm"
+                defaultValue={combination.name}
+                onInput={(e) => (combName.current = e.target.value)}
+              />
+              <NavItem
+                data={navData["operation"]}
+                isShow={itemsOpen.get("operation")}
+                setShow={() => toggleOpen("operation")}
+                className="ms-4"
+              />
+            </>
+          )}
         </>
       )}
       <NavItem
