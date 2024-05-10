@@ -29,6 +29,7 @@ const ExportTemplate = ({
                 <ColorRadio
                   src={transImageUrl(color.color_image)}
                   defaultChecked={index === colorIndex}
+                  showBorder={index === colorIndex}
                 />
               </div>
             ))}
@@ -38,34 +39,34 @@ const ExportTemplate = ({
           <span className="fw-bold text-textblue">{env_name}</span>
         </div>
       </div>
-      <div
-        className="img-box position-relative"
-        style={{
-          aspectRatio: "16 / 9",
-        }}
-      >
         <div
-          className="h-100 w-100 position-absolute top-0 left-0"
+          className="mx-auto img-box position-relative"
           style={{
-            backgroundImage: `url("${transImageUrl(env_image)}")`,
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
+            aspectRatio: "16 / 9",
           }}
-        ></div>
-        <div
-          className="h-100 w-100 position-absolute top-0 left-0"
-          style={{
-            backgroundImage: `url("${transImageUrl(color_image)}")`,
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            maskImage: `url('${transImageUrl(mask_image)}')`,
-            maskRepeat: "no-repeat",
-            maskSize: "contain",
-          }}
-        ></div>
-      </div>
+        >
+          <div
+            className="h-100 w-100 position-absolute top-0 left-0"
+            style={{
+              backgroundImage: `url("${transImageUrl(env_image)}")`,
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+            }}
+          ></div>
+          <div
+            className="h-100 w-100 position-absolute top-0 left-0"
+            style={{
+              backgroundImage: `url("${transImageUrl(color_image)}")`,
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              maskImage: `url('${transImageUrl(mask_image)}')`,
+              maskRepeat: "no-repeat",
+              maskSize: "contain",
+            }}
+          ></div>
+        </div>
       <div className="row g-5 fs-6-sm p-4 text-textblue">
         <div className="col-4 border-end border-2">
           <Box>

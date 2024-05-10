@@ -1,4 +1,4 @@
-import html2canvas from "html2canvas";
+import html2canvas from "@shilim-developer/html2canvas";
 
 const exportImage = async () => {
   const target = document.getElementById("export_target")
