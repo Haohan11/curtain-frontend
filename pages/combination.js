@@ -112,11 +112,10 @@ export default function CombinationPage({ combinationData }) {
             }
             <div className="mt-12">
               <Pagination
-                totalPage={5}
-                // totalPage={combinationData.totalPages}
+                totalPage={combinationData.totalPages}
                 defaultPage={1}
                 onPageChange={(page) => {
-                  console.log(page);
+                  router.push({ query: { ...router.query, page } });
                 }}
               />
               <div className="mt-10 flex-center text-textgrey">

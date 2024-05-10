@@ -1,22 +1,24 @@
+import { useRouter } from "next/router";
 import Image from "next/image";
+
 import { Col, Row } from "react-bootstrap";
 
 import Pagination from "@/components/pagination";
-import ColorRadio from "./input/colorRadio";
+import ColorRadio from "@/components/input/colorRadio";
 import Cross from "@/icon/cross";
-
 import { transImageUrl } from "@/tool/lib";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
 
 const StockList = ({ data, setCurrentSelect }) => {
+  const router = useRouter();
   const { totalPages, data: list } = data;
   const { addToCombination } = useCombination();
 
   return (
-    <div className="position-relative h-100" style={{ minHeight: "350px" }}>
+    <div className="position-relative py-3 d-flex flex-column h-100 justify-content-between">
       <Row
-        className="row-cols-5 pt-3 px-2 g-1 justify-content-evenly mx-auto"
+        className="w-100 row-cols-5 px-2 g-1 justify-content-evenly mx-auto"
         style={{ maxWidth: "1080px" }}
       >
         {list.map((item) => (
@@ -36,7 +38,7 @@ const StockList = ({ data, setCurrentSelect }) => {
                 fill
               />
             </div>
-            <p className="p-2 m-0 text-center text-darkblue fw-bold">
+            <p className="py-2 m-0 text-center text-darkblue fw-bold">
               {item.name ?? "Product Name"}
             </p>
             <div className="hstack justify-content-around">
@@ -48,7 +50,13 @@ const StockList = ({ data, setCurrentSelect }) => {
                     key={color.id}
                     name={`stocklist_${item.id}`}
                     src={transImageUrl(color.color_image)}
-                    onClick={() => setCurrentSelect(prev => ({...prev, stock: item, colorIndex: index}))}
+                    onClick={() =>
+                      setCurrentSelect((prev) => ({
+                        ...prev,
+                        stock: item,
+                        colorIndex: index,
+                      }))
+                    }
                   />
                 ))
               )}
@@ -65,7 +73,12 @@ const StockList = ({ data, setCurrentSelect }) => {
           </Col>
         ))}
       </Row>
-      <Pagination totalPage={totalPages} />
+      <Pagination
+        totalPage={totalPages}
+        onPageChange={(page) => {
+          router.push({ query: { ...router.query, page } });
+        }}
+      />
     </div>
   );
 };

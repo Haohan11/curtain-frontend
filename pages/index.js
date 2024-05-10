@@ -143,7 +143,10 @@ export const getServerSideProps = async (context) => {
     };
   }
   const accessToken = session.user.accessToken;
-  const stockData = (await getStockData(accessToken, { page: 1, size: 5 })) || {
+  const stockData = (await getStockData(accessToken, {
+    ...context?.query?.page,
+    size: 5,
+  })) || {
     total: 0,
     totalPages: 0,
     data: [],

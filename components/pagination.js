@@ -40,7 +40,7 @@ const Pagination = ({
     const targetPage = checkPage(cp);
     if (!targetPage) return;
     setPage(targetPage);
-    onPageChange(targetPage);
+    typeof onPageChange === "function" && onPageChange(targetPage);
     inputKeyRef.current ++
   };
   const forward = () => page + 1 <= totalPage && setCurrentPage(page + 1);
@@ -49,7 +49,7 @@ const Pagination = ({
 
   return (
     <div
-      className="w-100 p-4 fs-6-sm flex-center"
+      className="position-relative px-4 fs-6-sm flex-center"
       style={{ userSelect: "none" }}
     >
       <ArrowLeft
@@ -88,7 +88,7 @@ const Pagination = ({
         {...(page === totalPage && { color: "lightgray" })}
         onClick={forward}
       />
-      <div className="position-absolute end-0 pe-6 text-textblue">
+      <div className="position-absolute end-0 text-textblue pe-8">
         <span>選擇頁數</span>
         <FormControl
           key={inputKeyRef.current}
