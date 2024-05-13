@@ -54,6 +54,10 @@ const selectStyles = {
       borderRadius: "0 7px 7px 0",
     },
   }),
+  noOptionsMessage: (base) => ({
+    ...base,
+    paddingLeft: 0
+  })
 };
 
 const Select = ({ options, noOptionsMessage, ...props }) => {

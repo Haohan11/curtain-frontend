@@ -2,16 +2,8 @@ import { toFormData } from "./lib";
 
 const BASEURL = process.env.NEXT_PUBLIC_BACKENDURL;
 
-// const mockAuthor = {
-//   user_id: 1,
-//   create_name: "han",
-//   create_id: "admin",
-//   modify_name: "han",
-//   modify_id: "admin",
-// };
-
-export const getStockData = async (token, { page = 1, size = 5 }) => {
-  const URL = `${BASEURL}/stock?page=${page}&size=${size}&onlyEnable=`;
+export const getStockData = async (token, { page = 1, size = 5, resolvedUrl }) => {
+  const URL = `${BASEURL}/stock?page=${page}&size=${size}&onlyEnable=&${resolvedUrl.replace("/?", "")}`;
   try {
     const res = await fetch(URL, {
       headers: {
@@ -133,6 +125,66 @@ export const deleteCombination = async (token, values) => {
     return status;
   } catch (error) {
     console.log("Failed to get combination:", error);
+    return false;
+  }
+};
+
+export const getColorSchemeData = async (token) => {
+  const URL = `${BASEURL}/color-scheme?onlyEnable=`;
+  try {
+    const res = await fetch(URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) return false;
+
+    const {
+      data: { list },
+    } = await res.json();
+    return list;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const getDesignData = async (token) => {
+  const URL = `${BASEURL}/design?onlyEnable=`;
+  try {
+    const res = await fetch(URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) return false;
+
+    const {
+      data: { list },
+    } = await res.json();
+    return list;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const getMaterialData = async (token) => {
+  const URL = `${BASEURL}/material?onlyEnable=`;
+  try {
+    const res = await fetch(URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) return false;
+
+    const {
+      data: { list },
+    } = await res.json();
+    return list;
+  } catch (error) {
+    console.log(error);
     return false;
   }
 };

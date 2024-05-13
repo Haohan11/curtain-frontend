@@ -15,6 +15,9 @@ import addClassName from "@/tool/addClassName";
 import {
   getStockData,
   getEnvironmentData,
+  getMaterialData,
+  getDesignData,
+  getColorSchemeData,
   getCombinations,
 } from "@/tool/request";
 import { transImageUrl } from "@/tool/lib";
@@ -28,7 +31,14 @@ const SearchPannel = dynamic(
 
 const Row = addClassName(BSRow, "g-0");
 
-export default function Home({ stockData, envData, combinationData }) {
+export default function Home({
+  stockData,
+  envData,
+  combinationData,
+  designData,
+  materialData,
+  colorSchemeData,
+}) {
   const [loginState, setLoginState] = useState(true);
   const login = () => setLoginState(true);
   // const logout = () => setLoginState(false);
@@ -129,7 +139,7 @@ export default function Home({ stockData, envData, combinationData }) {
         }}
       >
         <Col sm={3} className="h-100">
-          <SearchPannel />
+          <SearchPannel {...{ designData, materialData, colorSchemeData }} />
         </Col>
         <Col className="h-100 overflow-y-auto">
           <StockList data={stockData} {...{ setSelectColor, setSelectStock }} />
@@ -160,14 +170,18 @@ export const getServerSideProps = async (context) => {
   }
   const accessToken = session.user.accessToken;
   const stockData = (await getStockData(accessToken, {
-    ...context?.query?.page,
+    ...context?.query,
     size: 5,
+    resolvedUrl: context?.resolvedUrl
   })) || {
     total: 0,
     totalPages: 0,
     data: [],
   };
   const envData = (await getEnvironmentData(accessToken)) || [];
+  const designData = (await getDesignData(accessToken)) || [];
+  const materialData = (await getMaterialData(accessToken)) || [];
+  const colorSchemeData = (await getColorSchemeData(accessToken)) || [];
   const { list: combinationData } = (context?.query?.showMode &&
     (await getCombinations(accessToken, {}))) || { list: [] };
 
@@ -175,6 +189,9 @@ export const getServerSideProps = async (context) => {
     props: {
       stockData,
       envData,
+      designData,
+      materialData,
+      colorSchemeData,
       combinationData,
     },
   };

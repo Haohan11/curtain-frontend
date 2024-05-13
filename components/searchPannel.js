@@ -1,11 +1,9 @@
-import {
-  Row as BSRow,
-  Col,
-  Form,
-  FormControl,
-} from "react-bootstrap";
+import { useRouter } from "next/router";
 
-import ColorRadios from "./input/colorRadios";
+import { useRef } from "react";
+
+import { Row as BSRow, Col, Form, FormControl } from "react-bootstrap";
+
 import Stars from "@/components/input/starsRating";
 import Search from "@/icon/search";
 import Select from "@/components/input/select";
@@ -15,7 +13,57 @@ import addClassName from "@/tool/addClassName";
 const Row = addClassName(BSRow, "mb-3 g-0");
 const TitleCol = addClassName(Col, "col-sm-4 fw-bold py-2");
 
-const SearchPannel = () => {
+const SearchPannel = ({ designData, materialData, colorSchemeData }) => {
+  const router = useRouter();
+  const querysRef = useRef({
+    stockName: null,
+    colorScheme: [],
+    design: [],
+    material: [],
+    block: null,
+    absorption: null,
+  });
+
+  const getSingleValueHandler = (name) => (e) =>
+    (querysRef.current = {
+      ...querysRef.current,
+      [name]: e.target.value.length >= 15 ? null : e.target.value,
+    });
+
+  const getMultiOptionHandler = (name) => (option) =>
+    (querysRef.current = {
+      ...querysRef.current,
+      [name]: option.map((v) => v.value),
+    });
+
+  const pushQuerys = () => {
+    // separate field names out
+    const {
+      stockName,
+      colorScheme,
+      design,
+      material,
+      block,
+      absorption,
+      ...querys
+    } = router.query;
+
+    router.push({
+      query: {
+        ...querys,
+        ...Object.entries(querysRef.current).reduce(
+          (queryObj, [key, value]) => ({
+            ...queryObj,
+            ...(Array.isArray(value) &&
+              value.length > 0 && { [key]: JSON.stringify(value) }),
+            ...(!Array.isArray(value) && value !== null && { [key]: value }),
+          }),
+          {}
+        ),
+      },
+    });
+  };
+
   return (
     <div className="position-relative shadow h-100">
       <Form
@@ -34,6 +82,7 @@ const SearchPannel = () => {
             <FormControl
               className="text-textgrey text-indent-2 uni-height"
               placeholder="輸入產品名稱"
+              onChange={getSingleValueHandler("stockName")}
             />
           </Col>
         </Row>
@@ -42,7 +91,14 @@ const SearchPannel = () => {
             <span>色系</span>
           </TitleCol>
           <Col>
-            <ColorRadios />
+            <Select
+              isMulti
+              options={colorSchemeData.map((cs) => ({
+                label: cs.name,
+                value: cs.id,
+              }))}
+              onChange={getMultiOptionHandler("colorScheme")}
+            ></Select>
           </Col>
         </Row>
         <Row>
@@ -50,7 +106,14 @@ const SearchPannel = () => {
             <span>風格</span>
           </TitleCol>
           <Col>
-            <ColorRadios />
+            <Select
+              isMulti
+              options={designData.map((cs) => ({
+                label: cs.name,
+                value: cs.id,
+              }))}
+              onChange={getMultiOptionHandler("design")}
+            ></Select>
           </Col>
         </Row>
         <Row>
@@ -58,11 +121,14 @@ const SearchPannel = () => {
             <span>面料材質</span>
           </TitleCol>
           <Col>
-            <Select isMulti options={[
-              {value: 0, label: "絲綢"},
-              {value: 1, label: "帆布"}
-            ]}>
-            </Select>
+            <Select
+              isMulti
+              options={materialData.map((cs) => ({
+                label: cs.name,
+                value: cs.id,
+              }))}
+              onChange={getMultiOptionHandler("material")}
+            ></Select>
           </Col>
         </Row>
         <Row>
@@ -71,8 +137,9 @@ const SearchPannel = () => {
           </TitleCol>
           <Col>
             <Stars
-              name={"block"}
+              name="block"
               className="ps-2 uni-height "
+              onInput={getSingleValueHandler("block")}
             />
           </Col>
         </Row>
@@ -81,13 +148,18 @@ const SearchPannel = () => {
             <span>吸音效果</span>
           </TitleCol>
           <Col>
-            <Stars name={"mute"} className="ps-2 uni-height" />
+            <Stars
+              name="absorption"
+              className="ps-2 uni-height"
+              onInput={getSingleValueHandler("absorption")}
+            />
           </Col>
         </Row>
       </Form>
       <div
         className="position-absolute flex-center bottom-0 left-0 w-100 bg-darkblue text-white cursor-pointer"
         style={{ height: "54px" }}
+        onClick={pushQuerys}
       >
         立即搜尋
       </div>
