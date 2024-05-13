@@ -5,6 +5,7 @@ $red: #dc1c16;
 $orange: #ff4d00;
 $textgrey: #8F939D;
 $linegrey: #D7DEEA;
+$checkshadow: rgba(13, 110, 253, 0.25);
 $checkboxblue: #6898D9;
 $input-placeholder-color: $textgrey;
 $scroll: #91AACB;
@@ -22,6 +23,7 @@ $custom-theme-colors: (
   "textblue": $textblue,
   "textdarkblue": $textdarkblue,
   "linegrey": $linegrey,
+  "checkshadow": $checkshadow,
   "checkboxblue": $checkboxblue,
   "scroll": $scroll,
 );

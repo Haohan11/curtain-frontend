@@ -151,7 +151,7 @@ const Navbar = ({
           <Bar />
           <span className="fw-bold">{showMode ? "選擇組合" : "當前組合"}</span>
           {showMode ? (
-            <Select className="ms-4 py-5" style={{height: "var(--uni-height)"}} />
+            <Select className="ms-4 w-25 z-3" isClearable />
           ) : (
             <>
               <FormControl
