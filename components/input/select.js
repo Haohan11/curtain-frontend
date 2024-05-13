@@ -56,13 +56,7 @@ const selectStyles = {
   }),
 };
 
-const mockOptions = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
-
-const Select = ({ options = mockOptions, noOptionsMessage, ...props }) => {
+const Select = ({ options, noOptionsMessage, ...props }) => {
   return (
     <ReactSelect
       styles={selectStyles}

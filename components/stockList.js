@@ -12,6 +12,11 @@ import { useCombination } from "@/hook/provider/combinationProvider";
 
 const StockList = ({ data, setSelectColor, setSelectStock }) => {
   const router = useRouter();
+
+  const showMode =
+    ["true", "false"].includes(router.query.showMode) &&
+    JSON.parse(router.query.showMode);
+
   const { totalPages, data: list } = data;
   const { combination, addToCombination } = useCombination();
 
@@ -75,8 +80,12 @@ const StockList = ({ data, setSelectColor, setSelectStock }) => {
                   addToCombination(item);
                 }}
               >
-                <Cross />
-                <span className="fs-6-sm ms-2">加入組合</span>
+                {!showMode && (
+                  <>
+                    <Cross />
+                    <span className="fs-6-sm ms-2">加入組合</span>
+                  </>
+                )}
               </div>
             </div>
           </Col>
@@ -84,7 +93,7 @@ const StockList = ({ data, setSelectColor, setSelectStock }) => {
       </Row>
       <Pagination
         totalPage={totalPages}
-        defaultPage={router.query?.page}
+        defaultPage={router.query.page}
         onPageChange={(page) => {
           router.push({ query: { ...router.query, page } });
         }}
