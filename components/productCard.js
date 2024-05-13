@@ -109,7 +109,10 @@ const ProductCard = ({
             {deletable && (
               <TrashCan
                 className="ms-2 text-red cursor-pointer"
-                {...(typeof onDelete === "function" && { onClick: onDelete })}
+                onClick={(e) => {
+                  e.preventDefault()
+                  typeof onDelete === "function" && onDelete()
+                }}
               />
             )}
           </div>
@@ -119,7 +122,7 @@ const ProductCard = ({
           className={`${sticky && stickyClassName} ${cardHeadClassName}`}
           style={cardHeadStyle}
         >
-          <p className={cardTitleClassName}>{name || "Product Name"}</p>
+          <div className="pb-3" >{name || "Product Name"}</div>
         </div>
       )}
       <Accordion.Collapse eventKey="0">

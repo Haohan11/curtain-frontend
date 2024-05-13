@@ -138,6 +138,8 @@ export const getServerSideProps = async (context) => {
     };
 
   const combinationData = (await getCombinations(accessToken, {
+    page: 1,
+    size: 5,
     ...context.query,
   })) || {
     total: 0,

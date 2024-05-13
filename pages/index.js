@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Row as BSRow, Col } from "react-bootstrap";
@@ -12,7 +12,11 @@ import ExportTemplate from "@/components/exportTamplate";
 import { checkExpires } from "@/tool/lib";
 
 import addClassName from "@/tool/addClassName";
-import { getStockData, getEnvironmentData } from "@/tool/request";
+import {
+  getStockData,
+  getEnvironmentData,
+  getCombinations,
+} from "@/tool/request";
 import { transImageUrl } from "@/tool/lib";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
@@ -24,7 +28,7 @@ const SearchPannel = dynamic(
 
 const Row = addClassName(BSRow, "g-0");
 
-export default function Home({ stockData, envData }) {
+export default function Home({ stockData, envData, combinationData }) {
   const [loginState, setLoginState] = useState(true);
   const login = () => setLoginState(true);
   // const logout = () => setLoginState(false);
@@ -59,6 +63,14 @@ export default function Home({ stockData, envData }) {
     },
   });
 
+  useEffect(() => {
+    setSelectColor((prev) => ({
+      ...prev,
+      stock: combination.stockList?.[0] || stockData.data?.[0] || null,
+      colorIndex: 0,
+    }));
+  }, [combination]);
+
   return (
     <>
       <Navbar
@@ -67,15 +79,15 @@ export default function Home({ stockData, envData }) {
           login,
           logout,
           envData,
+          combinationData,
           envId,
           setEnvId,
-          selectStock
+          selectStock,
         }}
       />
       <Row className="m-0" style={{ height: "var(--main-section-height)" }}>
         <Col sm={3} className="p-0 h-100 overflow-y-auto scroll">
           <LeftSide
-            isLogin={loginState}
             data={combination.stockList}
             {...{
               setSelectColor,
@@ -164,11 +176,14 @@ export const getServerSideProps = async (context) => {
     data: [],
   };
   const envData = (await getEnvironmentData(accessToken)) || [];
+  const { list: combinationData } = (context?.query?.showMode &&
+    (await getCombinations(accessToken, {}))) || { list: [] };
 
   return {
     props: {
       stockData,
       envData,
+      combinationData,
     },
   };
 };

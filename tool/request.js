@@ -94,7 +94,7 @@ export const updateCombination = async (token, values) => {
   }
 };
 
-export const getCombinations = async (token, { page = 1, size = 5 }) => {
+export const getCombinations = async (token, { page, size }) => {
   const URL = `${BASEURL}/combination?page=${page}&size=${size}`;
 
   try {

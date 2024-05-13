@@ -29,7 +29,7 @@ const StockList = ({ data, setSelectColor, setSelectStock }) => {
         {list.map((item) => (
           <Col key={item.id} style={{ maxWidth: "185px" }}>
             <div
-              className="position-relative w-100 rounded-3 overflow-hidden shadow-sm"
+              className={`position-relative w-100 rounded-3 overflow-hidden shadow-sm${showMode ? " cursor-pointer" : ""}`}
               style={{ aspectRatio: "185 / 120" }}
             >
               <Image
@@ -66,28 +66,26 @@ const StockList = ({ data, setSelectColor, setSelectStock }) => {
                 ))
               )}
             </div>
-            <div className="flex-center fw-bold text-checkboxblue py-2">
-              <div
-                className="cursor-pointer"
-                onClick={() => {
-                  (!combination.stockList ||
-                    combination.stockList.length === 0) &&
-                    setSelectStock((prev) => ({
-                      ...prev,
-                      stock: item,
-                      colorIndex: 0,
-                    }));
-                  addToCombination(item);
-                }}
-              >
-                {!showMode && (
-                  <>
-                    <Cross />
-                    <span className="fs-6-sm ms-2">加入組合</span>
-                  </>
-                )}
+            {!showMode && (
+              <div className="flex-center fw-bold text-checkboxblue py-2">
+                <div
+                  className="cursor-pointer"
+                  onClick={() => {
+                    (!combination.stockList ||
+                      combination.stockList.length === 0) &&
+                      setSelectStock((prev) => ({
+                        ...prev,
+                        stock: item,
+                        colorIndex: 0,
+                      }));
+                    addToCombination(item);
+                  }}
+                >
+                  <Cross />
+                  <span className="fs-6-sm ms-2">加入組合</span>
+                </div>
               </div>
-            </div>
+            )}
           </Col>
         ))}
       </Row>

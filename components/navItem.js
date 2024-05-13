@@ -30,7 +30,7 @@ const NavItem = ({ data, thin, button, isShow, setShow, ...props }) => {
                 index !== 0 && "mt-2"
               }`;
               return item.link ? (
-                <Link href={item.link} className={className} key={index}>
+                <Link href={item.link} onClick={item.action} className={className} key={index}>
                   {item.label}
                 </Link>
               ) : (

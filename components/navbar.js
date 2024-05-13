@@ -31,6 +31,7 @@ const Navbar = ({
   envId,
   setEnvId,
   selectStock,
+  combinationData,
 }) => {
   const router = useRouter();
 
@@ -41,7 +42,7 @@ const Navbar = ({
     ["true", "false"].includes(router.query.showMode) &&
     JSON.parse(router.query.showMode);
 
-  const { combination, resetCombination } = useCombination();
+  const { combination, resetCombination, loadCombination } = useCombination();
   const combName = useRef(combination.name);
 
   const reset = () => {
@@ -82,12 +83,20 @@ const Navbar = ({
           label: "儲存組合",
           action: async () => {
             const data = getHandledCombData();
-            (data &&
-              token &&
-              (data.id === null
-                ? await createCombination(token, data)
-                : await updateCombination(token, data))) ||
-              console.log("Fail to create combination.");
+            if (!data || !token)
+              return console.log("Fail to create combination.");
+
+            const mode = data.id === null ? "create" : "edit";
+
+            await {
+              async create() {
+                await createCombination(token, data);
+                reset();
+              },
+              async edit() {
+                await updateCombination(token, data);
+              },
+            }[mode]();
           },
         },
       ],
@@ -106,7 +115,12 @@ const Navbar = ({
     workMenu: {
       navText: "工作選單",
       items: [
-        { label: "我的組合", name: "combination", link: "/combination" },
+        {
+          label: "我的組合",
+          name: "combination",
+          link: "/combination",
+          action: reset,
+        },
         {
           label: "匯出圖檔",
           name: "exportImage",
@@ -151,7 +165,29 @@ const Navbar = ({
           <Bar />
           <span className="fw-bold">{showMode ? "選擇組合" : "當前組合"}</span>
           {showMode ? (
-            <Select className="ms-4 w-25 z-3" isClearable />
+            <Select
+              className="ms-4 w-25 z-3"
+              instanceId="comb-select"
+              isClearable
+              defaultValue={
+                combination.id
+                  ? {
+                      label: combination.name,
+                      value: combination.id,
+                      combination,
+                    }
+                  : null
+              }
+              options={combinationData.map((comb) => ({
+                label: comb.name,
+                value: comb.id,
+                combination: comb,
+              }))}
+              onChange={(option) => {
+                if (!option) return reset();
+                loadCombination(option.combination);
+              }}
+            />
           ) : (
             <>
               <FormControl
