@@ -156,11 +156,12 @@ const Navbar = ({
           <Form.Switch
             className="ms-4 fs-1 model-switch"
             defaultChecked={showMode}
-            onInput={(e) =>
+            onInput={(e) => {
+              !e.target.checked && combination.id === null && reset()
               router.push({
                 query: { ...router.query, showMode: e.target.checked },
-              })
-            }
+              });
+            }}
           ></Form.Switch>
           <Bar />
           <span className="fw-bold">{showMode ? "選擇組合" : "當前組合"}</span>

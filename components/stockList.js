@@ -18,7 +18,7 @@ const StockList = ({ data, setSelectColor, setSelectStock }) => {
     JSON.parse(router.query.showMode);
 
   const { totalPages, data: list } = data;
-  const { combination, addToCombination } = useCombination();
+  const { combination, addToCombination, loadCombination } = useCombination();
 
   return (
     <div className="position-relative py-3 d-flex flex-column h-100 justify-content-between">
@@ -30,6 +30,10 @@ const StockList = ({ data, setSelectColor, setSelectStock }) => {
           <Col key={item.id} style={{ maxWidth: "185px" }}>
             <div
               className={`position-relative w-100 rounded-3 overflow-hidden shadow-sm${showMode ? " cursor-pointer" : ""}`}
+              {...(showMode && {onClick: () => loadCombination({
+                id: null,
+                stockList: [item],
+              })})}
               style={{ aspectRatio: "185 / 120" }}
             >
               <Image

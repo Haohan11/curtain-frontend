@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Row as BSRow, Col } from "react-bootstrap";
@@ -62,14 +62,6 @@ export default function Home({ stockData, envData, combinationData }) {
       return this.stock?.colorList?.[this.colorIndex ?? 0]?.color_image;
     },
   });
-
-  useEffect(() => {
-    setSelectColor((prev) => ({
-      ...prev,
-      stock: combination.stockList?.[0] || stockData.data?.[0] || null,
-      colorIndex: 0,
-    }));
-  }, [combination]);
 
   return (
     <>
