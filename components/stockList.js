@@ -84,6 +84,7 @@ const StockList = ({ data, setSelectColor, setSelectStock }) => {
       </Row>
       <Pagination
         totalPage={totalPages}
+        defaultPage={router.query?.page}
         onPageChange={(page) => {
           router.push({ query: { ...router.query, page } });
         }}

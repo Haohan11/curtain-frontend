@@ -23,10 +23,7 @@ const Pagination = ({
   const trigger = triggerDict.includes(inputTrigger) ? inputTrigger : "both";
   const enterTrigger = ["enter", "both"].includes(trigger);
   const blurTrigger = ["blur", "both"].includes(trigger);
-
-  const [page, setPage] = useState(defaultPage);
-  const inputKeyRef = useRef(0);
-
+  
   const checkPage = (target) => {
     const targetPage = parseInt(target);
     return (
@@ -36,6 +33,10 @@ const Pagination = ({
       targetPage
     );
   };
+
+  const [page, setPage] = useState(checkPage(defaultPage) || 1);
+  const inputKeyRef = useRef(0);
+
   const setCurrentPage = (cp) => {
     const targetPage = checkPage(cp);
     if (!targetPage) return;
