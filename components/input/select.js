@@ -13,6 +13,12 @@ const selectStyles = {
       borderColor: "transparent",
     },
   }),
+  valueContainer: (base, { data }) => ({
+    ...base,
+    whiteSpace: "nowrap",
+    textWrap: "no-wrap",
+    overflow: "hidden"
+  }),
   input: (base) => ({
     ...base,
     paddingLeft: textIndent,

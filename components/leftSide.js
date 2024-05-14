@@ -40,7 +40,6 @@ const LeftSide = ({
               data={{ ...stock, index }}
               dynamic={!showMode}
               deletable={!showMode}
-              checkable={!showMode}
               sticky
               // ProductCard will holding current select colorIndex while onClickColor is provide
               onClickLabel={(e, { colorIndex }) => {

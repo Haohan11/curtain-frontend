@@ -151,7 +151,7 @@ const ProductCard = ({
             <Col>
               <ColorRadios
                 colors={colorList}
-                radioname={`${dynamic ? "dynamic" : "static"}_${id ?? index}`}
+                radioname={"stock-color"}
                 checkfirst
                 checkable={colorCheckable}
                 {...(typeof onClickColor === "function" && {
