@@ -135,10 +135,10 @@ const SearchPannel = ({ designData, materialData, colorSchemeData }) => {
           <TitleCol>
             <span>遮光度</span>
           </TitleCol>
-          <Col>
+          <Col className="d-flex">
             <Stars
+              width={20}
               name="block"
-              className="ps-2 uni-height "
               onInput={getSingleValueHandler("block")}
             />
           </Col>
@@ -147,10 +147,10 @@ const SearchPannel = ({ designData, materialData, colorSchemeData }) => {
           <TitleCol>
             <span>吸音效果</span>
           </TitleCol>
-          <Col>
+          <Col className="d-flex">
             <Stars
+              width={20}
               name="absorption"
-              className="ps-2 uni-height"
               onInput={getSingleValueHandler("absorption")}
             />
           </Col>
