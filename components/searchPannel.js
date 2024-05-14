@@ -56,7 +56,7 @@ const SearchPannel = ({ designData, materialData, colorSchemeData }) => {
             ...queryObj,
             ...(Array.isArray(value) &&
               value.length > 0 && { [key]: JSON.stringify(value) }),
-            ...(!Array.isArray(value) && value !== null && { [key]: value }),
+            ...(!Array.isArray(value) && value && { [key]: value }),
           }),
           {}
         ),
