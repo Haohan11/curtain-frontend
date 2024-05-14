@@ -4,6 +4,7 @@ import { FormControl } from "react-bootstrap";
 
 import ArrowLeft from "@/icon/arrow-left";
 import ArrowRight from "@/icon/arrow-right";
+import Cross from "@/icon/cross";
 
 import { onlyNumber } from "@/tool/lib";
 
@@ -23,7 +24,7 @@ const Pagination = ({
   const trigger = triggerDict.includes(inputTrigger) ? inputTrigger : "both";
   const enterTrigger = ["enter", "both"].includes(trigger);
   const blurTrigger = ["blur", "both"].includes(trigger);
-  
+
   const checkPage = (target) => {
     const targetPage = parseInt(target);
     return (
@@ -42,11 +43,10 @@ const Pagination = ({
     if (!targetPage) return;
     setPage(targetPage);
     typeof onPageChange === "function" && onPageChange(targetPage);
-    inputKeyRef.current ++
+    inputKeyRef.current++;
   };
-  const forward = () => page + 1 <= totalPage && setCurrentPage(page + 1);
-  const backward = () => page - 1 >= 1 && setCurrentPage(page - 1);
-
+  const forward = () => setCurrentPage(page + 1);
+  const backward = () => setCurrentPage(page - 1);
 
   return (
     <div
@@ -57,8 +57,9 @@ const Pagination = ({
         width={38}
         className={`me-2 ${page !== 1 && "cursor-pointer "}`}
         {...(page === 1 && { color: "lightgray" })}
-        onClick={backward}
+        {...(totalPage !== 0 && { onClick: backward })}
       />
+      {totalPage === 0 && <span className="text-textgrey">. . .</span>}
       {[...Array(extend * 2 + 1)]
         .reduce((store, _, index) => {
           const pp = index - extend + page;
@@ -85,9 +86,11 @@ const Pagination = ({
         ))}
       <ArrowRight
         width={38}
-        className={`ms-2 ${page !== totalPage && "cursor-pointer "}`}
-        {...(page === totalPage && { color: "lightgray" })}
-        onClick={forward}
+        className={`ms-2 ${
+          page !== totalPage && totalPage !== 0 && "cursor-pointer "
+        }`}
+        {...(page === totalPage || (totalPage === 0 && { color: "lightgray" }))}
+        {...(totalPage !== 0 && { onClick: forward })}
       />
       <div className="position-absolute end-0 text-textblue pe-8">
         <span>選擇頁數</span>
@@ -101,6 +104,7 @@ const Pagination = ({
           }}
           onBlur={(e) => blurTrigger && setCurrentPage(e.target.value)}
           defaultValue={page}
+          disabled={totalPage === 0}
         />
         <span className="me-2">/</span>
         <span>{totalPage}</span>
