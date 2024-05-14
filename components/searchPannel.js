@@ -51,6 +51,7 @@ const SearchPannel = ({ designData, materialData, colorSchemeData }) => {
     router.push({
       query: {
         ...querys,
+        page: 1,
         ...Object.entries(querysRef.current).reduce(
           (queryObj, [key, value]) => ({
             ...queryObj,

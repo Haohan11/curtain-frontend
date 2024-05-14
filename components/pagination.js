@@ -89,7 +89,7 @@ const Pagination = ({
         className={`ms-2 ${
           page !== totalPage && totalPage !== 0 && "cursor-pointer "
         }`}
-        {...(page === totalPage || (totalPage === 0 && { color: "lightgray" }))}
+        {...((page === totalPage || totalPage === 0) && { color: "lightgray" })}
         {...(totalPage !== 0 && { onClick: forward })}
       />
       <div className="position-absolute end-0 text-textblue pe-8">

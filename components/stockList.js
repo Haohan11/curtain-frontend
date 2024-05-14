@@ -24,7 +24,7 @@ const StockList = ({ data, setSelectColor, setSelectStock }) => {
     <div className="position-relative py-3 d-flex flex-column h-100 justify-content-between">
       {list.length > 0 ? (
         <Row
-          className="w-100 row-cols-5 px-2 g-0 justify-content-evenly mx-auto"
+          className="w-100 row-cols-5 px-2 gy-0 justify-content-center mx-auto"
           style={{ maxWidth: "1080px" }}
         >
           {list.map((item) => (
@@ -102,11 +102,14 @@ const StockList = ({ data, setSelectColor, setSelectStock }) => {
       ) : (
         <Row className="h-100 p-12 w-100 g-0">
           <Col>
-            <div className="h-100 border fs-5 flex-center rounded-2 bg-light">目前沒有商品資料</div>
+            <div className="h-100 border fs-5 flex-center rounded-2 bg-light">
+              目前沒有商品資料
+            </div>
           </Col>
         </Row>
       )}
       <Pagination
+        key={router.query.page}
         totalPage={totalPages}
         defaultPage={router.query.page}
         onPageChange={(page) => {

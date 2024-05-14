@@ -4,9 +4,7 @@
     "cover_image": "/image/curtain.jpg",
     "title": "業務登入",
     "submitText": "登入",
-    "submitTo": "login",
-    "returnText": "首頁",
-    "returnTo": "homepage"
+    "submitTo": "login"
   },
   "forgetPassword": {
     "cover_title": "Forget Password",
