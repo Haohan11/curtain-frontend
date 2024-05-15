@@ -76,7 +76,7 @@ const LoginPage = () => {
               <FormPassword name="password" />
             </FormGroup>
             <FormGroup className="d-flex py-4 fw-bold mb-10">
-              <FormCheck
+              {/* <FormCheck
                 id="rememberme"
                 label="記住我"
                 className="text-darkblue"
@@ -86,7 +86,7 @@ const LoginPage = () => {
                 className="ms-auto cursor-pointer"
               >
                 忘記密碼?
-              </span>
+              </span> */}
             </FormGroup>
           </>
         )}
