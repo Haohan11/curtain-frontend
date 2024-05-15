@@ -15,7 +15,7 @@ const PopUp = ({
   return (
     <>
       <div className="mb-5 flex-center flex-column">
-        {imageSrc && <Image src={imageSrc} width="70" height="70" className={`mb-4`}/>}
+        {imageSrc && <Image src={imageSrc} width="70" height="70" className={`mb-4`} alt='icon'/>}
         <p className={`mb-4 fs-1 fw-bolder ${titleClass}`}>{title}</p>
         <h6 className={`mb-4 ${describeClass}`}>{describe}</h6>
       </div>
