@@ -14,7 +14,10 @@ import SubmitButton from "@/components/input/submitButton";
 import LoginButton from "@/components/input/loginButton";
 import AuthCodeInput from "@/components/input/authCodeInput";
 import Logo from "@/components/logo";
+import ModalWrapper from "@/components/modalWrapper";
+import PopUp from "@/components/popUp";
 
+import useModals from "@/hook/useModals";
 import pageJson from "@/data/pageData";
 
 const LoginPage = () => {
@@ -24,6 +27,7 @@ const LoginPage = () => {
   const toLogin = () => setPageName("login");
   const toReset = () => setPageName("resetPassword");
   const toForgetPassword = () => setPageName("forgetPassword");
+  const { handleShowModal, handleCloseModal, isModalOpen } = useModals();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,7 +58,7 @@ const LoginPage = () => {
       router.push("/");
     } else {
       form.reset();
-      alert("帳號密碼錯誤");
+      handleShowModal('popup')
     }
   };
 
@@ -131,6 +135,20 @@ const LoginPage = () => {
           </>
         )}
       </div>
+
+      <ModalWrapper
+        key="popup"
+        show={isModalOpen("popup")}
+        size="lg"
+        onHide={() => handleCloseModal("popup")}
+      >
+        <PopUp
+          imageSrc={"/icon/circle-error.svg"}
+          title={"帳號或密碼錯誤"}
+          describeClass="fs-5 text-red"
+          confirmOnClick={() => handleCloseModal("popup")}
+        />
+      </ModalWrapper>
     </Form>
   );
 
