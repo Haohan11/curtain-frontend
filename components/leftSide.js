@@ -3,11 +3,7 @@ import ProductCard from "./productCard";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
 
-const LeftSide = ({
-  data: stockList,
-  setSelectColor,
-  setSelectStock,
-}) => {
+const LeftSide = ({ data: stockList, setSelectColor, setSelectStock }) => {
   const router = useRouter();
   const showMode =
     ["true", "false"].includes(router.query.showMode) &&
@@ -15,7 +11,7 @@ const LeftSide = ({
   const { removeFromCombination } = useCombination();
 
   return (
-    <div className="vstack h-100">
+    <div className="vstack" style={{ minHeight: "100%" }}>
       <div className="d-flex fs-6 fw-bold text-darkblue p-4 m-0 border-2 border-bottom border-linegrey position-sticky top-0 bg-white z-2">
         <span style={{ letterSpacing: "1.5px" }}>
           {!showMode ? "商品列表" : "商品資訊"}
@@ -41,25 +37,7 @@ const LeftSide = ({
               dynamic={!showMode}
               deletable={!showMode}
               sticky
-              // ProductCard will holding current select colorIndex while onClickColor is provide
-              onClickLabel={(e, { colorIndex }) => {
-                setSelectColor((prev) => ({
-                  ...prev,
-                  stock,
-                  colorIndex,
-                }));
-                setSelectStock((prev) => ({
-                  ...prev,
-                  stock,
-                  colorIndex,
-                }));
-              }}
               onClickColor={(e, { index: colorIndex }) => {
-                setSelectColor((prev) => ({
-                  ...prev,
-                  stock,
-                  colorIndex,
-                }));
                 setSelectStock((prev) =>
                   prev.stock?.id === stock.id
                     ? {
