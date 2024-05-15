@@ -13,7 +13,7 @@ const initValues = {
 export const CombinationProvider = ({ children }) => {
   const [combination, setCombination] = useState(initValues);
 
-  const resetCombination = () => setCombination({ ...initValues });
+  const resetCombination = () => setCombination({ ...initValues, stockIdCache: new Set(), });
   const addToCombination = (stock) => {
     if (combination.stockIdCache.has(stock.id)) return;
     setCombination((prev) => ({

@@ -8,7 +8,7 @@ const StyledLink = addClassName(Link, "flex-center text-textgrey");
 
 const ReturnButton = ({ text, href, action, className }) => {
   return href ? (
-    <StyledLink href={href} className={className}>
+    <StyledLink href={href} className={className} onClick={action}>
       <ArrowLeft width="2rem" height="2rem" className="me-2" />
       <span className="fs-5-sm">{text || "返回"}</span>
     </StyledLink>

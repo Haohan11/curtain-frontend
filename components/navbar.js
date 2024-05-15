@@ -130,7 +130,7 @@ const Navbar = ({
     },
     workCenter: {
       navText: "工作中心",
-      items: [{ label: "我的帳號", name: "myAccount", link: "/account" }],
+      items: [{ label: "我的帳號", name: "myAccount", link: "/account", action: reset, }],
     },
   };
 

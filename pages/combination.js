@@ -112,8 +112,9 @@ export default function CombinationPage({ combinationData }) {
             }
             <div className="mt-12">
               <Pagination
+                key={router.query.page}
                 totalPage={combinationData.totalPages}
-                defaultPage={1}
+                defaultPage={router.query.page}
                 onPageChange={(page) => {
                   router.push({ query: { ...router.query, page } });
                 }}
