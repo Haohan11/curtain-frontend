@@ -10,7 +10,7 @@ import { transImageUrl } from "@/tool/lib";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
 
-const StockList = ({ data, setSelectColor, setSelectStock }) => {
+const StockList = ({ data, setSelectStock }) => {
   const router = useRouter();
 
   const showMode =
@@ -66,7 +66,7 @@ const StockList = ({ data, setSelectColor, setSelectStock }) => {
                       name={"stock-color"}
                       src={transImageUrl(color.color_image)}
                       onClick={() =>
-                        setSelectColor((prev) => ({
+                        setSelectStock((prev) => ({
                           ...prev,
                           stock: item,
                           colorIndex: index,

@@ -3,7 +3,7 @@ import ProductCard from "./productCard";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
 
-const LeftSide = ({ data: stockList, setSelectColor, setSelectStock }) => {
+const LeftSide = ({ data: stockList, setSelectStock }) => {
   const router = useRouter();
   const showMode =
     ["true", "false"].includes(router.query.showMode) &&
@@ -38,14 +38,11 @@ const LeftSide = ({ data: stockList, setSelectColor, setSelectStock }) => {
               deletable={!showMode}
               sticky
               onClickColor={(e, { index: colorIndex }) => {
-                setSelectStock((prev) =>
-                  prev.stock?.id === stock.id
-                    ? {
-                        ...prev,
-                        colorIndex,
-                      }
-                    : prev
-                );
+                setSelectStock((prev) => ({
+                  ...prev,
+                  stock,
+                  colorIndex,
+                }));
               }}
               onDelete={() => removeFromCombination(stock.id)}
             />

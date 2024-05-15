@@ -54,24 +54,15 @@ export default function Home({
     mask_image,
   } = envData.find((env) => env.id === envId) ?? {};
 
-  // hold for show stock color
-  const [selectColor, setSelectColor] = useState({
+  // hold for export template
+  const [selectStock, setSelectStock] = useState({
     stock: combination.stockList?.[0] || stockData.data?.[0] || null,
     colorIndex: 0,
     getColorImage() {
       return this.stock?.colorList?.[this.colorIndex ?? 0]?.color_image;
     },
   });
-  const color_image = selectColor.getColorImage();
-
-  // hold for export template
-  const [selectStock, setSelectStock] = useState({
-    stock: combination.stockList?.[0] || null,
-    colorIndex: 0,
-    getColorImage() {
-      return this.stock?.colorList?.[this.colorIndex ?? 0]?.color_image;
-    },
-  });
+  const color_image = selectStock.getColorImage();
 
   return (
     <>
@@ -90,9 +81,8 @@ export default function Home({
       <Row className="m-0" style={{ height: "var(--main-section-height)" }}>
         <Col sm={3} className="p-0 h-100 overflow-y-auto scroll">
           <LeftSide
-            data={combination.stockList}
             {...{
-              setSelectColor,
+              data: combination.stockList,
               setSelectStock,
             }}
           />
@@ -103,25 +93,26 @@ export default function Home({
               className="position-relative h-100"
               style={{ aspectRatio: "16 / 9" }}
             >
-              <Image
-                alt="enviroment image"
-                className="object-fit-contain"
-                fill
-                placeholder="blur"
-                blurDataURL={
-                  transImageUrl(env_image) || "/image/livingroom.jpg"
-                }
-                sizes="70vw"
-                src={transImageUrl(env_image) || "/image/livingroom.jpg"}
-              />
+              {transImageUrl(env_image) && (
+                <Image
+                  alt="enviroment image"
+                  className="object-fit-contain"
+                  fill
+                  placeholder="blur"
+                  blurDataURL={transImageUrl(env_image)}
+                  sizes="70vw"
+                  src={transImageUrl(env_image)}
+                />
+              )}
               <Image
                 alt="mask image"
                 className="object-fit-cover"
                 priority
                 fill
                 sizes="70vw"
-                src={transImageUrl(color_image) || "/image/livingroom.jpg"}
+                src={transImageUrl(color_image)}
                 style={{
+                  backgroundColor: "#222",
                   maskImage: `url('${transImageUrl(mask_image)}')`,
                   maskRepeat: "no-repeat",
                   maskSize: "contain",
@@ -142,7 +133,7 @@ export default function Home({
           <SearchPannel {...{ designData, materialData, colorSchemeData }} />
         </Col>
         <Col className="h-100 overflow-y-auto">
-          <StockList data={stockData} {...{ setSelectColor, setSelectStock }} />
+          <StockList {...{ data: stockData, setSelectStock }} />
         </Col>
       </Row>
       <ExportTemplate
@@ -172,7 +163,7 @@ export const getServerSideProps = async (context) => {
   const stockData = (await getStockData(accessToken, {
     ...context?.query,
     size: 5,
-    resolvedUrl: context?.resolvedUrl
+    resolvedUrl: context?.resolvedUrl,
   })) || {
     total: 0,
     totalPages: 0,

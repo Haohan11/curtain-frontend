@@ -152,7 +152,6 @@ const ProductCard = ({
               <ColorRadios
                 colors={colorList}
                 radioname={"stock-color"}
-                checkfirst
                 checkable={colorCheckable}
                 {...(typeof onClickColor === "function" && {
                   onClick: (e, color) => {
