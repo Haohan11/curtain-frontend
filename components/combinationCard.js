@@ -4,6 +4,9 @@ import { Col, Row } from "react-bootstrap";
 import TrashCan from "@/icon/trashcan";
 import ProductCard from "@/components/productCard";
 import SubmitButton from "@/components/input/submitButton";
+import ModalWrapper from "./modalWrapper";
+import PopUp from "./popUp";
+import useModals from "@/hook/useModals";
 
 import { transImageUrl } from "@/tool/lib";
 
@@ -12,6 +15,9 @@ const CombinationCard = ({
   onDelete,
   onOpen,
 }) => {
+  
+  const { handleShowModal, handleCloseModal, isModalOpen } = useModals();
+  
   return (
     <div className="px-5 mt-12 pb-8">
       <Row className="g-10 border-bottom pb-12">
@@ -53,7 +59,7 @@ const CombinationCard = ({
               </SubmitButton>
               <div
                 className="ms-6 me-4 text-red cursor-pointer"
-                {...(typeof onDelete === "function" && { onClick: onDelete })}
+                {...(typeof onDelete === "function" && { onClick:()=>{handleShowModal('wantDelete')}})}
               >
                 <TrashCan />
               </div>
@@ -68,6 +74,26 @@ const CombinationCard = ({
           </div>
         </Col>
       </Row>
+
+      {/*是否刪除*/}
+      <ModalWrapper
+        key="wantDelete"
+        show={isModalOpen("wantDelete")}
+        size="lg"
+        onHide={() => handleCloseModal("wantDelete")}
+      >
+        <PopUp
+          imageSrc={"/icon/warning.svg"}
+          title={"是否要刪除該組合?"}
+          describe="刪除該組合後，無法復原"
+          describeClass='fs-5 text-red'
+          denyOnClick={() => handleCloseModal("wantDelete")}
+          confirmOnClick={() => {
+            typeof onDelete === "function" && onDelete();
+           handleCloseModal("wantDelete")
+          }}
+        />
+      </ModalWrapper>
     </div>
   );
 };

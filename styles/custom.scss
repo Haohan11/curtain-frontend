@@ -11,6 +11,7 @@ $input-placeholder-color: $textgrey;
 $scroll: #91AACB;
 $scroll-bg: #E2ECFF;
 $star: #FFBD12;
+$green: #11BF8B; // bg/dark/30
 
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
@@ -26,6 +27,7 @@ $custom-theme-colors: (
   "checkshadow": $checkshadow,
   "checkboxblue": $checkboxblue,
   "scroll": $scroll,
+  "green": $green
 );
 
 $theme-colors: map-merge($theme-colors, $custom-theme-colors);

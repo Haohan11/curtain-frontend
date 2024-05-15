@@ -8,6 +8,8 @@ import Logo from "@/icon/logoSvg";
 import User from "@/icon/user";
 import { Form, FormControl } from "react-bootstrap";
 import Select from "@/components/input/select";
+import ModalWrapper from "./modalWrapper";
+import PopUp from "./popUp";
 
 import NavItem from "@/components/navItem";
 import exportImage from "@/tool/exportImage";
@@ -15,6 +17,7 @@ import { createCombination, updateCombination } from "@/tool/request";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
 import { useSession } from "next-auth/react";
+import useModals from "@/hook/useModals";
 
 const Bar = () => (
   <span
@@ -42,6 +45,8 @@ const Navbar = ({
     ["true", "false"].includes(router.query.showMode) &&
     JSON.parse(router.query.showMode);
 
+  const { handleShowModal, handleCloseModal, isModalOpen } = useModals();
+
   const { combination, resetCombination, loadCombination } = useCombination();
   const combName = useRef(combination.name);
 
@@ -52,6 +57,7 @@ const Navbar = ({
 
   // for force name input reRender
   const [nameKey, setNameKey] = useState(0);
+  const [popupSet, setPopupSet] = useState({ message: "", icon: "" });
 
   const getHandledCombData = () => {
     try {
@@ -78,23 +84,55 @@ const Navbar = ({
     operation: {
       navText: "操作",
       items: [
-        { label: "新增組合", action: reset },
+        {
+          label: "新增組合",
+          action: () => {
+            const data = getHandledCombData();
+            if (data.stockList === "[]") {
+              setPopupSet({
+                message: "目前尚無商品",
+                icon: "/icon/circle-error.svg",
+              });
+              handleShowModal("popup");
+              return;
+            }else{
+              handleShowModal("wantReset");
+            }
+          },
+        },
         {
           label: "儲存組合",
           action: async () => {
             const data = getHandledCombData();
-            if (!data || !token)
+            if (!data || !token) {
               return console.log("Fail to create combination.");
-
+            } else if (data.stockList === "[]") {
+              setPopupSet({
+                message: "目前尚無商品",
+                icon: "/icon/circle-error.svg",
+              });
+              handleShowModal("popup");
+              return;
+            }
             const mode = data.id === null ? "create" : "edit";
-
             await {
               async create() {
                 await createCombination(token, data);
                 reset();
+                setPopupSet({
+                  message: "已儲存",
+                  icon: "/icon/check-circle.svg",
+                });
+
+                handleShowModal("popup");
               },
               async edit() {
                 await updateCombination(token, data);
+                setPopupSet({
+                  message: "編輯完成",
+                  icon: "/icon/check-circle.svg",
+                });
+                handleShowModal("popup");
               },
             }[mode]();
           },
@@ -130,7 +168,14 @@ const Navbar = ({
     },
     workCenter: {
       navText: "工作中心",
-      items: [{ label: "我的帳號", name: "myAccount", link: "/account", action: reset, }],
+      items: [
+        {
+          label: "我的帳號",
+          name: "myAccount",
+          link: "/account",
+          action: reset,
+        },
+      ],
     },
   };
 
@@ -157,7 +202,7 @@ const Navbar = ({
             className="ms-4 fs-1 model-switch"
             defaultChecked={showMode}
             onInput={(e) => {
-              !e.target.checked && combination.id === null && reset()
+              !e.target.checked && combination.id === null && reset();
               router.push({
                 query: { ...router.query, showMode: e.target.checked },
               });
@@ -247,6 +292,38 @@ const Navbar = ({
           <span className="fw-bold">登入</span>
         </Link>
       )}
+
+      {/*新增 和 編輯完成*/}
+      <ModalWrapper
+        key="popup"
+        show={isModalOpen("popup")}
+        size="lg"
+        onHide={() => handleCloseModal("popup")}
+      >
+        <PopUp
+          imageSrc={popupSet.icon}
+          title={popupSet.message}
+          confirmOnClick={() => handleCloseModal("popup")}
+        />
+      </ModalWrapper>
+
+      {/*是否刪除*/}
+      <ModalWrapper
+        key="wantReset"
+        show={isModalOpen("wantReset")}
+        size="lg"
+        onHide={() => handleCloseModal("wantReset")}
+      >
+        <PopUp
+          imageSrc={"/icon/warning.svg"}
+          title={"目前尚未儲存，是否要重置?"}
+          denyOnClick={() => handleCloseModal("wantReset")}
+          confirmOnClick={() => {
+            reset();
+            handleCloseModal("wantReset");
+          }}
+        />
+      </ModalWrapper>
     </div>
   );
 };

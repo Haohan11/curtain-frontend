@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 
 import {
   Col,
@@ -18,9 +18,12 @@ import TrashCan from "@/icon/trashcan";
 import SubtractCube from "@/icon/subtract-border";
 import AddCube from "@/icon/add-border";
 import Curtain from "@/icon/curtain";
+import ModalWrapper from "./modalWrapper";
+import PopUp from "./popUp";
 
 import addClassName from "@/tool/addClassName";
 import { toArray } from "@/tool/lib";
+import useModals from "@/hook/useModals";
 
 const Span = addClassName(CompDiv, "d-inline text-textgrey");
 const InfoRow = addClassName(Row, "g-0 pb-2");
@@ -71,7 +74,7 @@ const ProductCard = ({
   } = data;
 
   const colorIndexRef = useRef(0);
-
+  const { handleShowModal, handleCloseModal, isModalOpen } = useModals();
   return (
     <Accordion
       key={`pc_${dynamic}_${id}`}
@@ -110,8 +113,8 @@ const ProductCard = ({
               <TrashCan
                 className="ms-2 text-red cursor-pointer"
                 onClick={(e) => {
-                  e.preventDefault()
-                  typeof onDelete === "function" && onDelete()
+                  e.preventDefault();
+                  handleShowModal("wantDelete");
                 }}
               />
             )}
@@ -122,7 +125,7 @@ const ProductCard = ({
           className={`${sticky && stickyClassName} ${cardHeadClassName}`}
           style={cardHeadStyle}
         >
-          <div className="pb-3" >{name || "Product Name"}</div>
+          <div className="pb-3">{name || "Product Name"}</div>
         </div>
       )}
       <Accordion.Collapse eventKey="0">
@@ -210,6 +213,24 @@ const ProductCard = ({
           </InfoRow>
         </div>
       </Accordion.Collapse>
+
+      {/*是否刪除*/}
+      <ModalWrapper
+        key="wantDelete"
+        show={isModalOpen("wantDelete")}
+        size="lg"
+        onHide={() => handleCloseModal("wantDelete")}
+      >
+        <PopUp
+          imageSrc={"/icon/warning.svg"}
+          title={"是否要移除該商品?"}
+          denyOnClick={() => handleCloseModal("wantDelete")}
+          confirmOnClick={() => {
+            typeof onDelete === "function" && onDelete();
+            handleCloseModal("wantDelete");
+          }}
+        />
+      </ModalWrapper>
     </Accordion>
   );
 };
