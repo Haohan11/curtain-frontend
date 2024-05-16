@@ -31,7 +31,7 @@ const Navbar = ({
   login,
   logout,
   envData,
-  envId,
+  currentEnv,
   setEnvId,
   selectStock,
   combinationData,
@@ -63,14 +63,15 @@ const Navbar = ({
     try {
       const { id } = combination;
       const name = combName.current;
-      if (!envId || !name)
+      const environment_id = currentEnv.id
+      if (!environment_id || !name)
         throw new Error(
-          `Combination data invalid: envId: ${envId}, combination name: ${name}`
+          `Combination data invalid: envId: ${environment_id}, combination name: ${name}`
         );
       return {
         id,
         name,
-        environment_id: envId,
+        environment_id,
         stockList: JSON.stringify(
           combination.stockList.map((stock) => stock.id)
         ),
@@ -140,14 +141,12 @@ const Navbar = ({
       ],
     },
     changeEnv: {
-      navText: (() => {
-        const { name } = envData.find((env) => env.id === envId) ?? {};
-        return name || "變更環境";
-      })(),
+      navText: currentEnv.name || "變更環境",
       items: envData.map((env) => ({
         ...env,
         label: env.name,
         action: () => setEnvId(env.id),
+        ...(env.name === currentEnv.name && {textStyle: "text-orange"})
       })),
     },
     workMenu: {

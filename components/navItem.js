@@ -26,11 +26,16 @@ const NavItem = ({ data, thin, button, isShow, setShow, ...props }) => {
             {data.items.map((item, index) => {
               const className = `px-${
                 thin ? "3" : "10"
-              } text-nowrap cursor-pointer hover-orange fw-bold fs-6-sm ${
-                index !== 0 && "mt-2"
-              }`;
+              } text-nowrap text-center cursor-pointer hover-orange fw-bold fs-6-sm ${
+                index !== 0 ? "mt-2 " : ""
+              }${item.textStyle ? item.textStyle : ""}`;
               return item.link ? (
-                <Link href={item.link} onClick={item.action} className={className} key={index}>
+                <Link
+                  href={item.link}
+                  onClick={item.action}
+                  className={className}
+                  key={index}
+                >
                   {item.label}
                 </Link>
               ) : (

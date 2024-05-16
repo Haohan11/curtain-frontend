@@ -52,11 +52,9 @@ export default function Home({
   const [envId, setEnvId] = useState(
     combination.environment_id ?? envData?.[0]?.id
   );
-  const {
-    name: env_name,
-    env_image,
-    mask_image,
-  } = envData.find((env) => env.id === envId) ?? {};
+  const currentEnv =
+    (envData.find((env) => env.id === envId) || envData[0]) ?? {};
+  const { name: env_name, env_image, mask_image } = currentEnv;
 
   // hold for export template
   const [selectStock, setSelectStock] = useState({
@@ -69,15 +67,15 @@ export default function Home({
   return (
     <>
       <Navbar
-        isLogin={loginState}
         {...{
+          isLogin: loginState,
           login,
           logout,
-          selectStock,
           envData,
-          combinationData,
-          envId,
+          currentEnv,
           setEnvId,
+          selectStock,
+          combinationData,
         }}
       />
       <Row className="m-0" style={{ height: "var(--main-section-height)" }}>
