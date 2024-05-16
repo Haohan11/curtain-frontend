@@ -3,7 +3,7 @@ import ProductCard from "./productCard";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
 
-const LeftSide = ({ data: stockList, setSelectStock }) => {
+const LeftSide = ({ data: stockList, selectStock, setSelectStock }) => {
   const router = useRouter();
   const showMode =
     ["true", "false"].includes(router.query.showMode) &&
@@ -37,6 +37,7 @@ const LeftSide = ({ data: stockList, setSelectStock }) => {
               dynamic={!showMode}
               deletable={!showMode}
               sticky
+              selectStock={selectStock}
               onClickColor={(e, { index: colorIndex }) => {
                 setSelectStock((prev) => ({
                   ...prev,

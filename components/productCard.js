@@ -49,6 +49,7 @@ const FoldButton = ({ eventKey, ...props }) => {
 
 const ProductCard = ({
   data,
+  selectStock,
   dynamic,
   checkable,
   deletable,
@@ -154,8 +155,12 @@ const ProductCard = ({
             <Col>
               <ColorRadios
                 colors={colorList}
-                radioname={"stock-color"}
+                radioname={"comb-stock-color"}
                 checkable={colorCheckable}
+                {...(selectStock && id === selectStock.stock?.id && {
+                  key: selectStock.colorIndex,
+                  checkIndex: selectStock.colorIndex,
+                })}
                 {...(typeof onClickColor === "function" && {
                   onClick: (e, color) => {
                     onClickColor(e, color);

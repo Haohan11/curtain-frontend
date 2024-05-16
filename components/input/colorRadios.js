@@ -29,7 +29,7 @@ const mockColorsData = [
 const ColorRadios = ({
   colors = mockColorsData,
   radioname,
-  checkfirst,
+  checkIndex,
   onInput,
   onClick,
   checkable = true,
@@ -43,7 +43,7 @@ const ColorRadios = ({
             label={color.name}
             disabled={!checkable}
             src={transImageUrl(color.color_image) || "/color_check/red.jpg"}
-            {...(checkfirst && { defaultChecked: index === 0 })}
+            {...(checkIndex !== undefined && { defaultChecked: index === checkIndex })}
             {...(typeof onClick === "function" && {onClick: (e) => onClick(e, { ...color, index })})}
             {...(typeof onInput === "function" && {onInput: (e) => onInput(e, { ...color, index })})}
           />

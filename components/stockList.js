@@ -10,7 +10,7 @@ import { transImageUrl } from "@/tool/lib";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
 
-const StockList = ({ data, setSelectStock }) => {
+const StockList = ({ data, selectStock, setSelectStock }) => {
   const router = useRouter();
 
   const showMode =
@@ -34,11 +34,17 @@ const StockList = ({ data, setSelectStock }) => {
                   showMode ? " cursor-pointer" : ""
                 }`}
                 {...(showMode && {
-                  onClick: () =>
+                  onClick: () => {
+                    setSelectStock((prev) => ({
+                      ...prev,
+                      stock: item,
+                      colorIndex: 0,
+                    }));
                     loadCombination({
                       id: null,
                       stockList: [item],
-                    }),
+                    });
+                  },
                 })}
                 style={{ aspectRatio: "185 / 120" }}
               >
@@ -62,16 +68,21 @@ const StockList = ({ data, setSelectStock }) => {
                 ) : (
                   item.colorList.map((color, index) => (
                     <ColorRadio
-                      key={color.id}
+                      key={`${selectStock.colorIndex}_${color.id}_${item.id === selectStock.stock.id}`}
                       name={"stock-color"}
                       src={transImageUrl(color.color_image)}
-                      onClick={() =>
+                      defaultChecked={item.id === selectStock.stock?.id && index === selectStock.colorIndex}
+                      onClick={() =>{
+                        showMode && loadCombination({
+                          id: null,
+                          stockList: [item],
+                        });
                         setSelectStock((prev) => ({
                           ...prev,
                           stock: item,
                           colorIndex: index,
                         }))
-                      }
+                      }}
                     />
                   ))
                 )}

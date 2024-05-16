@@ -31,6 +31,10 @@ const SearchPannel = dynamic(
 
 const Row = addClassName(BSRow, "g-0");
 
+function getColorImage() {
+  return this.stock?.colorList?.[this.colorIndex ?? 0]?.color_image;
+}
+
 export default function Home({
   stockData,
   envData,
@@ -58,9 +62,7 @@ export default function Home({
   const [selectStock, setSelectStock] = useState({
     stock: combination.stockList?.[0] || stockData.data?.[0] || null,
     colorIndex: 0,
-    getColorImage() {
-      return this.stock?.colorList?.[this.colorIndex ?? 0]?.color_image;
-    },
+    getColorImage,
   });
   const color_image = selectStock.getColorImage();
 
@@ -75,7 +77,6 @@ export default function Home({
           combinationData,
           envId,
           setEnvId,
-          selectStock,
         }}
       />
       <Row className="m-0" style={{ height: "var(--main-section-height)" }}>
@@ -83,6 +84,7 @@ export default function Home({
           <LeftSide
             {...{
               data: combination.stockList,
+              selectStock,
               setSelectStock,
             }}
           />
@@ -133,7 +135,7 @@ export default function Home({
           <SearchPannel {...{ designData, materialData, colorSchemeData }} />
         </Col>
         <Col className="h-100 overflow-y-auto">
-          <StockList {...{ data: stockData, setSelectStock }} />
+          <StockList {...{ data: stockData, setSelectStock, selectStock }} />
         </Col>
       </Row>
       <ExportTemplate
