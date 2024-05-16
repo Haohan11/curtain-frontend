@@ -55,7 +55,8 @@ const LoginPage = () => {
     });
     console.log("result :", result);
     if (result?.ok) {
-      router.push("/");
+      
+      handleShowModal('success')
     } else {
       form.reset();
       handleShowModal('popup')
@@ -145,8 +146,20 @@ const LoginPage = () => {
         <PopUp
           imageSrc={"/icon/circle-error.svg"}
           title={"帳號或密碼錯誤"}
-          describeClass="fs-5 text-red"
           confirmOnClick={() => handleCloseModal("popup")}
+        />
+      </ModalWrapper>
+
+      <ModalWrapper
+        key="success"
+        show={isModalOpen("success")}
+        size="lg"
+        onHide={() => router.push("/")}
+      >
+        <PopUp
+          imageSrc={"/icon/check-circle.svg"}
+          title={"登入成功"}
+          confirmOnClick={() => router.push("/")}
         />
       </ModalWrapper>
     </Form>

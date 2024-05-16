@@ -95,7 +95,7 @@ const Navbar = ({
               });
               handleShowModal("popup");
               return;
-            }else{
+            } else {
               handleShowModal("wantReset");
             }
           },
@@ -162,7 +162,17 @@ const Navbar = ({
         {
           label: "匯出圖檔",
           name: "exportImage",
-          action: () => selectStock.stock !== null && exportImage(),
+          action: () => {
+            if (selectStock.stock !== null) {
+              exportImage();
+            } else {
+              setPopupSet({
+                message: "目前尚無商品 無法匯出",
+                icon: "/icon/circle-error.svg",
+              });
+              handleShowModal("popup");
+            }
+          },
         },
       ],
     },
