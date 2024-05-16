@@ -4,8 +4,8 @@ import { Col, Row } from "react-bootstrap";
 import TrashCan from "@/icon/trashcan";
 import ProductCard from "@/components/productCard";
 import SubmitButton from "@/components/input/submitButton";
-import ModalWrapper from "./modalWrapper";
-import PopUp from "./popUp";
+import ModalWrapper from "./ModalWrapper";
+import PopUp from "./PopUp";
 import useModals from "@/hook/useModals";
 
 import { transImageUrl } from "@/tool/lib";
