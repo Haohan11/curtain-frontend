@@ -1,5 +1,6 @@
 {
   "login": {
+    "pageName": "login",
     "cover_title": "Welcome Back",
     "cover_image": "/image/curtain.jpg",
     "title": "業務登入",
@@ -7,15 +8,18 @@
     "submitTo": "login"
   },
   "forgetPassword": {
+    "pageName": "forgetPassword",
     "cover_title": "Forget Password",
     "cover_image": "/image/room1.jpg",
     "title": "忘記密碼",
-    "submitText": "重設密碼",
+    "defaultSubmitText": "請輸入電子郵件",
+    "submitDisable": true,
     "submitTo": "reset",
     "returnText": "上一頁",
     "returnTo": "login"
   },
   "account": {
+    "pageName": "account",
     "cover_title": "My Account",
     "cover_image": "/image/room2.jpg",
     "submitText": "儲存",
@@ -24,6 +28,7 @@
     "returnTo": "homepage"
   },
   "resetPassword": {
+    "pageName": "resetPassword",
     "cover_title": "Reset Password",
     "cover_image": "/image/room1.jpg",
     "title": "重設密碼",

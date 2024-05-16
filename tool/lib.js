@@ -48,3 +48,8 @@ export const toFormData = (values) => {
 
 export const checkExpires = (time) =>
   time ? time * 1000 < Date.now() : console.log("Invalid exp.");
+
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+export const validateEmail = (email) => emailRegex.test(email);
+
