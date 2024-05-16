@@ -13,6 +13,8 @@ import addClassName from "@/tool/addClassName";
 const Row = addClassName(BSRow, "mb-3 g-0");
 const TitleCol = addClassName(Col, "col-sm-4 fw-bold py-2");
 
+const minWidth = "10rem";
+
 const SearchPannel = ({ designData, materialData, colorSchemeData }) => {
   const router = useRouter();
   const querysRef = useRef({
@@ -79,7 +81,7 @@ const SearchPannel = ({ designData, materialData, colorSchemeData }) => {
           <TitleCol>
             <span>關鍵字</span>
           </TitleCol>
-          <Col>
+          <Col style={{ minWidth }}>
             <FormControl
               className="text-textgrey text-indent-2 uni-height"
               placeholder="輸入產品名稱"
@@ -91,7 +93,7 @@ const SearchPannel = ({ designData, materialData, colorSchemeData }) => {
           <TitleCol>
             <span>色系</span>
           </TitleCol>
-          <Col>
+          <Col style={{ minWidth }}>
             <Select
               isMulti
               options={colorSchemeData.map((cs) => ({
@@ -106,7 +108,7 @@ const SearchPannel = ({ designData, materialData, colorSchemeData }) => {
           <TitleCol>
             <span>風格</span>
           </TitleCol>
-          <Col>
+          <Col style={{ minWidth }}>
             <Select
               isMulti
               options={designData.map((cs) => ({
@@ -121,7 +123,7 @@ const SearchPannel = ({ designData, materialData, colorSchemeData }) => {
           <TitleCol>
             <span>面料材質</span>
           </TitleCol>
-          <Col>
+          <Col style={{ minWidth }}>
             <Select
               isMulti
               options={materialData.map((cs) => ({
@@ -136,7 +138,7 @@ const SearchPannel = ({ designData, materialData, colorSchemeData }) => {
           <TitleCol>
             <span>遮光度</span>
           </TitleCol>
-          <Col className="d-flex">
+          <Col style={{ minWidth }} className="d-flex">
             <Stars
               width={20}
               name="block"
@@ -148,7 +150,7 @@ const SearchPannel = ({ designData, materialData, colorSchemeData }) => {
           <TitleCol>
             <span>吸音效果</span>
           </TitleCol>
-          <Col className="d-flex">
+          <Col style={{ minWidth }} className="d-flex">
             <Stars
               width={20}
               name="absorption"
