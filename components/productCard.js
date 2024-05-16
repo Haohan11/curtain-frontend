@@ -18,8 +18,8 @@ import TrashCan from "@/icon/trashcan";
 import SubtractCube from "@/icon/subtract-border";
 import AddCube from "@/icon/add-border";
 import Curtain from "@/icon/curtain";
-import ModalWrapper from "./modalWrapper";
-import PopUp from "./popUp";
+import ModalWrapper from "./ModalWrapper";
+import PopUp from "./PopUp";
 
 import addClassName from "@/tool/addClassName";
 import { toArray } from "@/tool/lib";

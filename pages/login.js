@@ -14,8 +14,8 @@ import SubmitButton from "@/components/input/submitButton";
 import LoginButton from "@/components/input/loginButton";
 import AuthCodeInput from "@/components/input/authCodeInput";
 import Logo from "@/components/logo";
-import ModalWrapper from "@/components/modalWrapper";
-import PopUp from "@/components/popUp";
+import ModalWrapper from "@/components/ModalWrapper";
+import PopUp from "@/components/PopUp";
 
 import useModals from "@/hook/useModals";
 import pageJson from "@/data/pageData";

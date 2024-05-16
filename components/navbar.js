@@ -8,8 +8,8 @@ import Logo from "@/icon/logoSvg";
 import User from "@/icon/user";
 import { Form, FormControl } from "react-bootstrap";
 import Select from "@/components/input/select";
-import ModalWrapper from "./modalWrapper";
-import PopUp from "./popUp";
+import ModalWrapper from "./ModalWrapper";
+import PopUp from "./PopUp";
 
 import NavItem from "@/components/navItem";
 import exportImage from "@/tool/exportImage";

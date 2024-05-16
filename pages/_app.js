@@ -1,12 +1,14 @@
 import "@/styles/globals.scss";
-
+import { useEffect } from "react";
 import Head from "next/head";
 import DefaultLayout from "@/layout/defaultLayout";
-import { SessionProvider } from "next-auth/react"
+import { SessionProvider } from "next-auth/react";
+import { DectiveProvider } from "@/hook/provider/dectiveProvider";
+import Detector from "@/components/Detector";
 
-export default function App({ 
+export default function App({
   Component,
-  pageProps: { session, ...pageProps }, 
+  pageProps: { session, ...pageProps },
 }) {
   const getLayout =
     Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>);
@@ -16,9 +18,11 @@ export default function App({
       <Head>
         <title>翔宇窗飾</title>
       </Head>
-      <main>
-        <Component {...pageProps} />
-      </main>
+      <Detector >
+        <main>
+          <Component {...pageProps} />
+        </main>
+      </Detector>
     </SessionProvider>
   );
 }
