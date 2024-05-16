@@ -73,6 +73,7 @@ export default function Home({
         {...{
           login,
           logout,
+          selectStock,
           envData,
           combinationData,
           envId,

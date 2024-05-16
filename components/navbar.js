@@ -163,15 +163,15 @@ const Navbar = ({
           label: "匯出圖檔",
           name: "exportImage",
           action: () => {
-            if (selectStock.stock !== null) {
-              exportImage();
-            } else {
-              setPopupSet({
-                message: "目前尚無商品 無法匯出",
-                icon: "/icon/circle-error.svg",
-              });
-              handleShowModal("popup");
-            }
+            selectStock.stock !== null
+              ? exportImage()
+              : (() => {
+                  setPopupSet({
+                    message: "目前尚無商品 無法匯出",
+                    icon: "/icon/circle-error.svg",
+                  });
+                  handleShowModal("popup");
+                })();
           },
         },
       ],
