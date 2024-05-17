@@ -145,7 +145,6 @@ const LoginPage = ({ pageData }) => {
                   <FormGroup className="mb-6 hstack justify-content-between align-items-center">
                     <AuthCodeInput
                       onChange={(value) => {
-                        console.log(value)
                         const valid = value.length === 4;
                         setPageData((prev) => ({
                           ...prev,

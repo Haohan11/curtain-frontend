@@ -2,8 +2,14 @@ import { toFormData } from "./lib";
 
 const BASEURL = process.env.NEXT_PUBLIC_BACKENDURL;
 
-export const getStockData = async (token, { page = 1, size = 5, resolvedUrl }) => {
-  const URL = `${BASEURL}/stock?page=${page}&size=${size}&onlyEnable=&${resolvedUrl.replace("/?", "")}`;
+export const getStockData = async (
+  token,
+  { page = 1, size = 5, resolvedUrl }
+) => {
+  const URL = `${BASEURL}/stock?page=${page}&size=${size}&onlyEnable=&${resolvedUrl.replace(
+    "/?",
+    ""
+  )}`;
   try {
     const res = await fetch(URL, {
       headers: {
@@ -183,6 +189,24 @@ export const getMaterialData = async (token) => {
       data: { list },
     } = await res.json();
     return list;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const getAccountData = async (token) => {
+  const URL = `${BASEURL}/account`;
+  try {
+    const res = await fetch(URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) return false;
+
+    const { data } = await res.json();
+    return data
   } catch (error) {
     console.log(error);
     return false;

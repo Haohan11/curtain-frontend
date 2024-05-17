@@ -9,7 +9,11 @@ import FormLabel from "@/components/input/formLabel";
 import FormPassword from "@/components/input/formPassword";
 import SubmitButton from "@/components/input/submitButton";
 
-const AccountPage = () => {
+import { checkExpires } from "@/tool/lib";
+import { getSession } from "next-auth/react";
+import { getAccountData } from "@/tool/request";
+
+const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
   const pageData = pageJson["account"];
 
   const handleSubmit = (e) => {
@@ -20,31 +24,39 @@ const AccountPage = () => {
   };
 
   const content = (
-    <Form className="row h-100 px-sm-4 px-lg-6 px-xxl-16 g-0" onSubmit={handleSubmit}>
+    <Form
+      className="row h-100 px-sm-4 px-lg-6 px-xxl-16 g-0"
+      onSubmit={handleSubmit}
+    >
       <Col className="vstack text-textblue p-4">
         <div className="mb-10">
           <h4 className="fw-bold mb-3">基本資料</h4>
           <FormInput
             className="mb-2 text-textdarkblue"
             disabled
-            defaultValue={"1004987"}
+            defaultValue={code}
           />
           <FormInput
             className="mb-2 text-textdarkblue"
             disabled
-            defaultValue={"1004987@gmail.com"}
+            defaultValue={email}
           />
           <FormInput
             className="mb-3 text-textdarkblue"
             disabled
-            defaultValue={"測試帳號"}
+            defaultValue={name}
           />
           <FormGroup controlId="phoneNumber">
             <FormLabel className="fw-bold text-textblue">手機號碼</FormLabel>
-            <FormInput name="phoneNumber"></FormInput>
+            <FormInput
+              name="phoneNumber"
+              disabled
+              defaultValue={phone_number}
+            ></FormInput>
           </FormGroup>
         </div>
-        <div className="mb-10">
+        <div className="flex-grow-1"></div>
+        {/* <div className="mb-10">
           <h4 className="fw-bold mb-3">修改密碼</h4>
           <FormGroup controlId="newPassword" className="mb-2">
             <FormLabel className="fw-bold text-textblue">新密碼</FormLabel>
@@ -56,7 +68,7 @@ const AccountPage = () => {
             </FormLabel>
             <FormPassword name="rePassword"></FormPassword>
           </FormGroup>
-        </div>
+        </div> */}
         <SubmitButton>{pageData.submitText}</SubmitButton>
       </Col>
     </Form>
@@ -68,3 +80,25 @@ const AccountPage = () => {
 AccountPage.getLayout = (page) => page;
 
 export default AccountPage;
+
+export const getServerSideProps = async (context) => {
+  const session = await getSession(context);
+  if (!session || checkExpires(session._exp)) {
+    return {
+      redirect: { destination: "/login" },
+    };
+  }
+  const accessToken = session.user.accessToken;
+  const accountData = (await getAccountData(accessToken)) || {
+      code: "",
+      email: "",
+      phone_number: "",
+      name: "",
+  };
+
+  return {
+    props: {
+      accountData,
+    },
+  };
+};
