@@ -20,14 +20,14 @@ import PopUp from "@/components/PopUp";
 import useModals from "@/hook/useModals";
 import pageJson from "@/data/pageData";
 
-const pageNameDict = ["login", "forgetPassword", "resetPassword"];
+const pageNameDict = ["login", "forgetPassword", "resetPassword", "pending"];
 
 const LoginPage = ({ pageData }) => {
   const router = useRouter();
 
   const pageName = pageData.pageName;
-  const [toLogin, toForgetPassword, toReset] = pageNameDict.map(
-    (pn) => () => router.push({ query: { ...router.query, pagename: pn } })
+  const [toLogin, toForgetPassword, toReset, toPending] = pageNameDict.map(
+    (pn) => () => router.push({ query: { pagename: pn } })
   );
   const { handleShowModal, handleCloseModal, isModalOpen } = useModals();
 
@@ -53,7 +53,6 @@ const LoginPage = ({ pageData }) => {
 
   const Content = ({ pageData: staticPageData }) => {
     const [pageData, setPageData] = useState(staticPageData);
-    const [pending, setPending] = useState(true);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -66,8 +65,10 @@ const LoginPage = ({ pageData }) => {
       ({
         login: () => {},
         reset: () => {
-          if (pending) return;
-          toReset();
+          if (pageName !== "pending") return toPending();
+          // router.query.pending === "false"
+          //   ? toReset()
+          //   : router.push({ query: { ...router.query, pending: "false" } });
         },
         resetNow: toLogin,
       })[purpose]();
@@ -134,9 +135,26 @@ const LoginPage = ({ pageData }) => {
                       }}
                     ></FormInput>
                   </FormGroup>
-                  {/* <FormGroup className="mb-3 hstack justify-content-between align-items-center">
-                  <AuthCodeInput />
-                </FormGroup> */}
+                </div>
+              ),
+              pending: (
+                <div>
+                  <p className="text-center text-darkblue mb-10">
+                    請輸入電子郵件信箱的驗證碼
+                  </p>
+                  <FormGroup className="mb-6 hstack justify-content-between align-items-center">
+                    <AuthCodeInput
+                      onChange={(value) => {
+                        console.log(value)
+                        const valid = value.length === 4;
+                        setPageData((prev) => ({
+                          ...prev,
+                          submitDisable: !valid,
+                          ...(valid && { submitText: "重設密碼" }),
+                        }));
+                      }}
+                    />
+                  </FormGroup>
                 </div>
               ),
               resetPassword: (

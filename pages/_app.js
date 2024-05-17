@@ -1,9 +1,7 @@
 import "@/styles/globals.scss";
-import { useEffect } from "react";
 import Head from "next/head";
 import DefaultLayout from "@/layout/defaultLayout";
 import { SessionProvider } from "next-auth/react";
-import { DectiveProvider } from "@/hook/provider/dectiveProvider";
 import Detector from "@/components/Detector";
 
 export default function App({

@@ -1,9 +1,15 @@
 import { Fragment, useRef } from "react";
 import FormInput from "./formInput";
 
-const AuthCodeInput = () => {
+const allowKeyList = [
+  "Delete", "Backspace", "Shift", "Tab"
+]
+
+const AuthCodeInput = ({onChange}) => {
   const numberRef = useRef([]);
   const numbers = numberRef.current;
+
+  const getValue = () => numbers.reduce((str, el) => str += el.value, "")
 
   return (
     <>
@@ -14,10 +20,11 @@ const AuthCodeInput = () => {
             style={{ width: "var(--uni-height)" }}
             className="text-center text-indent-0"
             placeholder=""
-            name={`authCode${n}`}
             onKeyDown={(e) => {
               const regex = /^\d$/;
-              if (!regex.test(e.key)) e.preventDefault();
+              const valid = regex.test(e.key)
+              if (!valid && !allowKeyList.includes(e.key) ) e.preventDefault();
+              if(valid) e.target.value = e.key
             }}
             onInput={({ target }) => {
               const value = target.value;
@@ -28,7 +35,9 @@ const AuthCodeInput = () => {
                 if (node.value === "") return node.focus();
               }
             }}
+            onChange={() => onChange(getValue())}
           ></FormInput>
+          <input name="authCode" hidden readOnly value={getValue()}/>
           {n !== 3 && <span className="fw-bold text-linegrey fs-5">-</span>}
         </Fragment>
       ))}

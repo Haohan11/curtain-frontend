@@ -18,6 +18,17 @@
     "returnText": "上一頁",
     "returnTo": "login"
   },
+  "pending": {
+    "pageName": "pending",
+    "cover_title": "Forget Password",
+    "cover_image": "/image/room1.jpg",
+    "title": "忘記密碼",
+    "defaultSubmitText": "請輸入驗證碼",
+    "submitDisable": true,
+    "submitTo": "reset",
+    "returnText": "上一頁",
+    "returnTo": "login"
+  },
   "account": {
     "pageName": "account",
     "cover_title": "My Account",
