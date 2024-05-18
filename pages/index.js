@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { Row as BSRow, Col } from "react-bootstrap";
 import { signOut, getSession } from "next-auth/react";
 
-import loadingDataUrl from "@/data/loadingDataUrl";
+import loadingDataUrl from "@/data/loadingDataUrlTrans";
 
 import Navbar from "@/components/navbar";
 import LeftSide from "@/components/leftSide";
@@ -131,9 +131,6 @@ export default function Home({
             {imgLoading && (
               <div
                 className="position-absolute h-100 w-100 flex-center top-0 left-0"
-                style={{
-                  backgroundColor: "#FFF",
-                }}
               >
                 <div
                   className="position-relative"
