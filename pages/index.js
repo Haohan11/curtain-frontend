@@ -50,7 +50,8 @@ export default function Home({
   // const logout = () => setLoginState(false);
   const logout = () => signOut({ callbackUrl: "/login" });
 
-  const [imgLoading, setImgLoading] = useState(true);
+  const [envImgLoading, setEnvImgLoading] = useState(null);
+  const [colorImgLoading, setColorImgLoading] = useState(null);
 
   const { combination } = useCombination();
   const [envId, setEnvId] = useState(
@@ -69,8 +70,12 @@ export default function Home({
   const color_image = selectStock.getColorImage();
 
   useEffect(() => {
-    setImgLoading(true)
-  }, [env_image])
+    envImgLoading !== null && setEnvImgLoading(true);
+  }, [env_image]);
+
+  useEffect(() => {
+    colorImgLoading !== null && setColorImgLoading(true);
+  }, [color_image]);
 
   return (
     <>
@@ -103,22 +108,17 @@ export default function Home({
               style={{ aspectRatio: "16 / 9" }}
             >
               {transImageUrl(env_image) && (
-                <Image
-                  onLoad={() => setImgLoading(false)}
+                <img
+                  className="position-absolute h-100 w-100 top-0 start-0 object-fit-contain"
+                  onLoad={() => setEnvImgLoading(false)}
                   alt="enviroment image"
-                  className="object-fit-contain"
-                  priority
-                  fill
-                  sizes="70vw"
                   src={transImageUrl(env_image)}
                 />
               )}
-              <Image
+              <img
                 alt="mask image"
-                className="object-fit-cover"
-                priority
-                fill
-                sizes="70vw"
+                className="position-absolute h-100 w-100 top-0 start-0 object-fit-cover"
+                onLoad={() => setColorImgLoading(false)}
                 src={transImageUrl(color_image)}
                 style={{
                   backgroundColor: "#222",
@@ -128,10 +128,8 @@ export default function Home({
                 }}
               />
             </div>
-            {imgLoading && (
-              <div
-                className="position-absolute h-100 w-100 flex-center top-0 left-0"
-              >
+            {(envImgLoading || colorImgLoading) && (
+              <div className="position-absolute h-100 w-100 flex-center top-0 left-0">
                 <div
                   className="position-relative"
                   style={{ width: "50px", height: "50px" }}

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
 
 import { Col, Row } from "react-bootstrap";
 
@@ -75,7 +74,7 @@ const StockList = ({ data, selectStock, setSelectStock }) => {
                 >
                   <img
                     alt="stock image"
-                    className="position-absolute h-100 w-100 top-0 left-0 object-fit-cover"
+                    className="position-absolute h-100 w-100 top-0 start-0 object-fit-cover"
                     src={
                       transImageUrl(item.colorList?.[0]?.stock_image) ||
                       "/image/xmas.jpg"
