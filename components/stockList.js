@@ -71,17 +71,16 @@ const StockList = ({ data, selectStock, setSelectStock }) => {
                       });
                     },
                   })}
-                  style={{ aspectRatio: "185 / 120" }}
+                  style={{ width: "185px", aspectRatio: "185 / 120" }}
                 >
-                  <Image
+                  <img
                     alt="stock image"
-                    className="object-fit-cover"
-                    sizes="185px"
+                    className="position-absolute h-100 w-100 top-0 left-0 object-fit-cover"
                     src={
                       transImageUrl(item.colorList?.[0]?.stock_image) ||
                       "/image/xmas.jpg"
                     }
-                    fill
+                    style={{objectPosition: "center"}}
                   />
                 </div>
                 <p className="py-2 m-0 text-center text-darkblue fw-bold">
