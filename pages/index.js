@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Row as BSRow, Col } from "react-bootstrap";
 import { signOut, getSession } from "next-auth/react";
+
+import loadingDataUrl from "@/data/loadingDataUrl";
 
 import Navbar from "@/components/navbar";
 import LeftSide from "@/components/leftSide";
@@ -66,6 +68,10 @@ export default function Home({
   });
   const color_image = selectStock.getColorImage();
 
+  useEffect(() => {
+    setImgLoading(true)
+  }, [env_image])
+
   return (
     <>
       <Navbar
@@ -98,7 +104,8 @@ export default function Home({
             >
               {transImageUrl(env_image) && (
                 <Image
-                  onLoadingComplete={() => setImgLoading(false)}
+                  placeholder={loadingDataUrl}
+                  onLoad={() => setImgLoading(false)}
                   alt="enviroment image"
                   className="object-fit-contain"
                   priority
@@ -109,6 +116,7 @@ export default function Home({
               )}
               <Image
                 alt="mask image"
+                placeholder={loadingDataUrl}
                 className="object-fit-cover"
                 priority
                 fill
@@ -127,10 +135,15 @@ export default function Home({
                 className="position-absolute h-100 w-100 flex-center top-0 left-0"
                 style={{
                   backdropFilter: "blur(10px)",
-                  backgroundColor: "#555555DD",
+                  backgroundColor: "#FFFFFF",
                 }}
               >
-                <span className="fs-5 text-white">圖片載入中...</span>
+                <div
+                  className="position-relative top-0 left-0"
+                  style={{ width: "50px", height: "50px" }}
+                >
+                  <Image alt="loading" fill src={loadingDataUrl} />
+                </div>
               </div>
             )}
           </div>

@@ -49,6 +49,7 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
           <FormGroup controlId="phoneNumber">
             <FormLabel className="fw-bold text-textblue">手機號碼</FormLabel>
             <FormInput
+            className="text-textblue"
               name="phoneNumber"
               disabled
               defaultValue={phone_number}
@@ -69,7 +70,7 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
             <FormPassword name="rePassword"></FormPassword>
           </FormGroup>
         </div> */}
-        <SubmitButton>{pageData.submitText}</SubmitButton>
+        {/* <SubmitButton>{pageData.submitText}</SubmitButton> */}
       </Col>
     </Form>
   );
