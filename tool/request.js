@@ -206,6 +206,8 @@ export const getAccountData = async (token) => {
     if (!res.ok) return false;
 
     const { data } = await res.json();
+    console.log("======== account data ==========:", data)
+
     return data
   } catch (error) {
     console.log(error);
