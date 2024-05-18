@@ -4,10 +4,13 @@ import { checkExpires } from "@/tool/lib";
 import ModalWrapper from "./ModalWrapper";
 import PopUp from "./PopUp";
 
+import { useRouter } from "next/router";
+
 import useModals from "@/hook/useModals";
 
 const Detector = ({ children }) => {
   const session = useSession();
+  const { route } = useRouter()
 
   const { handleShowModal, handleCloseModal, isModalOpen } = useModals();
 
@@ -22,6 +25,9 @@ const Detector = ({ children }) => {
         handleShowModal("popup");
       }, limitTime);
     } else {
+      if(session.status === "unauthenticated" && route !== "/login") {
+        handleShowModal("popup");
+      }
       clearTimeout(timeId);
     }
     return () => {

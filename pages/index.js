@@ -48,6 +48,8 @@ export default function Home({
   // const logout = () => setLoginState(false);
   const logout = () => signOut({ callbackUrl: "/login" });
 
+  const [imgLoading, setImgLoading] = useState(true);
+
   const { combination } = useCombination();
   const [envId, setEnvId] = useState(
     combination.environment_id ?? envData?.[0]?.id
@@ -96,6 +98,7 @@ export default function Home({
             >
               {transImageUrl(env_image) && (
                 <Image
+                  onLoadingComplete={() => setImgLoading(false)}
                   alt="enviroment image"
                   className="object-fit-contain"
                   priority
@@ -119,6 +122,17 @@ export default function Home({
                 }}
               />
             </div>
+            {imgLoading && (
+              <div
+                className="position-absolute h-100 w-100 flex-center top-0 left-0"
+                style={{
+                  backdropFilter: "blur(10px)",
+                  backgroundColor: "#555555DD",
+                }}
+              >
+                <span className="fs-5 text-white">圖片載入中...</span>
+              </div>
+            )}
           </div>
         </Col>
       </Row>
