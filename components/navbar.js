@@ -146,7 +146,7 @@ const Navbar = ({
         ...env,
         label: env.name,
         action: () => setEnvId(env.id),
-        ...(env.name === currentEnv.name && {textStyle: "text-orange"})
+        ...(env.id === currentEnv.id && {textStyle: "text-orange"})
       })),
     },
     workMenu: {
