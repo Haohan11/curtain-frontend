@@ -104,7 +104,6 @@ export default function Home({
             >
               {transImageUrl(env_image) && (
                 <Image
-                  placeholder={loadingDataUrl}
                   onLoad={() => setImgLoading(false)}
                   alt="enviroment image"
                   className="object-fit-contain"
@@ -116,7 +115,6 @@ export default function Home({
               )}
               <Image
                 alt="mask image"
-                placeholder={loadingDataUrl}
                 className="object-fit-cover"
                 priority
                 fill
@@ -134,15 +132,14 @@ export default function Home({
               <div
                 className="position-absolute h-100 w-100 flex-center top-0 left-0"
                 style={{
-                  backdropFilter: "blur(10px)",
-                  backgroundColor: "#FFFFFF",
+                  backgroundColor: "#FFF",
                 }}
               >
                 <div
-                  className="position-relative top-0 left-0"
+                  className="position-relative"
                   style={{ width: "50px", height: "50px" }}
                 >
-                  <Image alt="loading" fill src={loadingDataUrl} />
+                  <Image alt="loading-img" fill src={loadingDataUrl} />
                 </div>
               </div>
             )}
