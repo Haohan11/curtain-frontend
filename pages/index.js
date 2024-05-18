@@ -98,9 +98,8 @@ export default function Home({
                 <Image
                   alt="enviroment image"
                   className="object-fit-contain"
+                  priority
                   fill
-                  placeholder="blur"
-                  blurDataURL={transImageUrl(env_image)}
                   sizes="70vw"
                   src={transImageUrl(env_image)}
                 />
