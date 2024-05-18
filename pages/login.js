@@ -16,6 +16,7 @@ import AuthCodeInput from "@/components/input/authCodeInput";
 import Logo from "@/components/logo";
 import ModalWrapper from "@/components/ModalWrapper";
 import PopUp from "@/components/PopUp";
+import VersionCode from "@/components/VersionCode";
 
 import useModals from "@/hook/useModals";
 import pageJson from "@/data/pageData";
@@ -94,7 +95,7 @@ const LoginPage = ({ pageData }) => {
                     <FormPassword name="password" />
                   </FormGroup>
                   <FormGroup className="d-flex py-4 fw-bold mb-10">
-                    <FormCheck
+                    {/* <FormCheck
                       id="rememberme"
                       label="記住我"
                       className="text-darkblue"
@@ -104,7 +105,7 @@ const LoginPage = ({ pageData }) => {
                       className="ms-auto cursor-pointer"
                     >
                       忘記密碼?
-                    </span>
+                    </span> */}
                   </FormGroup>
                 </>
               ),
@@ -215,11 +216,14 @@ const LoginPage = ({ pageData }) => {
   };
 
   return (
-    <TwoPageLayout
-      data={pageData}
-      goBack={toLogin}
-      content={<Content pageData={pageData} />}
-    />
+    <>
+      <TwoPageLayout
+        data={pageData}
+        goBack={toLogin}
+        content={<Content pageData={pageData} />}
+      />
+      <VersionCode />
+    </>
   );
 };
 
