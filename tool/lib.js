@@ -17,7 +17,7 @@ export const onlyNumber = (event) => {
       "ArrowRight",
       "Home",
       "End",
-      "Enter"
+      "Enter",
     ].includes(event.key) ||
     (event.ctrlKey && ["a", "x", "c", "v"].includes(event.key))
   )
@@ -47,9 +47,12 @@ export const toFormData = (values) => {
 };
 
 export const checkExpires = (time) =>
-  time ? time * 1000 < Date.now() : console.log("Invalid exp.");
+  !isNaN(time) ? time * 1000 < Date.now() : console.warn("Invalid exp.");
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
 export const validateEmail = (email) => emailRegex.test(email);
 
+export const checkShowMode = (router) => {
+  return !["true", "false"].includes(router?.query?.showMode) ||
+      JSON.parse(router.query.showMode);
+};

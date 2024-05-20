@@ -14,7 +14,7 @@
     "title": "忘記密碼",
     "defaultSubmitText": "請輸入電子郵件",
     "submitDisable": true,
-    "submitTo": "reset",
+    "submitTo": "pending",
     "returnText": "上一頁",
     "returnTo": "login"
   },

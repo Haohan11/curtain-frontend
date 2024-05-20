@@ -7,7 +7,7 @@ import Pagination from "@/components/pagination";
 import ColorRadio from "@/components/input/colorRadio";
 import { LoadingCircle } from "./LoadingCircle";
 import Cross from "@/icon/cross";
-import { transImageUrl } from "@/tool/lib";
+import { transImageUrl, checkShowMode } from "@/tool/lib";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
 
@@ -16,9 +16,7 @@ const StockList = ({ data, selectStock, setSelectStock }) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const showMode =
-    ["true", "false"].includes(router.query.showMode) &&
-    JSON.parse(router.query.showMode);
+  const showMode = checkShowMode(router);
 
   const { totalPages, data: list } = data;
   const { combination, addToCombination, loadCombination } = useCombination();

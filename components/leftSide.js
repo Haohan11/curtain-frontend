@@ -2,12 +2,11 @@ import { useRouter } from "next/router";
 import ProductCard from "./productCard";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
+import { checkShowMode } from "@/tool/lib";
 
 const LeftSide = ({ data: stockList, selectStock, setSelectStock }) => {
   const router = useRouter();
-  const showMode =
-    ["true", "false"].includes(router.query.showMode) &&
-    JSON.parse(router.query.showMode);
+  const showMode = checkShowMode(router);
   const { removeFromCombination } = useCombination();
 
   return (

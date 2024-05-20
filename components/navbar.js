@@ -13,6 +13,7 @@ import PopUp from "./PopUp";
 
 import NavItem from "@/components/navItem";
 import exportImage from "@/tool/exportImage";
+import { checkShowMode } from "@/tool/lib";
 import { createCombination, updateCombination } from "@/tool/request";
 
 import { useCombination } from "@/hook/provider/combinationProvider";
@@ -41,9 +42,7 @@ const Navbar = ({
   const session = useSession();
   const token = session?.data?.user?.accessToken;
 
-  const showMode =
-    ["true", "false"].includes(router.query.showMode) &&
-    JSON.parse(router.query.showMode);
+  const showMode = checkShowMode(router);
 
   const { handleShowModal, handleCloseModal, isModalOpen } = useModals();
 

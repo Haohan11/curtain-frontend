@@ -192,8 +192,10 @@ export const getServerSideProps = async (context) => {
   const designData = (await getDesignData(accessToken)) || [];
   const materialData = (await getMaterialData(accessToken)) || [];
   const colorSchemeData = (await getColorSchemeData(accessToken)) || [];
-  const { list: combinationData } = (context?.query?.showMode &&
-    (await getCombinations(accessToken, {}))) || { list: [] };
+  const { list: combinationData } =
+    context?.query?.showMode === false
+      ? { list: [] }
+      : (await getCombinations(accessToken, {})) || { list: [] };
 
   return {
     props: {

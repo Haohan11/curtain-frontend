@@ -1,17 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { Form, FormGroup, FormCheck } from "react-bootstrap";
 import { signIn, getSession } from "next-auth/react";
 
 import { checkExpires, validateEmail } from "@/tool/lib";
+import { sendAuthcodeEmail } from "@/tool/request";
 
 import TwoPageLayout from "@/components/twoPageLayout";
 import FormInput from "@/components/input/formInput";
 import FormLabel from "@/components/input/formLabel";
 import FormPassword from "@/components/input/formPassword";
 import SubmitButton from "@/components/input/submitButton";
-import LoginButton from "@/components/input/loginButton";
 import AuthCodeInput from "@/components/input/authCodeInput";
 import Logo from "@/components/logo";
 import ModalWrapper from "@/components/ModalWrapper";
@@ -23,6 +23,22 @@ import pageJson from "@/data/pageData";
 
 const pageNameDict = ["login", "forgetPassword", "resetPassword", "pending"];
 
+const pendingExpire = 6 * 1000;
+const checkPending = () => {
+  try {
+    const { status, expire } = JSON.parse(localStorage.getItem("isPending"));
+    return (
+      (!!status && Date.now() - expire < pendingExpire) ||
+      !!localStorage.setItem(
+        "isPending",
+        JSON.stringify({ status: false, expire })
+      )
+    );
+  } catch {
+    return false;
+  }
+};
+
 const LoginPage = ({ pageData }) => {
   const router = useRouter();
 
@@ -30,27 +46,8 @@ const LoginPage = ({ pageData }) => {
   const [toLogin, toForgetPassword, toReset, toPending] = pageNameDict.map(
     (pn) => () => router.push({ query: { pagename: pn } })
   );
+
   const { handleShowModal, handleCloseModal, isModalOpen } = useModals();
-
-  const login = async () => {
-    const form = document.getElementById("loginForm");
-    const formData = new FormData(form);
-
-    const data = Object.fromEntries(formData);
-    console.log("login data: ");
-    console.log(data);
-    const result = await signIn("credentials", {
-      ...data,
-      redirect: false,
-    });
-    console.log("result :", result);
-    if (result?.ok) {
-      handleShowModal("success");
-    } else {
-      form.reset();
-      handleShowModal("popup");
-    }
-  };
 
   const Content = ({ pageData: staticPageData }) => {
     const [pageData, setPageData] = useState(staticPageData);
@@ -58,21 +55,42 @@ const LoginPage = ({ pageData }) => {
     const handleSubmit = async (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
-      Object.fromEntries(formData);
-      console.log(Object.fromEntries(formData));
+      const data = Object.fromEntries(formData);
+      console.log(`${pageName} form submit:`, Object.fromEntries(formData));
 
       const purpose = pageData.submitTo;
 
-      ({
-        login: () => {},
-        reset: () => {
-          if (pageName !== "pending") return toPending();
-          // router.query.pending === "false"
-          //   ? toReset()
-          //   : router.push({ query: { ...router.query, pending: "false" } });
+      await {
+        login: async () => {
+          const result = await signIn("credentials", {
+            ...data,
+            redirect: false,
+          });
+          console.log("result :", result);
+          if (result?.ok) {
+            handleShowModal("success");
+          } else {
+            e.target.reset();
+            handleShowModal("popup");
+          }
         },
+        pending: async () => {
+          localStorage.setItem(
+            "isPending",
+            JSON.stringify({ status: true, expire: Date.now() })
+          );
+          const result = await sendAuthcodeEmail(e.target.email);
+          if (result.message === "NoEmail")
+            return handleShowModal("wrongEmail");
+
+          if (!result.status)
+            return handleShowModal("ServerError");
+
+          toPending();
+        },
+        reset: () => console.log("reset"),
         resetNow: toLogin,
-      })[purpose]();
+      }[purpose]();
     };
 
     return (
@@ -95,7 +113,7 @@ const LoginPage = ({ pageData }) => {
                     <FormPassword name="password" />
                   </FormGroup>
                   <FormGroup className="d-flex py-4 fw-bold mb-10">
-                    {/* <FormCheck
+                    <FormCheck
                       id="rememberme"
                       label="記住我"
                       className="text-darkblue"
@@ -105,7 +123,7 @@ const LoginPage = ({ pageData }) => {
                       className="ms-auto cursor-pointer"
                     >
                       忘記密碼?
-                    </span> */}
+                    </span>
                   </FormGroup>
                 </>
               ),
@@ -175,15 +193,15 @@ const LoginPage = ({ pageData }) => {
               ),
             }[pageName]
           }
-          {pageName === "login" ? (
+          {/* {pageName === "login" ? (
             <LoginButton onClick={login} disabled={pageData.submitDisable}>
               {pageData.submitText || pageData.defaultSubmitText}
             </LoginButton>
-          ) : (
-            <SubmitButton disabled={pageData.submitDisable}>
-              {pageData.submitText || pageData.defaultSubmitText}
-            </SubmitButton>
-          )}
+          ) : ( */}
+          <SubmitButton disabled={pageData.submitDisable}>
+            {pageData.submitText || pageData.defaultSubmitText}
+          </SubmitButton>
+          {/* )} */}
         </div>
 
         <ModalWrapper
@@ -211,9 +229,43 @@ const LoginPage = ({ pageData }) => {
             confirmOnClick={() => router.push("/")}
           />
         </ModalWrapper>
+
+        <ModalWrapper
+          key="wrongEmail"
+          show={isModalOpen("wrongEmail")}
+          size="lg"
+        >
+          <PopUp
+            imageSrc={"/icon/circle-error.svg"}
+            title={"錯誤的電子郵件"}
+            confirmOnClick={() => handleCloseModal("wrongEmail")}
+          />
+        </ModalWrapper>
+
+        <ModalWrapper
+          key="ServerError"
+          show={isModalOpen("ServerError")}
+          size="lg"
+        >
+          <PopUp
+            imageSrc={"/icon/circle-error.svg"}
+            title={"發生錯誤請稍後再試"}
+            confirmOnClick={() => handleCloseModal("ServerError")}
+          />
+        </ModalWrapper>
       </Form>
     );
   };
+
+  useEffect(() => {
+    const isPending = checkPending();
+    isPending
+      ? pageName !== "pending" && toPending()
+      : (() => {
+          localStorage.removeItem("isPending");
+          pageName === "pending" && toLogin();
+        })();
+  }, [router]);
 
   return (
     <>

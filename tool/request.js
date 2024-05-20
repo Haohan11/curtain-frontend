@@ -214,3 +214,23 @@ export const getAccountData = async (token) => {
     return false;
   }
 };
+
+export const sendAuthcodeEmail = async (email) => {
+  const URL = `${BASEURL}/sendmail`;
+
+  const formData = new FormData();
+  formData.append("email", email)
+
+  try {
+    const res = await fetch(URL, {
+      method: "POST",
+      body: formData,
+    })
+    
+    const result = await res.json()
+
+    return result
+  } catch {
+    return false
+  }
+}
