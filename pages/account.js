@@ -1,4 +1,8 @@
+import { useState, useRef } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
+import { getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 import { Col, Form, FormGroup } from "react-bootstrap";
 
@@ -8,19 +12,107 @@ import FormInput from "@/components/input/formInput";
 import FormLabel from "@/components/input/formLabel";
 import FormPassword from "@/components/input/formPassword";
 import SubmitButton from "@/components/input/submitButton";
+import PopUp from "@/components/PopUp";
+import ModalWrapper from "@/components/ModalWrapper";
 
-import { checkExpires } from "@/tool/lib";
-import { getSession } from "next-auth/react";
-import { getAccountData } from "@/tool/request";
+import { checkExpires, validateEmail } from "@/tool/lib";
+import { getAccountData, updateAccountData } from "@/tool/request";
+import useModals from "@/hook/useModals";
 
 const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
+  const router = useRouter();
   const pageData = pageJson["account"];
+  const session = useSession();
+  const token = session?.data?.user?.accessToken;
+  const { handleShowModal, handleCloseModal, isModalOpen } = useModals();
 
-  const handleSubmit = (e) => {
+  const [errorEmail, setErrorEmail] = useState({ status: false, message: "" });
+  const [errorName, setErrorName] = useState({ status: false, message: "" });
+  const [errorPhone, setErrorPhone] = useState({ status: false, message: "" });
+  const [errorPassword, setErrorPassword] = useState({
+    status: false,
+    message: "",
+  });
+  const [isSamePassword, setIsSamePassword] = useState({
+    status: false,
+    message: "",
+  });
+
+  const newPass = useRef("");
+
+  //驗證
+  const validate = (type, value) => {
+    switch (type) {
+      case "name":
+        if (value.length < 2) {
+          setErrorName({ status: true, message: "姓名請至少輸入2個字" });
+        } else {
+          setErrorName({ status: false, message: "" });
+        }
+        break;
+      case "email":
+        const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+        if (!emailPattern.test(value)) {
+          setErrorEmail({ status: true, message: "電子郵件輸入有誤" });
+        } else {
+          setErrorEmail({ status: false, message: "" });
+        }
+        break;
+      case "phone":
+        const phonePattern = /^[0-9]{10}$/; // 這裡的正則表示電話號碼應該是10位數字
+        if (!phonePattern.test(value)) {
+          setErrorPhone({ status: true, message: "手機號碼輸入有誤" });
+        } else {
+          setErrorPhone({ status: false, message: "" });
+        }
+        break;
+      case "password":
+        if (value.length < 4) {
+          setErrorPassword({
+            status: true,
+            message: "密碼請至少輸入4個數字或英文",
+          });
+        } else {
+          setErrorPassword({ status: false, message: "" });
+        }
+        break;
+      case "samePassword":
+        if (value !== newPass.current.value) {
+          setIsSamePassword({ status: true, message: "再次輸入密碼有誤" });
+        } else {
+          setIsSamePassword({ status: false, message: "" });
+        }
+        break;
+    }
+
+    // 驗證用戶名
+
+    // 驗證郵箱
+
+    // 驗證密碼
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+    formData.append("id_code", code);
     Object.fromEntries(formData);
-    console.log(Object.fromEntries(formData));
+    const data = Object.fromEntries(formData);
+    console.log("data", data);
+    if (
+      !errorEmail.status &&
+      !errorName.status &&
+      !errorPhone.status &&
+      !errorPassword.status &&
+      !isSamePassword.status
+    ) {
+      const res = await updateAccountData(token, formData);
+      if (res) {
+        handleShowModal("success");
+      }
+    } else {
+      console.log("失敗");
+    }
   };
 
   const content = (
@@ -31,47 +123,113 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
       <Col className="vstack text-textblue p-4">
         <div className="mb-10">
           <h4 className="fw-bold mb-3">基本資料</h4>
+          <FormLabel className="fw-bold text-textblue">員工編號</FormLabel>
           <FormInput
             className="mb-2 text-textdarkblue"
             disabled
             defaultValue={code}
           />
+          <FormLabel className="fw-bold text-textblue">員工電子郵箱</FormLabel>
           <FormInput
             className="mb-2 text-textdarkblue"
-            disabled
+            name="email"
+            // disabled
             defaultValue={email}
+            onBlur={(event) => {
+              validate("email", event.target.value);
+            }}
           />
+          {errorEmail?.status && (
+            <p className="text-red my-3">{errorEmail.message}</p>
+          )}
+          <FormLabel className="fw-bold text-textblue">員工姓名</FormLabel>
           <FormInput
             className="mb-3 text-textdarkblue"
-            disabled
+            name="name"
+            // disabled
             defaultValue={name}
+            onBlur={(event) => {
+              validate("name", event.target.value);
+            }}
           />
-          <FormGroup controlId="phoneNumber">
+          {errorName?.status && (
+            <p className="text-red my-3">{errorName.message}</p>
+          )}
+          <FormGroup controlId="phone_number">
             <FormLabel className="fw-bold text-textblue">手機號碼</FormLabel>
             <FormInput
-            className="text-textblue"
-              name="phoneNumber"
-              disabled
+              className="text-textblue"
+              name="phone_number"
+              // disabled
               defaultValue={phone_number}
+              onBlur={(event) => {
+                validate("phone", event.target.value);
+              }}
             ></FormInput>
+            {errorPhone?.status && (
+              <p className="text-red my-3">{errorPhone.message}</p>
+            )}
           </FormGroup>
         </div>
         <div className="flex-grow-1"></div>
-        {/* <div className="mb-10">
+        <div className="mb-10">
           <h4 className="fw-bold mb-3">修改密碼</h4>
-          <FormGroup controlId="newPassword" className="mb-2">
+          <FormGroup controlId="password" className="mb-2">
             <FormLabel className="fw-bold text-textblue">新密碼</FormLabel>
-            <FormPassword name="newPassword"></FormPassword>
+            <FormPassword
+              name="password"
+              ref={newPass}
+              onBlur={(event) => {
+                validate("password", event.target.value);
+              }}
+            ></FormPassword>
           </FormGroup>
+          {errorPassword?.status && (
+            <p className="text-red my-3">{errorPassword.message}</p>
+          )}
           <FormGroup controlId="rePassword">
             <FormLabel className="fw-bold text-textblue">
               再次輸入新密碼
             </FormLabel>
-            <FormPassword name="rePassword"></FormPassword>
+            <FormPassword
+              name="rePassword"
+              onBlur={(event) => {
+                validate("samePassword", event.target.value);
+              }}
+            ></FormPassword>
           </FormGroup>
-        </div> */}
-        {/* <SubmitButton>{pageData.submitText}</SubmitButton> */}
+          {isSamePassword?.status && (
+            <p className="text-red my-3">{isSamePassword.message}</p>
+          )}
+        </div>
+        <SubmitButton>{pageData.submitText}</SubmitButton>
       </Col>
+
+      <ModalWrapper
+        key="success"
+        show={isModalOpen("success")}
+        size="lg"
+        onHide={() => router.push("/")}
+      >
+        <PopUp
+          imageSrc={"/icon/check-circle.svg"}
+          title={"修改成功"}
+          confirmOnClick={() => router.push("/")}
+        />
+      </ModalWrapper>
+
+      {/* <ModalWrapper
+        key="popup"
+        show={isModalOpen("popup")}
+        size="lg"
+        onHide={() => handleCloseModal("popup")}
+      >
+        <PopUp
+          imageSrc={"/icon/circle-error.svg"}
+          title={"帳號或密碼錯誤"}
+          confirmOnClick={() => handleCloseModal("popup")}
+        />
+      </ModalWrapper> */}
     </Form>
   );
 
@@ -91,10 +249,10 @@ export const getServerSideProps = async (context) => {
   }
   const accessToken = session.user.accessToken;
   const accountData = (await getAccountData(accessToken)) || {
-      code: "",
-      email: "",
-      phone_number: "",
-      name: "",
+    code: "",
+    email: "",
+    phone_number: "",
+    name: "",
   };
 
   return {

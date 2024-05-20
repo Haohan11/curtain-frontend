@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 
 import { Form, FormGroup, FormCheck } from "react-bootstrap";
@@ -17,6 +17,7 @@ import Logo from "@/components/logo";
 import ModalWrapper from "@/components/ModalWrapper";
 import PopUp from "@/components/PopUp";
 import VersionCode from "@/components/VersionCode";
+import useLocalStorage from "@/hook/useLocalStorage";
 
 import useModals from "@/hook/useModals";
 import pageJson from "@/data/pageData";
@@ -43,11 +44,15 @@ const LoginPage = ({ pageData }) => {
   const router = useRouter();
 
   const pageName = pageData.pageName;
+
   const [toLogin, toForgetPassword, toReset, toPending] = pageNameDict.map(
     (pn) => () => router.push({ query: { pagename: pn } })
   );
 
   const { handleShowModal, handleCloseModal, isModalOpen } = useModals();
+  
+  const [rememberMe, setRememberMe, clearRememberMe] =
+    useLocalStorage("rememberMe");
 
   const Content = ({ pageData: staticPageData }) => {
     const [pageData, setPageData] = useState(staticPageData);
@@ -56,6 +61,7 @@ const LoginPage = ({ pageData }) => {
       e.preventDefault();
       const formData = new FormData(e.target);
       const data = Object.fromEntries(formData);
+      data.rememberMe? setRememberMe(data.account) : clearRememberMe();
       console.log(`${pageName} form submit:`, Object.fromEntries(formData));
 
       const purpose = pageData.submitTo;
@@ -107,23 +113,24 @@ const LoginPage = ({ pageData }) => {
               login: (
                 <>
                   <FormGroup className="mb-3">
-                    <FormInput placeholder="帳號" name="account"></FormInput>
+                    <FormInput placeholder="帳號" defaultValue={rememberMe} name="account"></FormInput>
                   </FormGroup>
                   <FormGroup>
                     <FormPassword name="password" />
                   </FormGroup>
                   <FormGroup className="d-flex py-4 fw-bold mb-10">
                     <FormCheck
-                      id="rememberme"
+                      name='rememberMe'
                       label="記住我"
+                      defaultValue={!!rememberMe}
                       className="text-darkblue"
                     ></FormCheck>
-                    <span
+                    {/* <span
                       onClick={toForgetPassword}
                       className="ms-auto cursor-pointer"
                     >
                       忘記密碼?
-                    </span>
+                    </span> */}
                   </FormGroup>
                 </>
               ),
@@ -193,15 +200,9 @@ const LoginPage = ({ pageData }) => {
               ),
             }[pageName]
           }
-          {/* {pageName === "login" ? (
-            <LoginButton onClick={login} disabled={pageData.submitDisable}>
-              {pageData.submitText || pageData.defaultSubmitText}
-            </LoginButton>
-          ) : ( */}
           <SubmitButton disabled={pageData.submitDisable}>
             {pageData.submitText || pageData.defaultSubmitText}
           </SubmitButton>
-          {/* )} */}
         </div>
 
         <ModalWrapper
