@@ -206,11 +206,32 @@ export const getAccountData = async (token) => {
     if (!res.ok) return false;
 
     const { data } = await res.json();
-    console.log("======== account data ==========:", data)
+    console.log("======== account data ==========:", data);
 
-    return data
+    return data;
   } catch (error) {
     console.log(error);
+    return false;
+  }
+};
+
+export const updateAccountData = async (token, values) => {
+  const URL = `${BASEURL}/account`;
+  const formData = values;
+
+  try {
+    const res = await fetch(URL, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+    if (!res.ok) return false;
+    const result = await res.json();
+    return result.status;
+  } catch (error) {
+    console.log("Update account error:", error);
     return false;
   }
 };
