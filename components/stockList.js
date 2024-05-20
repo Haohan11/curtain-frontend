@@ -79,13 +79,19 @@ const StockList = ({ data, selectStock, setSelectStock }) => {
                       transImageUrl(item.colorList?.[0]?.stock_image) ||
                       "/image/xmas.jpg"
                     }
-                    style={{objectPosition: "center"}}
+                    style={{ objectPosition: "center" }}
                   />
                 </div>
                 <p className="py-2 m-0 text-center text-darkblue fw-bold">
                   {item.name ?? "Product Name"}
                 </p>
-                <div className="hstack justify-content-around">
+                <div
+                  className={`hstack ${
+                    item.colorList.length > 4
+                      ? "justify-content-start"
+                      : "justify-content-center"
+                  } gap-3 overflow-x-auto`}
+                >
                   {!item.colorList || item.colorList.length === 0 ? (
                     <span className="text-textgrey">目前沒有商品顏色</span>
                   ) : (
