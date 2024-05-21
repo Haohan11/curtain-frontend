@@ -122,9 +122,10 @@ const LoginPage = ({ pageData }) => {
           }
         },
         resetNow: async () => {
-          const token = localStorage.getItem("reset-token")
-          // console.log("try reset")
-          await resetPassword(token, passwordRef.current.new)
+          const token = localStorage.getItem("reset-token");
+          await resetPassword(token, passwordRef.current.new);
+          localStorage.removeItem("reset-token");
+          toLogin();
         },
       }[purpose]();
     };
@@ -360,6 +361,7 @@ const LoginPage = ({ pageData }) => {
       const resetToken = localStorage.getItem("reset-token");
       if (!resetToken) break checkToken;
 
+      localStorage.removeItem("isPending")
       pageName !== "resetPassword" && toReset();
       return;
     } catch {
