@@ -255,3 +255,47 @@ export const sendAuthcodeEmail = async (email) => {
     return false
   }
 }
+
+export const authCodeCheck = async (authCode) => {
+  const URL = `${BASEURL}/authcodecheck`;
+
+  const formData = new FormData();
+  formData.append("auth_code", authCode)
+
+  try {
+    const res = await fetch(URL, {
+      method: "POST",
+      body: formData,
+    })
+    
+    const result = await res.json()
+
+    return result
+  } catch {
+    return false
+  }
+}
+
+export const resetPassword = async (token, password) => {
+  const URL = `${BASEURL}/resetpassword`;
+  const formData = new FormData();
+
+  formData.append("password", password)
+
+  try {
+    const res = await fetch(URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+    if (!res.ok) return false;
+    const result = await res.json();
+    console.log("reset", result)
+    return result.status;
+  } catch (error) {
+    console.log("Reset password error:", error);
+    return false;
+  }
+};

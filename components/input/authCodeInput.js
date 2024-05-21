@@ -37,7 +37,7 @@ const AuthCodeInput = ({onChange}) => {
             }}
             onChange={() => onChange(getValue())}
           ></FormInput>
-          <input name="authCode" hidden readOnly value={getValue()}/>
+          <input name="auth_code" hidden readOnly value={getValue()}/>
           {n !== 3 && <span className="fw-bold text-linegrey fs-5">-</span>}
         </Fragment>
       ))}

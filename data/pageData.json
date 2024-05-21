@@ -43,7 +43,8 @@
     "cover_title": "Reset Password",
     "cover_image": "/image/room1.jpg",
     "title": "重設密碼",
-    "submitText": "立即重設密碼",
+    "defaultSubmitText": "立即重設密碼",
+    "submitDisable": true,
     "submitTo": "resetNow"
   }
 }

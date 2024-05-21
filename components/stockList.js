@@ -146,7 +146,7 @@ const StockList = ({ data, selectStock, setSelectStock }) => {
         ) : (
           <Row className="h-100 p-12 w-100 g-0">
             <Col>
-              <div className="h-100 border fs-5 flex-center rounded-2 bg-light">
+              <div className="h-100 fs-5 flex-center rounded-2 bg-light">
                 目前沒有商品資料
               </div>
             </Col>

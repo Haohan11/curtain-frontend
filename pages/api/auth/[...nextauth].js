@@ -56,7 +56,7 @@ export const authOptions = {
           userId: user.id,
           userName: user.name,
           accessToken: user.token,
-          _exp: user._exp
+          _exp: user._exp,
         };
       }
 
@@ -67,7 +67,7 @@ export const authOptions = {
       session.user.userId = token.userId;
       session.user.userName = token.userName;
       session.user.accessToken = token.accessToken;
-      session._exp = token._exp
+      session._exp = token._exp;
 
       return session;
     },

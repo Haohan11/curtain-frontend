@@ -5,7 +5,7 @@ import { Form, FormGroup, FormCheck } from "react-bootstrap";
 import { signIn, getSession } from "next-auth/react";
 
 import { checkExpires, validateEmail } from "@/tool/lib";
-import { sendAuthcodeEmail } from "@/tool/request";
+import { sendAuthcodeEmail, authCodeCheck, resetPassword } from "@/tool/request";
 
 import TwoPageLayout from "@/components/twoPageLayout";
 import FormInput from "@/components/input/formInput";
@@ -23,8 +23,10 @@ import useModals from "@/hook/useModals";
 import pageJson from "@/data/pageData";
 
 const pageNameDict = ["login", "forgetPassword", "resetPassword", "pending"];
+const passwordReg =
+  /^(?=.*[a-zA-Z0-9].*[a-zA-Z0-9].*[a-zA-Z0-9].*[a-zA-Z0-9]).+$/;
 
-const pendingExpire = 6 * 1000;
+const pendingExpire = 3600 * 1000;
 const checkPending = () => {
   try {
     const { status, expire } = JSON.parse(localStorage.getItem("isPending"));
@@ -50,22 +52,26 @@ const LoginPage = ({ pageData }) => {
   );
 
   const { handleShowModal, handleCloseModal, isModalOpen } = useModals();
-  
+
   const [rememberMe, setRememberMe, clearRememberMe] =
     useLocalStorage("rememberMe");
 
   const Content = ({ pageData: staticPageData }) => {
     const [pageData, setPageData] = useState(staticPageData);
+    const passwordRef = useRef({ new: "", re: "" });
+    const passwordMatch = () =>
+      !!passwordRef.current.new &&
+      passwordRef.current.new === passwordRef.current.re;
 
     const handleSubmit = async (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
       const data = Object.fromEntries(formData);
-      data.rememberMe? setRememberMe(data.account) : clearRememberMe();
+      data.rememberMe ? setRememberMe(data.account) : clearRememberMe();
+
       console.log(`${pageName} form submit:`, Object.fromEntries(formData));
 
       const purpose = pageData.submitTo;
-
       await {
         login: async () => {
           const result = await signIn("credentials", {
@@ -85,17 +91,41 @@ const LoginPage = ({ pageData }) => {
             "isPending",
             JSON.stringify({ status: true, expire: Date.now() })
           );
-          const result = await sendAuthcodeEmail(e.target.email);
+          setPageData((prev) => ({
+            ...prev,
+            submitText: "正在取得電子信件...",
+            submitDisable: true,
+          }));
+          const result = await sendAuthcodeEmail(data.email);
+
           if (result.message === "NoEmail")
             return handleShowModal("wrongEmail");
 
-          if (!result.status)
-            return handleShowModal("ServerError");
+          if (!result.status) return handleShowModal("ServerError");
 
+          setPageData((prev) => ({
+            ...prev,
+            submitText: "電子郵件已寄送",
+            submitDisable: false,
+          }));
           toPending();
         },
-        reset: () => console.log("reset"),
-        resetNow: toLogin,
+        reset: async () => {
+          const result = await authCodeCheck(data.auth_code);
+          if (!result.status) return handleShowModal("auth-fail");
+
+          try {
+            localStorage.setItem("reset-token", result.data.token);
+            handleShowModal("auth-success");
+          } catch {
+            handleShowModal("auth-fail");
+          }
+        },
+        resetNow: async () => {
+          const token = localStorage.getItem("reset-token")
+          // console.log("try reset")
+          await resetPassword(token, passwordRef.current.new)
+        },
       }[purpose]();
     };
 
@@ -113,24 +143,28 @@ const LoginPage = ({ pageData }) => {
               login: (
                 <>
                   <FormGroup className="mb-3">
-                    <FormInput placeholder="帳號" defaultValue={rememberMe} name="account"></FormInput>
+                    <FormInput
+                      placeholder="帳號"
+                      defaultValue={rememberMe}
+                      name="account"
+                    ></FormInput>
                   </FormGroup>
                   <FormGroup>
                     <FormPassword name="password" />
                   </FormGroup>
                   <FormGroup className="d-flex py-4 fw-bold mb-10">
                     <FormCheck
-                      name='rememberMe'
+                      name="rememberMe"
                       label="記住我"
                       defaultValue={!!rememberMe}
                       className="text-darkblue"
                     ></FormCheck>
-                    {/* <span
+                    <span
                       onClick={toForgetPassword}
                       className="ms-auto cursor-pointer"
                     >
                       忘記密碼?
-                    </span> */}
+                    </span>
                   </FormGroup>
                 </>
               ),
@@ -185,16 +219,47 @@ const LoginPage = ({ pageData }) => {
               resetPassword: (
                 <>
                   <p className="text-center text-darkblue mb-10">
-                    Vitae enim labore vitae, beatae quos vitae quos sequi
-                    reiciendis, in quas, hic labore eos asperiores
+                    請輸入要使用的新密碼後重新登入
                   </p>
                   <FormGroup controlId="newPassword" className="mb-2">
                     <FormLabel>新密碼</FormLabel>
-                    <FormPassword name="newPassword" />
+                    <FormPassword
+                      name="newPassword"
+                      onChange={(e) => {
+                        passwordRef.current.new = e.target.value;
+                        const valid = passwordReg.test(e.target.value);
+                        const isMatch = passwordMatch();
+                        setPageData((prev) => ({
+                          ...prev,
+                          submitDisable: !isMatch || !valid,
+                          submitText: valid
+                            ? isMatch
+                              ? prev.defaultSubmitText
+                              : "密碼不相符"
+                            : "密碼格式錯誤",
+                        }));
+                      }}
+                    />
                   </FormGroup>
-                  <FormGroup controlId="rePassword" className="mb-3">
+                  <FormGroup controlId="rePassword" className="mb-6">
                     <FormLabel>再次輸入新密碼</FormLabel>
-                    <FormPassword name="rePassword" />
+                    <FormPassword
+                      name="rePassword"
+                      onChange={(e) => {
+                        passwordRef.current.re = e.target.value;
+                        const valid = passwordReg.test(e.target.value);
+                        const isMatch = passwordMatch();
+                        setPageData((prev) => ({
+                          ...prev,
+                          submitDisable: !isMatch || !valid,
+                          submitText: valid
+                            ? isMatch
+                              ? prev.defaultSubmitText
+                              : "密碼不相符"
+                            : "密碼格式錯誤",
+                        }));
+                      }}
+                    />
                   </FormGroup>
                 </>
               ),
@@ -232,6 +297,38 @@ const LoginPage = ({ pageData }) => {
         </ModalWrapper>
 
         <ModalWrapper
+          key="auth-success"
+          show={isModalOpen("auth-success")}
+          size="lg"
+          onHide={() => {
+            handleCloseModal("auth-success");
+            toReset();
+          }}
+        >
+          <PopUp
+            imageSrc={"/icon/check-circle.svg"}
+            title={"驗證成功"}
+            confirmOnClick={() => {
+              handleCloseModal("auth-success");
+              toReset();
+            }}
+          />
+        </ModalWrapper>
+
+        <ModalWrapper
+          key="auth-fail"
+          show={isModalOpen("auth-fail")}
+          size="lg"
+          onHide={() => handleCloseModal("auth-fail")}
+        >
+          <PopUp
+            imageSrc={"/icon/circle-error.svg"}
+            title={"驗證失敗"}
+            confirmOnClick={() => handleCloseModal("auth-fail")}
+          />
+        </ModalWrapper>
+
+        <ModalWrapper
           key="wrongEmail"
           show={isModalOpen("wrongEmail")}
           size="lg"
@@ -259,12 +356,22 @@ const LoginPage = ({ pageData }) => {
   };
 
   useEffect(() => {
+    checkToken: try {
+      const resetToken = localStorage.getItem("reset-token");
+      if (!resetToken) break checkToken;
+
+      pageName !== "resetPassword" && toReset();
+      return;
+    } catch {
+      console.log(localStorage.getItem("reset-token"));
+    }
+
     const isPending = checkPending();
     isPending
       ? pageName !== "pending" && toPending()
       : (() => {
           localStorage.removeItem("isPending");
-          pageName === "pending" && toLogin();
+          ["pending"].includes(pageName) && toLogin();
         })();
   }, [router]);
 
