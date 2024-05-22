@@ -1,15 +1,13 @@
 import { Fragment, useRef } from "react";
 import FormInput from "./formInput";
 
-const allowKeyList = [
-  "Delete", "Backspace", "Shift", "Tab"
-]
+const allowKeyList = ["Delete", "Backspace", "Shift", "Tab"];
 
-const AuthCodeInput = ({onChange}) => {
+const AuthCodeInput = ({ onChange }) => {
   const numberRef = useRef([]);
   const numbers = numberRef.current;
 
-  const getValue = () => numbers.reduce((str, el) => str += el.value, "")
+  const getValue = () => numbers.reduce((str, el) => (str += el.value), "");
 
   return (
     <>
@@ -22,9 +20,14 @@ const AuthCodeInput = ({onChange}) => {
             placeholder=""
             onKeyDown={(e) => {
               const regex = /^\d$/;
-              const valid = regex.test(e.key)
-              if (!valid && !allowKeyList.includes(e.key) ) e.preventDefault();
-              if(valid) e.target.value = e.key
+              const valid = regex.test(e.key);
+              if (
+                !valid &&
+                !allowKeyList.includes(e.key) &&
+                !(e.ctrlKey && ["a", "x", "c", "v"].includes(e.key))
+              )
+                e.preventDefault();
+              if (valid) e.target.value = e.key;
             }}
             onInput={({ target }) => {
               const value = target.value;
@@ -35,9 +38,16 @@ const AuthCodeInput = ({onChange}) => {
                 if (node.value === "") return node.focus();
               }
             }}
+            onPaste={(e) => {
+              e.preventDefault();
+              const value = e.clipboardData.getData("text")
+              if(!parseInt(value)) return;
+              numberRef.current.forEach((ref, index) => ref.value = value[index])
+              onChange(getValue())
+            }}
             onChange={() => onChange(getValue())}
           ></FormInput>
-          <input name="auth_code" hidden readOnly value={getValue()}/>
+          <input name="auth_code" hidden readOnly value={getValue()} />
           {n !== 3 && <span className="fw-bold text-linegrey fs-5">-</span>}
         </Fragment>
       ))}

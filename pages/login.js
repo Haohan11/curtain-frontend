@@ -5,7 +5,11 @@ import { Form, FormGroup, FormCheck } from "react-bootstrap";
 import { signIn, getSession } from "next-auth/react";
 
 import { checkExpires, validateEmail } from "@/tool/lib";
-import { sendAuthcodeEmail, authCodeCheck, resetPassword } from "@/tool/request";
+import {
+  sendAuthcodeEmail,
+  authCodeCheck,
+  resetPassword,
+} from "@/tool/request";
 
 import TwoPageLayout from "@/components/twoPageLayout";
 import FormInput from "@/components/input/formInput";
@@ -123,7 +127,8 @@ const LoginPage = ({ pageData }) => {
         },
         resetNow: async () => {
           const token = localStorage.getItem("reset-token");
-          await resetPassword(token, passwordRef.current.new);
+          const result = await resetPassword(token, passwordRef.current.new);
+          if (!result.status) return handleShowModal("ServerError");
           localStorage.removeItem("reset-token");
           toLogin();
         },
@@ -361,7 +366,7 @@ const LoginPage = ({ pageData }) => {
       const resetToken = localStorage.getItem("reset-token");
       if (!resetToken) break checkToken;
 
-      localStorage.removeItem("isPending")
+      localStorage.removeItem("isPending");
       pageName !== "resetPassword" && toReset();
       return;
     } catch {
