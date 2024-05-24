@@ -128,9 +128,9 @@ const LoginPage = ({ pageData }) => {
         resetNow: async () => {
           const token = localStorage.getItem("reset-token");
           const result = await resetPassword(token, passwordRef.current.new);
-          if (!result.status) return handleShowModal("ServerError");
+          if (!result) return handleShowModal("ServerError");
           localStorage.removeItem("reset-token");
-          toLogin();
+          handleShowModal("reset-success")
         },
       }[purpose]();
     };
@@ -303,6 +303,25 @@ const LoginPage = ({ pageData }) => {
         </ModalWrapper>
 
         <ModalWrapper
+          key="reset-success"
+          show={isModalOpen("reset-success")}
+          size="lg"
+          onHide={() => {
+            handleCloseModal("reset-success");
+            toLogin();
+          }}
+        >
+          <PopUp
+            imageSrc={"/icon/check-circle.svg"}
+            title={"修改密碼成功"}
+            confirmOnClick={() => {
+              handleCloseModal("reset-success");
+              toLogin();
+            }}
+          />
+        </ModalWrapper>
+
+        <ModalWrapper
           key="auth-success"
           show={isModalOpen("auth-success")}
           size="lg"
@@ -367,7 +386,7 @@ const LoginPage = ({ pageData }) => {
       if (!resetToken) break checkToken;
 
       localStorage.removeItem("isPending");
-      pageName !== "resetPassword" && toReset();
+      !["login", "resetPassword"].includes(pageName) && toReset();
       return;
     } catch {
       console.log(localStorage.getItem("reset-token"));
@@ -375,7 +394,7 @@ const LoginPage = ({ pageData }) => {
 
     const isPending = checkPending();
     isPending
-      ? pageName !== "pending" && toPending()
+      ? !["login", "pending"].includes(pageName) && toPending()
       : (() => {
           localStorage.removeItem("isPending");
           ["pending"].includes(pageName) && toLogin();

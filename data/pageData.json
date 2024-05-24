@@ -45,6 +45,8 @@
     "title": "重設密碼",
     "defaultSubmitText": "立即重設密碼",
     "submitDisable": true,
-    "submitTo": "resetNow"
+    "submitTo": "resetNow",
+    "returnText": "返回",
+    "returnTo": "login"
   }
 }
