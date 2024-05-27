@@ -83,12 +83,13 @@ const LoginPage = ({ pageData }) => {
             redirect: false,
           });
           console.log("result :", result);
-          if (result?.ok) {
-            handleShowModal("success");
-          } else {
-            e.target.reset();
-            handleShowModal("popup");
-          }
+          if (result?.error === "NoPermission")
+            return handleShowModal("NoPermission");
+
+          if (result?.ok) return handleShowModal("success");
+
+          e.target.reset();
+          handleShowModal("popup");
         },
         pending: async () => {
           localStorage.setItem(
@@ -130,7 +131,7 @@ const LoginPage = ({ pageData }) => {
           const result = await resetPassword(token, passwordRef.current.new);
           if (!result) return handleShowModal("ServerError");
           localStorage.removeItem("reset-token");
-          handleShowModal("reset-success")
+          handleShowModal("reset-success");
         },
       }[purpose]();
     };
@@ -374,6 +375,17 @@ const LoginPage = ({ pageData }) => {
             imageSrc={"/icon/circle-error.svg"}
             title={"發生錯誤請稍後再試"}
             confirmOnClick={() => handleCloseModal("ServerError")}
+          />
+        </ModalWrapper>
+        <ModalWrapper
+          key="NoPermission"
+          show={isModalOpen("NoPermission")}
+          size="lg"
+        >
+          <PopUp
+            imageSrc={"/icon/circle-error.svg"}
+            title={"權限不足"}
+            confirmOnClick={() => handleCloseModal("NoPermission")}
           />
         </ModalWrapper>
       </Form>
