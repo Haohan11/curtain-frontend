@@ -23,7 +23,7 @@ const StockList = ({ data, selectStock, setSelectStock }) => {
 
   useEffect(() => {
     const handleStart = (url) => {
-      setIsLoading(true);
+      url.includes("/?") && setIsLoading(true);
     };
 
     const handleEnd = (url) => {
