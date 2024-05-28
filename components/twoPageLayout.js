@@ -63,15 +63,15 @@ const TwoPageLayout = ({ data, content, goBack }) => {
         </div>
       </Col>
       <Col>
-        <div className="vh-100 px-4 px-lg-6 flex-column">
-          <div className="flex-center text-textgrey" style={{ height: "10vh" }}>
+        <div className="vh-100 px-4 px-lg-6">
+          <div className="flex-center text-textgrey" style={{ height: "8vh" }}>
             {headContent()}
           </div>
-          <div className="overflow-y-auto scroll" style={{ height: "80vh" }}>
+          <div className="overflow-y-auto scroll" style={{ height: "84vh" }}>
             {content}
           </div>
-          <div className="flex-center" style={{ height: "10vh" }}>
-            <p className="text-textgrey">{copyrightText}</p>
+          <div className="flex-center" style={{ height: "8vh" }}>
+            <span className="text-textgrey">{copyrightText}</span>
           </div>
         </div>
       </Col>

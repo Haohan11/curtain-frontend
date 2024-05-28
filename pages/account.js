@@ -120,8 +120,8 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
       className="row h-100 px-sm-4 px-lg-6 px-xxl-16 g-0"
       onSubmit={handleSubmit}
     >
-      <Col className="vstack text-textblue p-4">
-        <div className="mb-10">
+      <Col className="vstack text-textblue pt-2 px-4">
+        <div className="mb-9">
           <h4 className="fw-bold mb-3">基本資料</h4>
           <FormLabel className="fw-bold text-textblue">員工編號</FormLabel>
           <FormInput
@@ -135,7 +135,7 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
             name="email"
             // disabled
             defaultValue={email}
-            onBlur={(event) => {
+            onChange={(event) => {
               validate("email", event.target.value);
             }}
           />
@@ -148,7 +148,7 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
             name="name"
             // disabled
             defaultValue={name}
-            onBlur={(event) => {
+            onChange={(event) => {
               validate("name", event.target.value);
             }}
           />
@@ -162,7 +162,7 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
               name="phone_number"
               // disabled
               defaultValue={phone_number}
-              onBlur={(event) => {
+              onChange={(event) => {
                 validate("phone", event.target.value);
               }}
             ></FormInput>
@@ -171,21 +171,20 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
             )}
           </FormGroup>
         </div>
-        <div className="flex-grow-1"></div>
-        <div className="mb-10">
+        <div className="flex-grow-1">
           <h4 className="fw-bold mb-3">修改密碼</h4>
           <FormGroup controlId="password" className="mb-2">
             <FormLabel className="fw-bold text-textblue">新密碼</FormLabel>
             <FormPassword
               name="password"
               ref={newPass}
-              onBlur={(event) => {
+              onChange={(event) => {
                 validate("password", event.target.value);
               }}
             ></FormPassword>
           </FormGroup>
           {errorPassword?.status && (
-            <p className="text-red my-3">{errorPassword.message}</p>
+            <p className="text-red my-2">{errorPassword.message}</p>
           )}
           <FormGroup controlId="rePassword">
             <FormLabel className="fw-bold text-textblue">
@@ -193,16 +192,16 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
             </FormLabel>
             <FormPassword
               name="rePassword"
-              onBlur={(event) => {
+              onChange={(event) => {
                 validate("samePassword", event.target.value);
               }}
             ></FormPassword>
           </FormGroup>
           {isSamePassword?.status && (
-            <p className="text-red my-3">{isSamePassword.message}</p>
+            <p className="text-red my-2">{isSamePassword.message}</p>
           )}
         </div>
-        <SubmitButton>{pageData.submitText}</SubmitButton>
+        <SubmitButton className="mt-3">{pageData.submitText}</SubmitButton>
       </Col>
 
       <ModalWrapper
