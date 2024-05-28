@@ -78,7 +78,7 @@ const LoginPage = ({ pageData }) => {
       const purpose = pageData.submitTo;
       await {
         login: async () => {
-          const result = await signIn("credentials", {
+          const result = await signIn("XiangYu-Frontend", {
             ...data,
             redirect: false,
           });

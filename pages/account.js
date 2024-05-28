@@ -67,7 +67,7 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
         }
         break;
       case "password":
-        if (value.length < 4) {
+        if (value.length < 4 && value !== "") {
           setErrorPassword({
             status: true,
             message: "密碼請至少輸入4個數字或英文",
