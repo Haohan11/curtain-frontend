@@ -95,7 +95,6 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    formData.append("id_code", code);
     Object.fromEntries(formData);
     const data = Object.fromEntries(formData);
     console.log("data", data);
@@ -117,6 +116,7 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
 
   const content = (
     <Form
+      method="post"
       className="row h-100 px-sm-4 px-lg-6 px-xxl-16 g-0"
       onSubmit={handleSubmit}
     >
@@ -172,7 +172,10 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
           </FormGroup>
         </div>
         <div className="flex-grow-1">
-          <h4 className="fw-bold mb-3">修改密碼</h4>
+          <h4 className="fw-bold mb-3">
+            修改密碼
+            <span className="ms-2 fs-6-sm fw-normal">( 不修改請留空 )</span>
+          </h4>
           <FormGroup controlId="password" className="mb-2">
             <FormLabel className="fw-bold text-textblue">新密碼</FormLabel>
             <FormPassword
