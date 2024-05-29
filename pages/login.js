@@ -138,6 +138,7 @@ const LoginPage = ({ pageData }) => {
 
     return (
       <Form
+        method="post"
         className="h-100 flex-center flex-column text-textgrey pb-10"
         onSubmit={handleSubmit}
         id="loginForm"

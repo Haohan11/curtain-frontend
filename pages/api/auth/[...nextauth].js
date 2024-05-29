@@ -47,7 +47,7 @@ export const authOptions = {
     }),
     // ...add more providers here
   ],
-  secret: "/k3hExYJxB69aDmnr+ojgBd9/luEgnei3Da+SNHWKNk=",
+  secret: "oEf/gvMZC2AgFYr992YdeHP0OwnfMoywqv/xNv+59m0=",
   pages: {
     signIn: "/",
     signOut: "/",
