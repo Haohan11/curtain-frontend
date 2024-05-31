@@ -396,7 +396,10 @@ const LoginPage = ({ pageData }) => {
   useEffect(() => {
     checkToken: try {
       const resetToken = localStorage.getItem("reset-token");
-      if (!resetToken) break checkToken;
+      if (!resetToken) {
+        pageName === "resetPassword" && toLogin();
+        break checkToken;
+      };
 
       localStorage.removeItem("isPending");
       !["login", "resetPassword"].includes(pageName) && toReset();
