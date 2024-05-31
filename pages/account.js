@@ -1,8 +1,7 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
-import { getSession } from "next-auth/react";
-import { useSession } from "next-auth/react";
+
+import { getSession, useSession, signOut } from "next-auth/react";
 
 import { Col, Form, FormGroup } from "react-bootstrap";
 
@@ -95,9 +94,14 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+    Object.entries({code, email, phone_number, name}).forEach(([key, value]) => {
+      formData.append(key, value);
+    })
     Object.fromEntries(formData);
     const data = Object.fromEntries(formData);
-    console.log("data", data);
+
+    if ([data.password, data.rePassword].includes("")) return handleShowModal("done");
+
     if (
       !errorEmail.status &&
       !errorName.status &&
@@ -133,7 +137,7 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
           <FormInput
             className="mb-2 text-textdarkblue"
             name="email"
-            // disabled
+            disabled
             defaultValue={email}
             onChange={(event) => {
               validate("email", event.target.value);
@@ -146,7 +150,7 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
           <FormInput
             className="mb-3 text-textdarkblue"
             name="name"
-            // disabled
+            disabled
             defaultValue={name}
             onChange={(event) => {
               validate("name", event.target.value);
@@ -160,7 +164,7 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
             <FormInput
               className="text-textblue"
               name="phone_number"
-              // disabled
+              disabled
               defaultValue={phone_number}
               onChange={(event) => {
                 validate("phone", event.target.value);
@@ -208,8 +212,8 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
       </Col>
 
       <ModalWrapper
-        key="success"
-        show={isModalOpen("success")}
+        key="done"
+        show={isModalOpen("done")}
         size="lg"
         onHide={() => router.push("/")}
       >
@@ -217,6 +221,19 @@ const AccountPage = ({ accountData: { code, email, phone_number, name } }) => {
           imageSrc={"/icon/check-circle.svg"}
           title={"修改成功"}
           confirmOnClick={() => router.push("/")}
+        />
+      </ModalWrapper>
+
+      <ModalWrapper
+        key="success"
+        show={isModalOpen("success")}
+        size="lg"
+        onHide={signOut}
+      >
+        <PopUp
+          imageSrc={"/icon/check-circle.svg"}
+          title={"完成"}
+          confirmOnClick={signOut}
         />
       </ModalWrapper>
 
