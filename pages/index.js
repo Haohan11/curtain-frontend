@@ -11,7 +11,7 @@ import LeftSide from "@/components/leftSide";
 import StockList from "@/components/stockList";
 import ExportTemplate from "@/components/exportTamplate";
 
-import { checkExpires } from "@/tool/lib";
+import { checkExpires, getMatirx3dText, isJson } from "@/tool/lib";
 
 import addClassName from "@/tool/addClassName";
 import {
@@ -53,6 +53,8 @@ export default function Home({
   const [envImgLoading, setEnvImgLoading] = useState(null);
   const [colorImgLoading, setColorImgLoading] = useState(null);
 
+  const [frame, setFrame] = useState();
+
   const { combination } = useCombination();
   const [envId, setEnvId] = useState(
     combination.environment_id ?? envData?.[0]?.id
@@ -60,6 +62,8 @@ export default function Home({
   const currentEnv =
     (envData.find((env) => env.id === envId) || envData[0]) ?? {};
   const { name: env_name, env_image, mask_image, css_matrix } = currentEnv;
+  const perspect =
+    isJson(currentEnv.perspect) && JSON.parse(currentEnv.perspect);
 
   // hold for export template
   const [selectStock, setSelectStock] = useState({
@@ -104,6 +108,7 @@ export default function Home({
         <Col className="p-0 bg-linegrey">
           <div className="position-relative h-100 flex-center overflow-hidden">
             <div
+              ref={setFrame}
               className="position-relative h-100"
               style={{ aspectRatio: "16 / 9" }}
             >
@@ -116,39 +121,50 @@ export default function Home({
                 />
               )}
               <div
-                  className="position-relative w-100 h-100 pe-none overflow-hidden"
+                className="position-absolute w-100 h-100 pe-none overflow-hidden"
+                style={{
+                  top: 0,
+                  left: 0,
+                  maskImage: `url('${transImageUrl(mask_image)}')`,
+                  maskRepeat: "no-repeat",
+                  maskSize: "contain",
+                }}
+              >
+                <div
+                  className="position-absolute"
                   style={{
-                    maskImage: `url('${transImageUrl(mask_image)}')`,
-                    maskRepeat: "no-repeat",
-                    maskSize: "contain",
+                    width: "50%",
+                    height: "50%",
+                    top: "25%",
+                    left: "25%",
                   }}
                 >
-                  <div
-                    className="position-absolute"
-                    style={{
-                      width: "50%",
-                      height: "50%",
-                      top: "25%",
-                      left: "25%",
-                    }}
-                  >
-                    {JSON.parse(css_matrix).map((matrix_text, index) => (
-                      <div
-                        key={index}
-                        style={{
-                          position: "absolute",
-                          width: "100%",
-                          height: "100%",
-                          top: "0",
-                          left: "0",
-                          transformOrigin: "0 0",
-                          transform: matrix_text,
-                          backgroundImage: `url('${transImageUrl(color_image)}')`,
-                        }}
-                      ></div>
-                    ))}
-                  </div>
+                  {frame?.clientWidth && perspect.map(({ width, originalPos, targetPos }, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                        top: "0",
+                        left: "0",
+                        transformOrigin: "0 0",
+                        transform: getMatirx3dText(
+                          originalPos.map(([x, y ]) => ([
+                            frame.clientWidth / width * x,
+                            frame.clientWidth / width * y,
+                          ])),
+                          targetPos.map(({ x, y }) => ([
+                            frame.clientWidth / width * x,
+                            frame.clientWidth / width * y,
+                          ]))
+                        ),
+                        backgroundImage: `url('${transImageUrl(color_image)}')`,
+                      }}
+                    ></div>
+                  ))}
                 </div>
+              </div>
               {/* <img
                 alt="mask image"
                 className="position-absolute h-100 w-100 top-0 start-0 object-fit-cover"
