@@ -59,7 +59,7 @@ export default function Home({
   );
   const currentEnv =
     (envData.find((env) => env.id === envId) || envData[0]) ?? {};
-  const { name: env_name, env_image, mask_image } = currentEnv;
+  const { name: env_name, env_image, mask_image, css_matrix } = currentEnv;
 
   // hold for export template
   const [selectStock, setSelectStock] = useState({
@@ -115,7 +115,41 @@ export default function Home({
                   src={transImageUrl(env_image)}
                 />
               )}
-              <img
+              <div
+                  className="position-relative w-100 h-100 pe-none overflow-hidden"
+                  style={{
+                    maskImage: `url('${transImageUrl(mask_image)}')`,
+                    maskRepeat: "no-repeat",
+                    maskSize: "contain",
+                  }}
+                >
+                  <div
+                    className="position-absolute"
+                    style={{
+                      width: "50%",
+                      height: "50%",
+                      top: "25%",
+                      left: "25%",
+                    }}
+                  >
+                    {JSON.parse(css_matrix).map((matrix_text, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          position: "absolute",
+                          width: "100%",
+                          height: "100%",
+                          top: "0",
+                          left: "0",
+                          transformOrigin: "0 0",
+                          transform: matrix_text,
+                          backgroundImage: `url('${transImageUrl(color_image)}')`,
+                        }}
+                      ></div>
+                    ))}
+                  </div>
+                </div>
+              {/* <img
                 alt="mask image"
                 className="position-absolute h-100 w-100 top-0 start-0 object-fit-cover"
                 onLoad={() => setColorImgLoading(false)}
@@ -126,7 +160,7 @@ export default function Home({
                   maskRepeat: "no-repeat",
                   maskSize: "contain",
                 }}
-              />
+              /> */}
             </div>
             {(envImgLoading || colorImgLoading) && (
               <div className="position-absolute h-100 w-100 flex-center top-0 left-0">
