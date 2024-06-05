@@ -52,12 +52,6 @@ export default function CombinationPage({ combinationData }) {
           <div className="pt-12 pb-10 px-8 px-lg-12 px-xl-16">
             <div className="hstack justify-content-between">
               <span className="fs-1-sm fw-bold text-darkblue">我的組合</span>
-              <div style={{ width: "300px" }} className="position-relative">
-                <FormInput placeholder="搜尋" className="pe-8" />
-                <div className="position-absolute top-0 end-0 text-linegrey p-2">
-                  <Search />
-                </div>
-              </div>
             </div>
             {
               {
