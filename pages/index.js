@@ -139,7 +139,7 @@ export default function Home({
                     left: "25%",
                   }}
                 >
-                  {frame?.clientWidth && perspect.map(({ width, originalPos, targetPos }, index) => (
+                  {frame?.clientWidth && Array.isArray(perspect) && perspect.map(({ width, originalPos, targetPos }, index) => (
                     <div
                       key={index}
                       style={{

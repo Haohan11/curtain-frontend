@@ -32,14 +32,24 @@ const NavItem = ({ data, thin, button, isShow, setShow, ...props }) => {
               return item.link ? (
                 <Link
                   href={item.link}
-                  onClick={item.action}
+                  onClick={(e) => {
+                    item.action(e);
+                    setShow();
+                  }}
                   className={className}
                   key={index}
                 >
                   {item.label}
                 </Link>
               ) : (
-                <li onClick={item.action} className={className} key={index}>
+                <li
+                  onClick={(e) => {
+                    item.action(e);
+                    setShow();
+                  }}
+                  className={className}
+                  key={index}
+                >
                   {item.label}
                 </li>
               );
