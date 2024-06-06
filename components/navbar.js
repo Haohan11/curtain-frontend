@@ -199,7 +199,7 @@ const Navbar = ({
 
   return (
     <div
-      className="hstack ps-6 pe-2 border-bottom border-2 border-linegrey fs-6-sm text-textgrey"
+      className="position-relative bg-white z-3 hstack ps-6 pe-2 border-bottom border-2 border-linegrey fs-6-sm text-textgrey"
       style={{ height: "var(--nav-height)" }}
     >
       <Logo width={48} />

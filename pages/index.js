@@ -95,7 +95,7 @@ export default function Home({
           combinationData,
         }}
       />
-      <Row className="m-0" style={{ height: "var(--main-section-height)" }}>
+      <Row className="m-0 position-relative z-2 bg-white" style={{ height: "var(--main-section-height)" }}>
         <Col sm={3} className="p-0 h-100 overflow-y-auto scroll">
           <LeftSide
             {...{
@@ -160,23 +160,13 @@ export default function Home({
                           ]))
                         ),
                         backgroundImage: `url('${transImageUrl(color_image)}')`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat"
                       }}
                     ></div>
                   ))}
                 </div>
               </div>
-              {/* <img
-                alt="mask image"
-                className="position-absolute h-100 w-100 top-0 start-0 object-fit-cover"
-                onLoad={() => setColorImgLoading(false)}
-                src={transImageUrl(color_image)}
-                style={{
-                  backgroundColor: "#222",
-                  maskImage: `url('${transImageUrl(mask_image)}')`,
-                  maskRepeat: "no-repeat",
-                  maskSize: "contain",
-                }}
-              /> */}
             </div>
             {(envImgLoading || colorImgLoading) && (
               <div className="position-absolute h-100 w-100 flex-center top-0 left-0">
@@ -215,6 +205,7 @@ export default function Home({
           env_name,
           env_image,
           mask_image,
+          perspect
         }}
       />
     </>

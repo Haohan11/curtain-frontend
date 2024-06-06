@@ -11,7 +11,7 @@ const NavItem = ({ data, thin, button, isShow, setShow, ...props }) => {
   return (
     <Wrapper {...props}>
       <div
-        className="flex-center text-darkblue cursor-pointer"
+        className="flex-center text-darkblue cursor-pointer z-3"
         onClick={setShow}
       >
         <span className="fw-bold">{data.navText}</span>

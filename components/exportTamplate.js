@@ -1,19 +1,30 @@
+import { useState } from "react";
+
 import Curtain from "@/icon/curtain";
 import ColorRadio from "@/components/input/colorRadio";
 import Stars from "@/components/staticStars";
 import { Row, Col } from "react-bootstrap";
 
-import { transImageUrl, toArray } from "@/tool/lib";
+import { transImageUrl, toArray, getMatirx3dText } from "@/tool/lib";
 import addClassName from "@/tool/addClassName";
 
 const Title = addClassName(Col, "text-textgrey");
 const Box = addClassName(Row, "g-0");
 
 const ExportTemplate = ({
-  data: { env_name, env_image, color_image, mask_image, stock, colorIndex },
+  data: {
+    env_name,
+    env_image,
+    color_image,
+    mask_image,
+    stock,
+    colorIndex,
+    perspect,
+  },
 }) => {
+  const [frame, setFrame] = useState();
   return (
-    <div id="export_target" className="position-fixed export-template border">
+    <div id="export_target" className="position-absolute top-0 start-0 export-template bg-white">
       <div className="head fs-6-sm fw-bold hstack w-100 justify-content-between px-4">
         <div>
           <Curtain width={28} color={"#D7DEEA"} />
@@ -39,34 +50,70 @@ const ExportTemplate = ({
           <span className="fw-bold text-textblue">{env_name}</span>
         </div>
       </div>
+      <div
+        ref={setFrame}
+        className="mx-auto img-box position-relative"
+        style={{
+          aspectRatio: "16 / 9",
+        }}
+      >
         <div
-          className="mx-auto img-box position-relative"
+          className="h-100 w-100 position-absolute top-0 left-0"
           style={{
-            aspectRatio: "16 / 9",
+            backgroundImage: `url("${transImageUrl(env_image)}")`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+          }}
+        ></div>
+        <div
+          className="h-100 w-100 position-absolute top-0 start-0"
+          style={{
+            maskImage: `url('${transImageUrl(mask_image)}')`,
+            maskRepeat: "no-repeat",
+            maskSize: "contain",
           }}
         >
           <div
-            className="h-100 w-100 position-absolute top-0 left-0"
+            className="position-absolute"
             style={{
-              backgroundImage: `url("${transImageUrl(env_image)}")`,
-              backgroundSize: "contain",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
+              width: "50%",
+              height: "50%",
+              top: "25%",
+              left: "25%",
             }}
-          ></div>
-          <div
-            className="h-100 w-100 position-absolute top-0 left-0"
-            style={{
-              backgroundImage: `url("${transImageUrl(color_image)}")`,
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-              maskImage: `url('${transImageUrl(mask_image)}')`,
-              maskRepeat: "no-repeat",
-              maskSize: "contain",
-            }}
-          ></div>
+          >
+            {frame?.clientWidth &&
+              Array.isArray(perspect) &&
+              perspect.map(({ width, originalPos, targetPos }, index) => (
+                <div
+                  key={index}
+                  style={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                    top: "0",
+                    left: "0",
+                    transformOrigin: "0 0",
+                    transform: getMatirx3dText(
+                      originalPos.map(([x, y]) => [
+                        (frame.clientWidth / width) * x,
+                        (frame.clientWidth / width) * y,
+                      ]),
+                      targetPos.map(({ x, y }) => [
+                        (frame.clientWidth / width) * x,
+                        (frame.clientWidth / width) * y,
+                      ])
+                    ),
+                    backgroundImage: `url('${transImageUrl(color_image)}')`,
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat"
+                  }}
+                ></div>
+              ))}
+          </div>
         </div>
+      </div>
       <div className="row g-5 fs-6-sm p-4 text-textblue">
         <div className="col-4 border-end border-2">
           <Box>
