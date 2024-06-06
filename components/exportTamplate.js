@@ -26,7 +26,7 @@ const ExportTemplate = ({
   return (
     <div
       id="export_target"
-      className="vw-100 vh-100 flex-center"
+      className="position-absolute top-0 start-0 vw-100 vh-100 flex-center"
     >
       <div
         className="position-relative export-template bg-white border"
