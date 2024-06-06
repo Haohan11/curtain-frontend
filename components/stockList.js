@@ -42,7 +42,7 @@ const StockList = ({ data, selectStock, setSelectStock }) => {
   }, [router]);
 
   return (
-    <div className="position-relative py-3 d-flex flex-column h-100 justify-content-between">
+    <div className="position-relative z-2 bg-white py-3 d-flex flex-column h-100 justify-content-between">
       {!isLoading ? (
         list.length > 0 ? (
           <Row

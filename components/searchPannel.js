@@ -68,7 +68,7 @@ const SearchPannel = ({ designData, materialData, colorSchemeData }) => {
   };
 
   return (
-    <div className="position-relative shadow h-100">
+    <div className="position-relative z-2 bg-white shadow h-100">
       <Form
         className="text-textblue px-4 overflow-y-auto"
         style={{ height: "calc(100% - 54px)" }}
