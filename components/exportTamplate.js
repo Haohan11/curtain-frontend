@@ -112,7 +112,6 @@ const ExportTemplate = ({
                         ])
                       ),
                       backgroundImage: `url('${transImageUrl(color_image)}')`,
-                      backgroundSize: "cover",
                       backgroundRepeat: "no-repeat",
                     }}
                   ></div>
