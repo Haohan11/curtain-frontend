@@ -142,34 +142,31 @@ export default function Home({
                     left: "25%",
                   }}
                 >
-                  {frame?.clientWidth &&
-                    Array.isArray(perspect) &&
-                    perspect.map(({ width, originalPos, targetPos }, index) => (
-                      <img
-                        key={index}
-                        style={{
-                          position: "absolute",
-                          width: "100%",
-                          height: "100%",
-                          top: "0",
-                          left: "0",
-                          transformOrigin: "0 0",
-                          transform: `${getMatirx3dText(
-                            originalPos.map(([x, y]) => [
-                              (frame.clientWidth / width) * x,
-                              (frame.clientWidth / width) * y,
-                            ]),
-                            targetPos.map(({ x, y }) => [
-                              (frame.clientWidth / width) * x,
-                              (frame.clientWidth / width) * y,
-                            ])
-                          )}`,
-                          objectFit: "cover",
-                        }}
-                        alt="color image"
-                        src={transImageUrl(color_image)}
-                      ></img>
-                    ))}
+                  {frame?.clientWidth && Array.isArray(perspect) && perspect.map(({ width, originalPos, targetPos }, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                        top: "0",
+                        left: "0",
+                        transformOrigin: "0 0",
+                        transform: getMatirx3dText(
+                          originalPos.map(([x, y ]) => ([
+                            frame.clientWidth / width * x,
+                            frame.clientWidth / width * y,
+                          ])),
+                          targetPos.map(({ x, y }) => ([
+                            frame.clientWidth / width * x,
+                            frame.clientWidth / width * y,
+                          ]))
+                        ),
+                        backgroundImage: `url('${transImageUrl(color_image)}')`,
+                        backgroundRepeat: "no-repeat"
+                      }}
+                    ></div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -200,20 +197,6 @@ export default function Home({
           <StockList {...{ data: stockData, setSelectStock, selectStock }} />
         </Col>
       </Row>
-      <ExportTemplate
-        // trigger render when color select
-        key={selectStock.colorIndex}
-        data={{
-          stock: selectStock.stock,
-          colorIndex: selectStock.colorIndex,
-          color_image: selectStock.getColorImage(),
-          env_name,
-          env_image,
-          mask_image,
-          width: frame?.clientWidth,
-          perspect,
-        }}
-      />
     </>
   );
 }
