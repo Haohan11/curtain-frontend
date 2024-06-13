@@ -1,47 +1,64 @@
 // import html2canvas from "@shilim-developer/html2canvas";
-import * as htmlToImage from 'html-to-image';
+import * as htmlToImage from "html-to-image";
 
 const _exportImage = async () => {
   const target = document.getElementById("export_target");
-  const dataUrl = await htmlToImage.toSvg(target);
-
-  // const dataUrl = canvas.toDataURL("image/jpg");
-  const canvas = document.createElement( "canvas" ); 
-  let ctx = canvas.getContext( "2d" );
-  let img = new Image();
-
-  img.src = dataUrl
-
-  img.onload = function() {
-    canvas.width = img.width;
-    canvas.height = img.height;
-    ctx.drawImage( img, 0, 0 );
-    
-    // let a = document.createElement("a");
-    // a.download = "QRcode.png";
-    // a.href = canvas.toDataURL( "image/png" );
-    // a.click();
-    const link = document.createElement("a");
-    link.href = canvas.toDataURL( "image/jpeg" );
-    link.download = "curtain.jpg";
-    link.click();
-    link.remove();
+  if (!target) {
+    console.error("Element with id 'export_target' not found");
+    return;
   }
 
+  try {
+    const svgUrl = await htmlToImage.toSvg(target, {
+      width: window.width,
+      height: window.height,
+    });
+
+    console.log("Data URL:", svgUrl);
+
+    const img = document.createElement("img");
+    img.onload = function () {
+      const canvas = document.createElement("canvas");
+      canvas.setAttribute("width", window.width);
+      canvas.setAttribute("height", window.height);
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, window.width, window.height);
+
+      const dataUrl = canvas.toDataURL("image/jpeg");
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = "curtain.jpg";
+      link.click();
+      link.remove();
+    };
+
+    img.src = svgUrl;
+  } catch (error) {
+    console.error("Error occurred while exporting image:", error);
+  }
 };
 
 const exportImage = async () => {
   const target = document.getElementById("export_target");
-  const dataUrl = await htmlToImage.toSvg(target, {
-    width: window.width,
-    height: window.height
-  });
+  if (!target) {
+    console.error("Element with id 'export_target' not found");
+    return;
+  }
 
-  const link = document.createElement("a");
-  link.href = dataUrl;
-  link.download = "curtain.svg";
-  link.click();
-  link.remove();
+  try {
+    const dataUrl = await htmlToImage.toSvg(target, {
+      width: target.clientWidth,
+      height: target.clientHeight,
+    });
+
+    const link = document.createElement("a");
+    link.href = dataUrl;
+    link.download = "curtain.svg";
+    link.click();
+    link.remove();
+  } catch (error) {
+    console.error("Error occurred while exporting image:", error);
+  }
 };
 
 export default exportImage;

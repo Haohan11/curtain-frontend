@@ -20,16 +20,13 @@ const ExportTemplate = ({
     stock,
     colorIndex,
     perspect,
+    width: frameWidth,
   },
 }) => {
-  const [frame, setFrame] = useState();
   return (
-    <div
-      id="export_target"
-      className="position-absolute top-0 start-0 vw-100 vh-100 flex-center"
-    >
       <div
-        className="position-relative export-template bg-white border"
+        id="export_target"
+        className="position-absolute top-0 start-0 export-template bg-white border"
       >
         <div className="head fs-6-sm fw-bold hstack w-100 justify-content-between px-4">
           <div>
@@ -57,21 +54,20 @@ const ExportTemplate = ({
           </div>
         </div>
         <div
-          ref={setFrame}
           className="mx-auto img-box position-relative"
           style={{
+            width: frameWidth,
             aspectRatio: "16 / 9",
           }}
         >
-          <div
+          <img
             className="h-100 w-100 position-absolute top-0 left-0"
             style={{
-              backgroundImage: `url("${transImageUrl(env_image)}")`,
-              backgroundSize: "contain",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
+              objectFit: "contain",
             }}
-          ></div>
+            alt="enviroment image"
+            src={`${transImageUrl(env_image)}`}
+          ></img>
           <div
             className="h-100 w-100 position-absolute top-0 start-0"
             style={{
@@ -89,10 +85,10 @@ const ExportTemplate = ({
                 left: "25%",
               }}
             >
-              {frame?.clientWidth &&
+              {frameWidth &&
                 Array.isArray(perspect) &&
                 perspect.map(({ width, originalPos, targetPos }, index) => (
-                  <div
+                  <img
                     key={index}
                     style={{
                       position: "absolute",
@@ -103,18 +99,19 @@ const ExportTemplate = ({
                       transformOrigin: "0 0",
                       transform: getMatirx3dText(
                         originalPos.map(([x, y]) => [
-                          (frame.clientWidth / width) * x,
-                          (frame.clientWidth / width) * y,
+                          (frameWidth / width) * x,
+                          (frameWidth / width) * y,
                         ]),
                         targetPos.map(({ x, y }) => [
-                          (frame.clientWidth / width) * x,
-                          (frame.clientWidth / width) * y,
+                          (frameWidth / width) * x,
+                          (frameWidth / width) * y,
                         ])
                       ),
-                      backgroundImage: `url('${transImageUrl(color_image)}')`,
-                      backgroundRepeat: "no-repeat",
+                      objectFit: "cover",
                     }}
-                  ></div>
+                    alt="color image"
+                    src={transImageUrl(color_image)}
+                  ></img>
                 ))}
             </div>
           </div>
@@ -163,7 +160,6 @@ const ExportTemplate = ({
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

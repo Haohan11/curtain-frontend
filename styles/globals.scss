@@ -32,9 +32,9 @@
   --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
   position: relative;
   cursor: pointer;
-  transition: .35s;
+  transition: 0.35s;
   color: white;
-  background-color: #E7E7E7;
+  background-color: #e7e7e7;
   border: none;
 }
 
@@ -48,7 +48,8 @@
   border: none;
 }
 
-.model-switch .form-check-input::after, .model-switch .form-check-input:checked::after {
+.model-switch .form-check-input::after,
+.model-switch .form-check-input:checked::after {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -160,8 +161,10 @@ a {
 }
 
 .export-template {
-  width: 842px;
-  height: 595px;
+  // width: 842px;
+  // height: 595px;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
 }
 
 .export-template .head {
@@ -169,5 +172,5 @@ a {
 }
 
 .export-template .img-box {
-  height: 435px;
+  // height: 435px;
 }
