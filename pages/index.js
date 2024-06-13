@@ -163,7 +163,8 @@ export default function Home({
                           ]))
                         ),
                         backgroundImage: `url('${transImageUrl(color_image)}')`,
-                        backgroundRepeat: "no-repeat"
+                        backgroundRepeat: "no-repeat",
+                        backgroundSize: "cover",
                       }}
                     ></div>
                   ))}
