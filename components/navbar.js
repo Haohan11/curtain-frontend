@@ -148,32 +148,6 @@ const Navbar = ({
         ...(env.id === currentEnv.id && {textStyle: "text-orange"})
       })),
     },
-    workMenu: {
-      navText: "工作選單",
-      items: [
-        {
-          label: "我的組合",
-          name: "combination",
-          link: "/combination",
-          action: reset,
-        },
-        {
-          label: "匯出圖檔",
-          name: "exportImage",
-          action: () => {
-            selectStock.stock !== null
-              ? exportImage()
-              : (() => {
-                  setPopupSet({
-                    message: "目前尚無商品 無法匯出",
-                    icon: "/icon/circle-error.svg",
-                  });
-                  handleShowModal("popup");
-                })();
-          },
-        },
-      ],
-    },
     workCenter: {
       navText: "工作中心",
       items: [
@@ -269,11 +243,7 @@ const Navbar = ({
       <Bar />
       {isLogin ? (
         <>
-          <NavItem
-            data={navData["workMenu"]}
-            isShow={itemsOpen.get("workMenu")}
-            setShow={() => toggleOpen("workMenu")}
-          />
+          <Link href={"/combination"} className="text-darkblue fw-bold ms-2 me-5 cursor-pointer">我的組合</Link>
           <NavItem
             data={navData["workCenter"]}
             thin
