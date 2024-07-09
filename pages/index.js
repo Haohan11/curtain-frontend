@@ -5,11 +5,12 @@ import { Row as BSRow, Col } from "react-bootstrap";
 import { signOut, getSession } from "next-auth/react";
 
 import loadingDataUrl from "@/data/loadingDataUrlTrans";
+import Expand from "@/icon/expand";
+import Compress from "@/icon/compress";
 
 import Navbar from "@/components/navbar";
 import LeftSide from "@/components/leftSide";
 import StockList from "@/components/stockList";
-import ExportTemplate from "@/components/exportTamplate";
 
 import { checkExpires, getMatirx3dText, isJson } from "@/tool/lib";
 
@@ -47,7 +48,6 @@ export default function Home({
 }) {
   const [loginState, setLoginState] = useState(true);
   const login = () => setLoginState(true);
-  // const logout = () => setLoginState(false);
   const logout = () => signOut({ callbackUrl: "/login" });
 
   const [envImgLoading, setEnvImgLoading] = useState(null);
@@ -73,6 +73,9 @@ export default function Home({
   });
   const color_image = selectStock.getColorImage();
 
+  const [fullScreen, setFullScreen] = useState(false);
+  const toggleFullScreen = () => setFullScreen((prev) => !prev);
+
   useEffect(() => {
     envImgLoading !== null && setEnvImgLoading(true);
   }, [env_image]);
@@ -83,7 +86,7 @@ export default function Home({
 
   return (
     <>
-      <Navbar
+      {!fullScreen && <Navbar
         {...{
           isLogin: loginState,
           login,
@@ -94,12 +97,12 @@ export default function Home({
           selectStock,
           combinationData,
         }}
-      />
+      />}
       <Row
-        className="m-0 position-relative z-2 bg-white"
+        className={`m-0 position-relative z-2 bg-white ${fullScreen ? "vh-100" : ""}`}
         style={{ height: "var(--main-section-height)" }}
       >
-        <Col sm={3} className="p-0 h-100 overflow-y-auto scroll">
+        <Col sm={3} className={`p-0 h-100 overflow-y-auto scroll ${fullScreen ? "d-none" : ""}`}>
           <LeftSide
             {...{
               data: combination.stockList,
@@ -108,8 +111,15 @@ export default function Home({
             }}
           />
         </Col>
-        <Col className="p-0 bg-linegrey">
+        <Col key={fullScreen} className="p-0 bg-linegrey">
           <div className="position-relative h-100 flex-center overflow-hidden">
+            <div
+              className="position-absolute bottom-0 end-0 rounded-2 text-white p-1 m-3 cursor-pointer z-1"
+              style={{opacity: 0.75}}
+              onClick={toggleFullScreen}
+            >
+              {fullScreen ? <Compress width="30" /> : <Expand width="30" />}
+            </div>
             <div
               ref={setFrame}
               className="position-relative h-100"
@@ -142,32 +152,36 @@ export default function Home({
                     left: "25%",
                   }}
                 >
-                  {frame?.clientWidth && Array.isArray(perspect) && perspect.map(({ width, originalPos, targetPos }, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        position: "absolute",
-                        width: "100%",
-                        height: "100%",
-                        top: "0",
-                        left: "0",
-                        transformOrigin: "0 0",
-                        transform: getMatirx3dText(
-                          originalPos.map(([x, y ]) => ([
-                            frame.clientWidth / width * x,
-                            frame.clientWidth / width * y,
-                          ])),
-                          targetPos.map(({ x, y }) => ([
-                            frame.clientWidth / width * x,
-                            frame.clientWidth / width * y,
-                          ]))
-                        ),
-                        backgroundImage: `url('${transImageUrl(color_image)}')`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "cover",
-                      }}
-                    ></div>
-                  ))}
+                  {frame?.clientWidth &&
+                    Array.isArray(perspect) &&
+                    perspect.map(({ width, originalPos, targetPos }, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          position: "absolute",
+                          width: "100%",
+                          height: "100%",
+                          top: "0",
+                          left: "0",
+                          transformOrigin: "0 0",
+                          transform: getMatirx3dText(
+                            originalPos.map(([x, y]) => [
+                              (frame.clientWidth / width) * x,
+                              (frame.clientWidth / width) * y,
+                            ]),
+                            targetPos.map(({ x, y }) => [
+                              (frame.clientWidth / width) * x,
+                              (frame.clientWidth / width) * y,
+                            ])
+                          ),
+                          backgroundImage: `url('${transImageUrl(
+                            color_image
+                          )}')`,
+                          backgroundRepeat: "no-repeat",
+                          backgroundSize: "cover",
+                        }}
+                      ></div>
+                    ))}
                 </div>
               </div>
             </div>
@@ -184,7 +198,7 @@ export default function Home({
           </div>
         </Col>
       </Row>
-      <Row
+      {!fullScreen && <Row
         className="shadow-lg"
         style={{
           height:
@@ -197,7 +211,7 @@ export default function Home({
         <Col className="h-100 overflow-y-auto">
           <StockList {...{ data: stockData, setSelectStock, selectStock }} />
         </Col>
-      </Row>
+      </Row>}
     </>
   );
 }
