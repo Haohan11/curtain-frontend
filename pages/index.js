@@ -86,23 +86,32 @@ export default function Home({
 
   return (
     <>
-      {!fullScreen && <Navbar
-        {...{
-          isLogin: loginState,
-          login,
-          logout,
-          envData,
-          currentEnv,
-          setEnvId,
-          selectStock,
-          combinationData,
-        }}
-      />}
+      {!fullScreen && (
+        <Navbar
+          {...{
+            isLogin: loginState,
+            login,
+            logout,
+            envData,
+            currentEnv,
+            setEnvId,
+            selectStock,
+            combinationData,
+          }}
+        />
+      )}
       <Row
-        className={`m-0 position-relative z-2 bg-white ${fullScreen ? "vh-100" : ""}`}
+        className={`m-0 position-relative z-2 bg-white ${
+          fullScreen ? "vh-100" : ""
+        }`}
         style={{ height: "var(--main-section-height)" }}
       >
-        <Col sm={3} className={`p-0 h-100 overflow-y-auto scroll ${fullScreen ? "d-none" : ""}`}>
+        <Col
+          sm={3}
+          className={`p-0 h-100 overflow-y-auto scroll ${
+            fullScreen ? "d-none" : ""
+          }`}
+        >
           <LeftSide
             {...{
               data: combination.stockList,
@@ -115,7 +124,7 @@ export default function Home({
           <div className="position-relative h-100 flex-center overflow-hidden">
             <div
               className="position-absolute bottom-0 end-0 rounded-2 text-white p-1 m-3 cursor-pointer z-1"
-              style={{opacity: 0.75}}
+              style={{ opacity: 0.75 }}
               onClick={toggleFullScreen}
             >
               {fullScreen ? <Compress width="30" /> : <Expand width="30" />}
@@ -198,20 +207,22 @@ export default function Home({
           </div>
         </Col>
       </Row>
-      {!fullScreen && <Row
-        className="shadow-lg"
-        style={{
-          height:
-            "calc(100vh - var(--nav-height) - var(--main-section-height))",
-        }}
-      >
-        <Col sm={3} className="h-100">
-          <SearchPannel {...{ designData, materialData, colorSchemeData }} />
-        </Col>
-        <Col className="h-100 overflow-y-auto">
-          <StockList {...{ data: stockData, setSelectStock, selectStock }} />
-        </Col>
-      </Row>}
+      {!fullScreen && (
+        <Row
+          className="shadow-lg"
+          style={{
+            height:
+              "calc(100vh - var(--nav-height) - var(--main-section-height))",
+          }}
+        >
+          <Col sm={3} className="h-100">
+            <SearchPannel {...{ designData, materialData, colorSchemeData }} />
+          </Col>
+          <Col className="h-100 overflow-y-auto">
+            <StockList {...{ data: stockData, setSelectStock, selectStock }} />
+          </Col>
+        </Row>
+      )}
     </>
   );
 }

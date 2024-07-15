@@ -67,6 +67,7 @@ const ProductCard = ({
     index,
     code,
     series: { name: series },
+    supplier,
     material,
     colorList,
     description,
@@ -132,6 +133,17 @@ const ProductCard = ({
       <Accordion.Collapse eventKey="0">
         <div className="p-4 pt-0 text-textblue">
           <div className="dashed mb-4"></div>
+          <div>{console.log(data)}</div>
+          <InfoRow>
+            <Col sm={4}>
+              <Span>目錄名稱</Span>
+            </Col>
+            <Col>
+              <div className={`${supplier?.name ? "" : "text-secondary"}`}>
+                {supplier?.name ?? "無"}
+              </div>
+            </Col>
+          </InfoRow>
           <InfoRow>
             <Col sm={4}>
               <Span>型號</Span>
@@ -157,10 +169,11 @@ const ProductCard = ({
                 colors={colorList}
                 radioname={"comb-stock-color"}
                 checkable={colorCheckable}
-                {...(selectStock && id === selectStock.stock?.id && {
-                  key: selectStock.colorIndex,
-                  checkIndex: selectStock.colorIndex,
-                })}
+                {...(selectStock &&
+                  id === selectStock.stock?.id && {
+                    key: selectStock.colorIndex,
+                    checkIndex: selectStock.colorIndex,
+                  })}
                 {...(typeof onClickColor === "function" && {
                   onClick: (e, color) => {
                     onClickColor(e, color);

@@ -81,7 +81,7 @@ const StockList = ({ data, selectStock, setSelectStock }) => {
                   />
                 </div>
                 <p className="py-2 m-0 text-center text-darkblue fw-bold">
-                  {item.name ?? "Product Name"}
+                  {item.code ?? "Product Code"}
                 </p>
                 <div
                   className={`hstack ${
