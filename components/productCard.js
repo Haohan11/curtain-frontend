@@ -139,8 +139,8 @@ const ProductCard = ({
               <Span>目錄名稱</Span>
             </Col>
             <Col>
-              <div className={`${supplier?.name ? "" : "text-secondary"}`}>
-                {supplier?.name ?? "無"}
+              <div className={`${supplier?.name ? "" : "text-secondary fw-bold"}`}>
+                {supplier?.name ?? "-"}
               </div>
             </Col>
           </InfoRow>
