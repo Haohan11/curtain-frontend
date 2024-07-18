@@ -10,7 +10,7 @@ import useModals from "@/hook/useModals";
 
 const Detector = ({ children }) => {
   const session = useSession();
-  const { route } = useRouter()
+  const { route } = useRouter();
 
   const { handleShowModal, handleCloseModal, isModalOpen } = useModals();
 
@@ -21,11 +21,12 @@ const Detector = ({ children }) => {
       !checkExpires(session?.data?._exp)
     ) {
       const limitTime = session?.data?._exp * 1000 - Date.now();
+      if (!limitTime) return;
       timeId = setTimeout(() => {
         handleShowModal("popup");
       }, limitTime);
     } else {
-      if(session.status === "unauthenticated" && route !== "/login") {
+      if (session.status === "unauthenticated" && route !== "/login") {
         handleShowModal("popup");
       }
       clearTimeout(timeId);

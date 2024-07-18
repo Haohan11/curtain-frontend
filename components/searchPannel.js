@@ -41,7 +41,7 @@ const SearchPannel = ({ designData, materialData, colorSchemeData }) => {
   const pushQuerys = () => {
     // separate field names out
     const {
-      stockName,
+      keyword,
       colorScheme,
       design,
       material,
@@ -85,7 +85,7 @@ const SearchPannel = ({ designData, materialData, colorSchemeData }) => {
             <FormControl
               className="text-textgrey text-indent-2 uni-height"
               placeholder="輸入產品名稱"
-              onChange={getSingleValueHandler("stockName")}
+              onChange={getSingleValueHandler("keyword")}
             />
           </Col>
         </Row>

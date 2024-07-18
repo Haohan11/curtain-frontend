@@ -48,8 +48,10 @@ export const toFormData = (values) => {
   return formData;
 };
 
-export const checkExpires = (time) =>
-  !isNaN(time) ? time * 1000 < Date.now() : console.warn("Invalid exp.");
+// return true ==> isExpire
+export const checkExpires = (time) => {
+  return !isNaN(time) && time * 1000 < Date.now();
+};
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 export const validateEmail = (email) => emailRegex.test(email);

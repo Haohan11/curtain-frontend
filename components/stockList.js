@@ -96,7 +96,7 @@ const StockList = ({ data, selectStock, setSelectStock }) => {
                     item.colorList.map((color, index) => (
                       <ColorRadio
                         key={`${selectStock.colorIndex}_${color.id}_${
-                          item.id === selectStock.stock.id
+                          item.id === selectStock.stock?.id
                         }`}
                         name={"stock-color"}
                         src={transImageUrl(color.color_image)}
