@@ -1,4 +1,4 @@
-name: CI/CD to GCP VM with Docker Compose
+name: Push to Docker Hub
 
 on: workflow_dispatch
 
@@ -24,15 +24,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: yourdockerhub/yourapp:${{ github.sha }}
-
-      # - name: SSH to GCP VM and Deploy
-      #   uses: appleboy/ssh-action@v1.0.0
-      #   with:
-      #     host: ${{ secrets.GCP_VM_IP }}
-      #     username: ${{ secrets.GCP_VM_USER }}
-      #     key: ${{ secrets.GCP_VM_SSH_KEY }}
-      #     script: |
-      #       cd /srv/my-app
-      #       docker-compose pull
-      #       docker-compose up -d --remove-orphans
+          tags: ${{ vars.DOCKERHUB_NAME }}:${{ github.sha }}
